@@ -1,0 +1,13 @@
+.painel { display: flex; flex-direction: column; gap: var(--cd-gap); padding-top: 32px; padding-bottom: 48px; }
+.cabecalho { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.cabecalho h1 { margin-top: 6px; }
+.seletor { display: flex; flex-direction: column; gap: 6px; }
+.manchete { font-family: var(--cd-fonte-display); font-size: clamp(18px, 2.4vw, 24px); font-weight: 500; line-height: 1.35; margin: 4px 0 8px; max-width: 900px; color: var(--cd-tela); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: var(--cd-gap); }
+.colunas { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: var(--cd-gap); align-items: start; }
+.pilha { display: flex; flex-direction: column; gap: var(--cd-gap); }
+.titulo-cartao { display: flex; flex-direction: column; gap: 2px; margin-bottom: 16px; }
+.titulo-cartao .secundario { font-size: 13px; }
+.nota { font-size: 13px; margin: 12px 0 0; }
+.aviso code { color: var(--cd-projetor); }
+@media (max-width: 900px) { .colunas { grid-template-columns: 1fr; } }

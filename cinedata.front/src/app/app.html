@@ -1,0 +1,21 @@
+<header class="topo">
+  <div class="conteudo barra">
+    <a routerLink="/" aria-label="CineData, página inicial"><cd-logo /></a>
+    <nav>
+      <a routerLink="/" routerLinkActive="ativo" [routerLinkActiveOptions]="{ exact: true }">Painel</a>
+      <a routerLink="/marca" routerLinkActive="ativo">Marca</a>
+    </nav>
+    <cd-busca />
+  </div>
+</header>
+
+<main>
+  <router-outlet />
+</main>
+
+<footer class="rodape">
+  <div class="conteudo">
+    <span>Fonte: <a href="https://www.gov.br/ancine/pt-br/oca/dados-abertos" target="_blank" rel="noopener">ANCINE/OCA — dados abertos</a> (CC-BY).</span>
+    <span>Bilheteria informada pelos exibidores, atualizada semanalmente.</span>
+  </div>
+</footer>

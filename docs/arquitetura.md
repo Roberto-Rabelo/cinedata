@@ -1,0 +1,46 @@
+# Arquitetura
+
+## Camadas (Clean Architecture)
+
+```mermaid
+flowchart TB
+    Api[CineData.Api] --> Infra[CineData.Infrastructure]
+    Ingestion[CineData.Ingestion] --> Infra
+    Api --> App[CineData.Application]
+    Infra --> App
+    App --> Domain[CineData.Domain]
+```
+
+As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
+
+| Camada | Responsabilidade | Exemplos |
+| --- | --- | --- |
+| **Domain** | Linguagem do negócio e invariantes | `CodigoObra` (CPB/ROE → origem), `SemanaCinematografica` (quinta a quarta), `Uf` (com região), `Sessao`, `Sala`, `Lancamento`, `ArquivoImportado` (versão por CRC) |
+| **Application** | Casos de uso e portas | `ImportarBilheteria` (incremental por CRC), `ImportarCadastros`, `ServicoConsultas` (semana padrão, validações); interfaces `IFonteDadosAncine`, `ILeitorCsvAncine`, `IRepositorio*`, `IConsultasBilheteria` |
+| **Infrastructure** | Adaptadores | `ZipRemoto` (HTTP Range), `LeitorCsvAncine` (CsvHelper), `CineDataDbContext` (EF Core + snake_case), upserts com `unnest`, `COPY` binário, `ConsultasBilheteriaSql` (Dapper) |
+| **Api** | Entrega HTTP | Minimal APIs em `/api/v1`, `ProblemDetails` para 400/404, OpenAPI + Scalar em `/scalar` |
+| **Ingestion** | Entrega CLI | `amostra`, `bilheteria`, `cadastros`, `migrar` |
+
+## Escrita × leitura (CQRS leve)
+
+- **Escrita** passa pelo domínio: cada linha do CSV vira `Obra`, `Sala` e `Sessao` validadas. Linhas inválidas são
+  contadas em `ArquivoImportado.LinhasRejeitadas`, não derrubam a carga.
+- **Gravação em lote:** dimensões via `INSERT … SELECT unnest(…) ON CONFLICT`, fatos via `COPY` binário do Npgsql,
+  tudo numa transação por arquivo. Recarregar um arquivo apaga e regrava as sessões dele (idempotente).
+- **Leitura** não materializa entidades: SQL agregado com Dapper direto para DTOs.
+
+## Modelo de dados
+
+| Tabela | Chave | Observação |
+| --- | --- | --- |
+| `obras` | `codigo` (CPB/ROE) | título original, título no Brasil, país |
+| `salas` | `registro` | complexo, município, UF, exibidor, assentos (do cadastro de salas) |
+| `sessoes` | `id` | fato: obra, sala, data, início, público, áudio, legenda, `arquivo_id` |
+| `lancamentos` | `id` | público e renda totais por distribuidora (única fonte de R$) |
+| `arquivos_importados` | `id` (único por fonte + nome) | CRC32, tamanho, linhas, rejeitadas |
+
+## Front
+
+Angular 22 standalone, sem zone.js, `httpResource` + signals, rotas com lazy loading e `withComponentInputBinding`.
+Gráficos em SVG/CSS próprios (sem biblioteca), seguindo a paleta validada da [identidade visual](identidade-visual.md).
+Em desenvolvimento o `ng serve` faz proxy de `/api` para `localhost:5232` (`proxy.conf.json`).

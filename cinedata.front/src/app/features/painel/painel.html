@@ -1,0 +1,88 @@
+<section class="conteudo painel">
+  <header class="cabecalho">
+    <div>
+      <span class="rotulo">Semana cinematográfica · quinta a quarta</span>
+      @if (painel.value(); as p) {
+        <h1>{{ formatar.periodo(p.resumo.inicio, p.resumo.fim) }}</h1>
+      } @else {
+        <h1>Bilheteria da semana</h1>
+      }
+    </div>
+    <label class="seletor">
+      <span class="rotulo">Semana</span>
+      <select (change)="escolherSemana($any($event.target).value)" [value]="semanaEscolhida() ?? ''">
+        <option value="">Última semana completa</option>
+        @for (s of semanas.value(); track s.inicio) {
+          <option [value]="s.inicio">{{ rotuloSemana(s) }}</option>
+        }
+      </select>
+    </label>
+  </header>
+
+  @if (painel.error()) {
+    <div class="cartao aviso" role="alert">
+      <h2>Não foi possível carregar os dados</h2>
+      <p class="secundario">
+        Verifique se a API está rodando (<code>dotnet run --project src/CineData.Api</code>) e se a ingestão já foi feita
+        (<code>dotnet run --project src/CineData.Ingestion -- amostra</code>).
+      </p>
+    </div>
+  } @else if (painel.value(); as p) {
+    @if (manchete(); as frase) {
+      <p class="manchete">{{ frase }}</p>
+    }
+
+    <div class="kpis">
+      <cd-kpi rotulo="Público" [valor]="formatar.inteiro(p.resumo.publico)" [variacao]="p.resumo.variacaoPct" />
+      <cd-kpi rotulo="Sessões" [valor]="formatar.inteiro(p.resumo.sessoes)"
+              [detalhe]="formatar.decimal(p.resumo.publicoMedioPorSessao) + ' pessoas por sessão, em média'" />
+      <cd-kpi rotulo="Filmes em cartaz" [valor]="formatar.inteiro(p.resumo.obras)"
+              [detalhe]="'em ' + formatar.inteiro(p.resumo.salas) + ' salas'" />
+      <cd-kpi rotulo="Municípios" [valor]="formatar.inteiro(p.resumo.municipios)" detalhe="com ao menos uma sessão" />
+    </div>
+
+    <div class="colunas">
+      <article class="cartao">
+        <header class="titulo-cartao">
+          <h2>Top {{ p.ranking.length }} da semana</h2>
+          <span class="secundario">por público</span>
+        </header>
+        <cd-ranking-barras [itens]="p.ranking" />
+      </article>
+
+      <div class="pilha">
+        <article class="cartao">
+          <header class="titulo-cartao">
+            <h2>Nacional × estrangeiro</h2>
+            <span class="secundario">participação no público</span>
+          </header>
+          <cd-barra-dividida [fatias]="fatiasOrigem()" />
+        </article>
+
+        <article class="cartao">
+          <header class="titulo-cartao">
+            <h2>Dublado × legendado</h2>
+            <span class="secundario">só filmes estrangeiros</span>
+          </header>
+          <cd-barra-dividida [fatias]="fatiasAudio()" />
+          <p class="nota secundario">
+            {{ formatar.pct(p.audio.dubladoPct) }} do público de filmes estrangeiros escolheu a versão dublada.
+          </p>
+        </article>
+      </div>
+    </div>
+
+    <article class="cartao">
+      <header class="titulo-cartao">
+        <h2>O Brasil que foi ao cinema</h2>
+        <span class="secundario">público por estado · passe o mouse para ver o filme líder</span>
+      </header>
+      <cd-mapa-ufs [ufs]="p.ufs" />
+    </article>
+  } @else {
+    <div class="kpis">
+      @for (i of [1, 2, 3, 4]; track i) { <div class="esqueleto" style="height: 124px"></div> }
+    </div>
+    <div class="esqueleto" style="height: 480px; margin-top: 16px"></div>
+  }
+</section>

@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CineData.Api/CineData.Api.csproj" />
+    <Project Path="src/CineData.Application/CineData.Application.csproj" />
+    <Project Path="src/CineData.Domain/CineData.Domain.csproj" />
+    <Project Path="src/CineData.Infrastructure/CineData.Infrastructure.csproj" />
+    <Project Path="src/CineData.Ingestion/CineData.Ingestion.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CineData.Application.Tests/CineData.Application.Tests.csproj" />
+    <Project Path="tests/CineData.Domain.Tests/CineData.Domain.Tests.csproj" />
+    <Project Path="tests/CineData.Infrastructure.Tests/CineData.Infrastructure.Tests.csproj" />
+  </Folder>
+</Solution>

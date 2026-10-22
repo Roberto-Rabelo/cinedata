@@ -1,0 +1,13 @@
+.topo { position: sticky; top: 0; z-index: 20; background: color-mix(in oklab, var(--cd-sala) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--cd-linha); }
+.barra { display: flex; align-items: center; gap: 24px; height: 64px; }
+nav { display: flex; gap: 4px; flex: 1; }
+nav a { padding: 6px 12px; border-radius: 999px; color: var(--cd-tela-2); font-weight: 500; font-size: 14px; }
+nav a:hover { color: var(--cd-tela); }
+nav a.ativo { color: var(--cd-sala); background: var(--cd-tela); }
+.rodape { border-top: 1px solid var(--cd-linha); padding: 24px 0 40px; color: var(--cd-tela-3); font-size: 13px; }
+.rodape .conteudo { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+.rodape a { text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) {
+  .barra { gap: 12px; }
+  nav { display: none; }
+}

@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: cinedata-postgres
+    environment:
+      POSTGRES_DB: cinedata
+      POSTGRES_USER: cinedata
+      POSTGRES_PASSWORD: cinedata
+    ports:
+      - "5432:5432"
+    volumes:
+      - cinedata-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cinedata -d cinedata"]
+      interval: 5s
+      retries: 10
+
+volumes:
+  cinedata-pg:
