@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { httpResource } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 import { PainelSemana } from '../../core/api/modelos';
 import { rotasApi } from '../../core/api/rotas-api';
 import { Logo } from '../../shared/ui/logo';
@@ -14,7 +15,7 @@ interface Cor {
 
 @Component({
   selector: 'cd-marca',
-  imports: [Logo, PostRanking],
+  imports: [Logo, PostRanking, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="conteudo marca">
@@ -83,6 +84,7 @@ interface Cor {
           } @else {
             <div class="esqueleto" style="aspect-ratio: 4 / 5"></div>
           }
+          <a routerLink="/marca/apresentacao" class="secundario">Carrossel de apresentação (7 slides) →</a>
         </article>
       </div>
     </section>

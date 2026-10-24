@@ -50,5 +50,10 @@ Regras: cor nunca é a única pista (legenda ou rótulo direto sempre); texto nu
 | Formato | Tamanho | Status |
 | --- | --- | --- |
 | Carrossel / feed | 1080×1350 (4:5) | template "Top 5 da semana" pronto (`post-ranking.ts`) |
+| Carrossel de apresentação | 7 × 1080×1350 | pronto: `/marca/apresentacao` (`slides-apresentacao.ts`), PNGs e legenda em `docs/posts/apresentacao` |
 | Reels / TikTok | 1080×1920 (9:16) | a fazer |
 | Story | 1080×1920 | a fazer |
+
+Os slides em PNG saem de `cinedata.front/scripts/exportar-slides.mjs` (playwright-core com o Chrome instalado), que
+fotografa cada `cd-slide` da rota em 1080×1350 e falha se algum conteúdo passar do quadro. Rodapé de todo slide:
+"Fonte: ANCINE (dados abertos)" e o perfil; nunca "oficial ANCINE" nem logo da agência.
