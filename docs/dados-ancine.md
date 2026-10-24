@@ -81,6 +81,25 @@ virava uma varredura do índice de datas (7,8 s por arquivo com a tabela cheia).
 | `GET /api/v1/obras/{codigo}/curva` | 7,7 s | 64 ms |
 | `GET /api/v1/obras?busca=vingadores` | 50 ms | 6 ms |
 
+Filtros de período ([ADR 0005](adr/0005-periodos-de-calendario.md)), mesma máquina, API em Release, mediana de 20
+chamadas após aquecimento:
+
+| Endpoint | Latência |
+| --- | --- |
+| `GET /api/v1/periodos?periodo=mes` (e `trimestre`, `semestre`, `ano`) | 8–9 ms |
+| `GET /api/v1/painel?periodo=mes` (último mês completo) | 10 ms |
+| `GET /api/v1/painel?periodo=trimestre` / `semestre` | 9–10 ms |
+| `GET /api/v1/painel?periodo=ano` / `?periodo=ano&data=2019-01-01` | 10 ms |
+| `GET /api/v1/ranking?periodo=ano&top=50` | 9 ms |
+| `GET /api/v1/ufs?periodo=trimestre` | 8 ms |
+| `GET /api/v1/painel` (semana padrão) / `?data=2019-04-25` | 9 ms |
+
+A semana com `data` passou de 4 para 9 ms porque toda consulta agora lê a cobertura diária para descrever o período
+(completo ou parcial, dias consolidados). Respostas semanais idênticas às de antes (painel de 2014, 2019, 2020 e da
+semana padrão comparados campo a campo, só com `publicoSemanaAnterior` renomeado para `publicoPeriodoAnterior`).
+Os agregados de calendário conferem com `sessoes` direto (2019 e 3º tri/2025: público, sessões, obras, salas e
+municípios distintos, salas por filme). A migration `PeriodosCalendario` levou 75 s no histórico inteiro.
+
 O gargalo de antes era a cobertura diária (`count(DISTINCT registro_sala)` por dia sobre 38 milhões de linhas),
 refeita a cada chamada de `/semanas`, `/painel` sem data e `/curva`. As respostas foram comparadas antes × depois em
 semanas de 2014, 2016, 2019, 2020, 2021 e 2025: números idênticos, exceto empates de público, que agora têm

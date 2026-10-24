@@ -12,7 +12,7 @@ import { formatar } from '../formatar';
       @if (variacao() !== null && variacao() !== undefined) {
         <span class="num" [class.variacao--alta]="variacao()! > 0" [class.variacao--queda]="variacao()! < 0">
           {{ variacao()! > 0 ? '▲' : variacao()! < 0 ? '▼' : '■' }} {{ formatar.variacao(variacao()!) }}
-          <span class="secundario">vs. semana anterior</span>
+          <span class="secundario">vs. {{ comparacao() }}</span>
         </span>
       } @else if (detalhe()) {
         <span class="secundario">{{ detalhe() }}</span>
@@ -30,5 +30,7 @@ export class Kpi {
   readonly valor = input.required<string>();
   readonly variacao = input<number | null>();
   readonly detalhe = input<string>();
+  /** Com o que a variação compara: "semana anterior", "mês anterior"… */
+  readonly comparacao = input('semana anterior');
   protected readonly formatar = formatar;
 }

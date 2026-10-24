@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { ItemRanking } from '../../core/api/modelos';
 import { formatar, rotuloOrigem } from '../formatar';
 
-/** Ranking da semana: barras horizontais (uma série, uma cor), valor rotulado na ponta. */
+/** Ranking do período: barras horizontais (uma série, uma cor), valor rotulado na ponta. */
 @Component({
   selector: 'cd-ranking-barras',
   imports: [RouterLink],
@@ -28,7 +28,7 @@ import { formatar, rotuloOrigem } from '../formatar';
                 {{ formatar.inteiro(item.sessoes) }} sessões ·
                 {{ formatar.decimal(item.publicoMedioPorSessao) }} pessoas/sessão
                 @if (item.ocupacaoPct !== null) { · {{ formatar.pct(item.ocupacaoPct) }} de ocupação }
-                @if (item.variacaoPct !== null) {
+                @if (comVariacao() && item.variacaoPct !== null) {
                   ·
                   <span [class.variacao--alta]="item.variacaoPct > 0" [class.variacao--queda]="item.variacaoPct < 0">
                     {{ item.variacaoPct > 0 ? '▲' : '▼' }} {{ formatar.variacao(item.variacaoPct) }}
@@ -57,6 +57,8 @@ import { formatar, rotuloOrigem } from '../formatar';
 })
 export class RankingBarras {
   readonly itens = input.required<ItemRanking[]>();
+  /** Desligada em período parcial: comparar com um período inteiro daria quedas falsas. */
+  readonly comVariacao = input(true);
   private readonly maximo = computed(() => Math.max(1, ...this.itens().map(i => i.publico)));
   protected readonly formatar = formatar;
   protected readonly rotuloOrigem = rotuloOrigem;

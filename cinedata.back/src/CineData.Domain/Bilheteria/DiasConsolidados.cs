@@ -1,3 +1,5 @@
+using CineData.Domain.Common;
+
 namespace CineData.Domain.Bilheteria;
 
 /// <summary>Quantas salas reportaram sessões num dia.</summary>
@@ -34,6 +36,17 @@ public static class DiasConsolidados
 
         return consolidados;
     }
+
+    /// <summary>
+    /// Semana: os 7 dias consolidados (ADR 0004). Mês, trimestre, semestre e ano: a série publicada cobre o período
+    /// inteiro, do início ao fim, e o fim não passa do último dia consolidado (ADR 0005). Dias parciais no meio de um
+    /// período de calendário são fechamentos reais (Natal, Ano-Novo, pandemia), não dado atrasado; com a regra da
+    /// semana nenhum dezembro e nenhum ano seriam completos.
+    /// </summary>
+    public static bool PeriodoCompleto(Periodo periodo, int diasConsolidados, DateOnly primeiroDiaComDados, DateOnly ultimoConsolidado) =>
+        periodo.Granularidade == Granularidade.Semana
+            ? diasConsolidados == 7
+            : periodo.Inicio >= primeiroDiaComDados && periodo.Fim <= ultimoConsolidado;
 
     /// <summary>Mesma definição do percentile_cont(0.5) do PostgreSQL: média dos dois centrais em quantidade par.</summary>
     internal static double Mediana(List<int> valores)

@@ -5,36 +5,50 @@ using CineData.Domain.Obras;
 namespace CineData.Application.Consultas;
 
 /// <summary>
-/// Casos de uso de leitura. Concentra as regras que não são SQL: qual semana usar por padrão,
-/// limites de paginação e validação de entrada.
+/// Casos de uso de leitura. Concentra as regras que não são SQL: qual período usar por padrão,
+/// quais períodos estão completos, limites de paginação e validação de entrada.
 /// </summary>
 public sealed class ServicoConsultas(IConsultasBilheteria consultas)
 {
     public const int TopMaximo = 50;
 
-    public Task<IReadOnlyList<SemanaDto>> ListarSemanasAsync(CancellationToken ct) => consultas.ListarSemanasAsync(ct);
+    public async Task<IReadOnlyList<SemanaDto>> ListarSemanasAsync(CancellationToken ct) =>
+        (await CoberturaAsync(ct)).Listar(Granularidade.Semana)
+            .Select(p => new SemanaDto(p.Inicio, p.Fim, p.DiasConsolidados, p.Publico, p.Sessoes))
+            .ToList();
 
-    public async Task<PainelSemanaDto> ObterPainelAsync(DateOnly? data, int top, CancellationToken ct)
+    public async Task<IReadOnlyList<PeriodoDto>> ListarPeriodosAsync(string? periodo, CancellationToken ct)
     {
-        var semana = await ResolverSemanaAsync(data, ct);
-        ValidarTop(top);
-
-        return new PainelSemanaDto(
-            await consultas.ObterResumoAsync(semana, ct),
-            await consultas.ObterRankingAsync(semana, top, ct),
-            await consultas.ObterPorOrigemAsync(semana, ct),
-            await consultas.ObterAudioAsync(semana, ct),
-            await consultas.ObterPorUfAsync(semana, ct));
+        var granularidade = Granularidades.Ler(periodo);
+        return (await CoberturaAsync(ct)).Listar(granularidade);
     }
 
-    public async Task<IReadOnlyList<ItemRankingDto>> ObterRankingAsync(DateOnly? data, int top, CancellationToken ct)
+    public async Task<PainelDto> ObterPainelAsync(string? periodo, DateOnly? data, int top, CancellationToken ct)
     {
         ValidarTop(top);
-        return await consultas.ObterRankingAsync(await ResolverSemanaAsync(data, ct), top, ct);
+        var (p, descricao) = await ResolverPeriodoAsync(periodo, data, ct);
+
+        return new PainelDto(
+            descricao,
+            await consultas.ObterResumoAsync(p, ct),
+            await consultas.ObterRankingAsync(p, top, ct),
+            await consultas.ObterPorOrigemAsync(p, ct),
+            await consultas.ObterAudioAsync(p, ct),
+            await consultas.ObterPorUfAsync(p, ct));
     }
 
-    public async Task<IReadOnlyList<UfDto>> ObterPorUfAsync(DateOnly? data, CancellationToken ct) =>
-        await consultas.ObterPorUfAsync(await ResolverSemanaAsync(data, ct), ct);
+    public async Task<IReadOnlyList<ItemRankingDto>> ObterRankingAsync(string? periodo, DateOnly? data, int top, CancellationToken ct)
+    {
+        ValidarTop(top);
+        var (p, _) = await ResolverPeriodoAsync(periodo, data, ct);
+        return await consultas.ObterRankingAsync(p, top, ct);
+    }
+
+    public async Task<IReadOnlyList<UfDto>> ObterPorUfAsync(string? periodo, DateOnly? data, CancellationToken ct)
+    {
+        var (p, _) = await ResolverPeriodoAsync(periodo, data, ct);
+        return await consultas.ObterPorUfAsync(p, ct);
+    }
 
     public async Task<CurvaObraDto> ObterCurvaObraAsync(string codigo, CancellationToken ct)
     {
@@ -55,18 +69,28 @@ public sealed class ServicoConsultas(IConsultasBilheteria consultas)
     }
 
     /// <summary>
-    /// Sem data, usa a semana completa mais recente: a ANCINE publica a semana corrente parcial,
-    /// e comparar uma semana de 3 dias com uma de 7 geraria uma "queda" falsa.
+    /// Sem data, usa o período completo mais recente da granularidade: a ANCINE publica o período corrente parcial,
+    /// e comparar uma semana de 3 dias com uma de 7 (ou um mês pela metade com um inteiro) geraria uma "queda" falsa.
     /// </summary>
-    private async Task<SemanaCinematografica> ResolverSemanaAsync(DateOnly? data, CancellationToken ct)
+    private async Task<(Periodo Periodo, PeriodoDto Descricao)> ResolverPeriodoAsync(string? periodo, DateOnly? data, CancellationToken ct)
     {
-        if (data is { } d) return SemanaCinematografica.Contendo(d);
+        var granularidade = Granularidades.Ler(periodo);
+        var cobertura = await CoberturaAsync(ct);
 
-        var semanas = await consultas.ListarSemanasAsync(ct);
-        var escolhida = semanas.Where(s => s.Completa).MaxBy(s => s.Inicio) ?? semanas.MaxBy(s => s.Inicio)
-            ?? throw new RecursoNaoEncontradoException("Nenhuma semana importada ainda. Rode a ingestão.");
-        return SemanaCinematografica.Contendo(escolhida.Inicio);
+        if (data is { } d)
+        {
+            var contendo = Periodo.Contendo(granularidade, d);
+            return (contendo, cobertura.Descrever(contendo));
+        }
+
+        var periodos = cobertura.Listar(granularidade);
+        var escolhido = periodos.FirstOrDefault(p => p.Completo) ?? periodos.FirstOrDefault()
+            ?? throw new RecursoNaoEncontradoException("Nenhum dado de bilheteria importado ainda. Rode a ingestão.");
+        return (Periodo.Contendo(granularidade, escolhido.Inicio), escolhido);
     }
+
+    private async Task<CoberturaPeriodos> CoberturaAsync(CancellationToken ct) =>
+        new(await consultas.ObterCoberturaAsync(ct));
 
     private static void ValidarTop(int top)
     {

@@ -1,7 +1,17 @@
 .painel { display: flex; flex-direction: column; gap: var(--cd-gap); padding-top: 32px; padding-bottom: 48px; }
 .cabecalho { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
 .cabecalho h1 { margin-top: 6px; }
+.cabecalho .parcial { margin-top: 8px; }
+.filtros { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
 .seletor { display: flex; flex-direction: column; gap: 6px; }
+.granularidades { display: inline-flex; border: 1px solid var(--cd-linha); border-radius: var(--cd-raio-p); overflow: hidden; }
+.granularidades button {
+  font: inherit; font-size: 14px; padding: 8px 12px; cursor: pointer;
+  color: var(--cd-tela-2); background: var(--cd-poltrona); border: 0; border-right: 1px solid var(--cd-linha);
+}
+.granularidades button:last-child { border-right: 0; }
+.granularidades button:hover { color: var(--cd-tela); background: var(--cd-poltrona-2); }
+.granularidades button[aria-pressed="true"] { color: var(--cd-sala); background: var(--cd-tela); font-weight: 600; }
 .manchete { font-family: var(--cd-fonte-display); font-size: clamp(18px, 2.4vw, 24px); font-weight: 500; line-height: 1.35; margin: 4px 0 8px; max-width: 900px; color: var(--cd-tela); }
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: var(--cd-gap); }
 .colunas { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: var(--cd-gap); align-items: start; }
@@ -11,3 +21,8 @@
 .nota { font-size: 13px; margin: 12px 0 0; }
 .aviso code { color: var(--cd-projetor); }
 @media (max-width: 900px) { .colunas { grid-template-columns: 1fr; } }
+@media (max-width: 560px) {
+  .filtros, .seletor, .seletor select { width: 100%; }
+  .granularidades { width: 100%; }
+  .granularidades button { flex: 1; padding: 8px 4px; }
+}

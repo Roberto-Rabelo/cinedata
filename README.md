@@ -23,8 +23,8 @@ flowchart LR
 
 1. **Ingestão** lê o índice do ZIP da ANCINE via HTTP Range (sem baixar 1,2 GB), compara o CRC32 de cada CSV semanal
    com a última carga e importa só o que mudou. 605 mil sessões entram em ~15 s; a segunda execução leva 0,3 s.
-2. **API** expõe métricas prontas (`/api/v1/painel`, `/ranking`, `/ufs`, `/obras/{codigo}/curva`).
-3. **Front** consome a API: painel semanal, página de obra e a identidade visual com prévia de post.
+2. **API** expõe métricas prontas (`/api/v1/painel`, `/ranking`, `/ufs`, `/periodos`, `/obras/{codigo}/curva`), por semana, mês, trimestre, semestre ou ano (`?periodo=mes`).
+3. **Front** consome a API: painel com filtro de período, página de obra e a identidade visual com prévia de post.
 4. **Conteúdo** (próxima etapa) renderiza os mesmos dados em templates de post.
 
 ## Rodando local

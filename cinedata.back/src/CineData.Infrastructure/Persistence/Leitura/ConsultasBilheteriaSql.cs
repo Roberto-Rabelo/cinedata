@@ -9,33 +9,20 @@ namespace CineData.Infrastructure.Persistence.Leitura;
 
 /// <summary>
 /// Lado de leitura: SQL direto no PostgreSQL (Dapper), sem materializar entidades.
-/// Consultas por semana leem os agregados (<c>agregado_*</c>, mantidos na ingestão) em vez de varrer <c>sessoes</c>.
+/// Consultas por período leem as views <c>agregado_periodo*</c>, que juntam os agregados semanais e os de calendário
+/// (mês, trimestre, semestre, ano; mantidos na ingestão) em vez de varrer <c>sessoes</c>.
 /// Datas vão como DateTime e são convertidas com ::date para evitar ambiguidade de tipo no driver.
 /// </summary>
 internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsultasBilheteria
 {
     private const double LimitePreEstreia = 0.05;
 
-    public async Task<IReadOnlyList<SemanaDto>> ListarSemanasAsync(CancellationToken ct)
-    {
-        var dias = await ObterDiasAsync(ct);
-        var consolidados = DiasConsolidados.Calcular(dias.Select(d => new CoberturaDia(DateOnly.FromDateTime(d.Data), d.Salas)));
+    public async Task<IReadOnlyList<DiaBilheteriaDto>> ObterCoberturaAsync(CancellationToken ct) =>
+        (await ObterDiasAsync(ct)).Select(d => new DiaBilheteriaDto(DateOnly.FromDateTime(d.Data), d.Salas, d.Sessoes, d.Publico)).ToList();
 
-        return dias
-            .GroupBy(d => SemanaCinematografica.Contendo(DateOnly.FromDateTime(d.Data)))
-            .OrderByDescending(g => g.Key.Inicio)
-            .Select(g => new SemanaDto(
-                g.Key.Inicio, g.Key.Fim,
-                g.Count(d => consolidados.Contains(DateOnly.FromDateTime(d.Data))),
-                g.Sum(d => d.Publico),
-                g.Sum(d => d.Sessoes)))
-            .ToList();
-    }
-
-    public async Task<ResumoSemanaDto> ObterResumoAsync(SemanaCinematografica semana, CancellationToken ct)
+    public async Task<ResumoDto> ObterResumoAsync(Periodo periodo, CancellationToken ct)
     {
         await using var conexao = await dados.OpenConnectionAsync(ct);
-        var anterior = semana.Anterior();
         var l = await conexao.QuerySingleAsync<LinhaResumo>(new CommandDefinition("""
             SELECT coalesce(a.publico, 0)::bigint AS publico,
                    coalesce(a.sessoes, 0) AS sessoes,
@@ -44,30 +31,29 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
                    coalesce(a.municipios, 0) AS municipios,
                    an.publico AS publico_anterior
             FROM (SELECT) x
-            LEFT JOIN agregado_semana a ON a.semana = @ini::date
-            LEFT JOIN agregado_semana an ON an.semana = @iniAnt::date
-            """, Parametros(semana, anterior), cancellationToken: ct));
+            LEFT JOIN agregado_periodo a ON a.granularidade = @g AND a.inicio = @ini::date
+            LEFT JOIN agregado_periodo an ON an.granularidade = @g AND an.inicio = @iniAnt::date
+            """, Parametros(periodo), cancellationToken: ct));
 
-        return new ResumoSemanaDto(
-            semana.Inicio, semana.Fim, l.Publico, l.Sessoes, l.Obras, l.Salas, l.Municipios,
+        return new ResumoDto(
+            periodo.Inicio, periodo.Fim, l.Publico, l.Sessoes, l.Obras, l.Salas, l.Municipios,
             l.Sessoes == 0 ? 0 : Math.Round((double)l.Publico / l.Sessoes, 1),
             l.PublicoAnterior,
             Variacao(l.Publico, l.PublicoAnterior));
     }
 
-    public async Task<IReadOnlyList<ItemRankingDto>> ObterRankingAsync(SemanaCinematografica semana, int top, CancellationToken ct)
+    public async Task<IReadOnlyList<ItemRankingDto>> ObterRankingAsync(Periodo periodo, int top, CancellationToken ct)
     {
         await using var conexao = await dados.OpenConnectionAsync(ct);
-        var anterior = semana.Anterior();
         var linhas = await conexao.QueryAsync<LinhaRanking>(new CommandDefinition("""
             WITH atual AS (
                 SELECT codigo_obra, publico, sessoes, salas,
                        publico_com_assentos::float8 / nullif(assentos, 0) * 100 AS ocupacao
-                FROM agregado_semana_obra
-                WHERE semana = @ini::date
+                FROM agregado_periodo_obra
+                WHERE granularidade = @g AND inicio = @ini::date
             ),
             anterior AS (
-                SELECT codigo_obra, publico FROM agregado_semana_obra WHERE semana = @iniAnt::date
+                SELECT codigo_obra, publico FROM agregado_periodo_obra WHERE granularidade = @g AND inicio = @iniAnt::date
             ),
             total AS (SELECT nullif(sum(publico), 0)::float8 AS t FROM atual),
             tem_anterior AS (SELECT exists(SELECT 1 FROM anterior) AS existe)
@@ -85,13 +71,14 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
             CROSS JOIN tem_anterior
             ORDER BY a.publico DESC, a.codigo_obra
             LIMIT @top
-            """, new { ini = Dia(semana.Inicio), iniAnt = Dia(anterior.Inicio), top },
+            """, new { g = Granularidades.Nome(periodo.Granularidade), ini = Dia(periodo.Inicio),
+                iniAnt = Dia(periodo.Anterior().Inicio), top },
             cancellationToken: ct));
 
         return linhas.Select((l, i) =>
         {
-            // Pré-estreias deixam um público residual na semana anterior e geram variações absurdas
-            // (+300.000%). Abaixo de 5% do público atual, a semana conta como estreia.
+            // Pré-estreias deixam um público residual no período anterior e geram variações absurdas
+            // (+300.000%). Abaixo de 5% do público atual, o período conta como estreia.
             var preEstreia = l.PublicoAnterior is { } anterior && anterior < l.Publico * LimitePreEstreia;
             return new ItemRankingDto(
                 i + 1, l.Codigo, l.Titulo, Origem(l.Codigo), l.Pais, l.Publico, l.Sessoes, l.Salas,
@@ -104,7 +91,7 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
         }).ToList();
     }
 
-    public async Task<IReadOnlyList<UfDto>> ObterPorUfAsync(SemanaCinematografica semana, CancellationToken ct)
+    public async Task<IReadOnlyList<UfDto>> ObterPorUfAsync(Periodo periodo, CancellationToken ct)
     {
         await using var conexao = await dados.OpenConnectionAsync(ct);
         var linhas = await conexao.QueryAsync<LinhaUf>(new CommandDefinition("""
@@ -113,11 +100,11 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
                    u.lider_codigo,
                    coalesce(nullif(o.titulo_brasil, ''), o.titulo_original) AS lider_titulo,
                    u.lider_publico
-            FROM agregado_semana_uf u
+            FROM agregado_periodo_uf u
             LEFT JOIN obras o ON o.codigo = u.lider_codigo
-            WHERE u.semana = @ini::date
+            WHERE u.granularidade = @g AND u.inicio = @ini::date
             ORDER BY u.publico DESC
-            """, new { ini = Dia(semana.Inicio) }, cancellationToken: ct));
+            """, Parametros(periodo), cancellationToken: ct));
 
         return linhas.Select(l => new UfDto(
             l.Uf.Trim(), Uf.Criar(l.Uf).Regiao.ToString(), l.Publico, l.Sessoes,
@@ -126,7 +113,7 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
             l.Dublado is { } d ? Math.Round(d, 1) : null)).ToList();
     }
 
-    public async Task<IReadOnlyList<OrigemDto>> ObterPorOrigemAsync(SemanaCinematografica semana, CancellationToken ct)
+    public async Task<IReadOnlyList<OrigemDto>> ObterPorOrigemAsync(Periodo periodo, CancellationToken ct)
     {
         await using var conexao = await dados.OpenConnectionAsync(ct);
         var linhas = await conexao.QueryAsync<LinhaOrigem>(new CommandDefinition("""
@@ -134,11 +121,11 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
                    sum(publico)::bigint AS publico,
                    count(*)::int AS obras,
                    sum(sessoes)::int AS sessoes
-            FROM agregado_semana_obra
-            WHERE semana = @ini::date
+            FROM agregado_periodo_obra
+            WHERE granularidade = @g AND inicio = @ini::date
             GROUP BY 1
             ORDER BY 2 DESC
-            """, new { ini = Dia(semana.Inicio) }, cancellationToken: ct));
+            """, Parametros(periodo), cancellationToken: ct));
 
         var lista = linhas.ToList();
         var total = lista.Sum(l => l.Publico);
@@ -147,16 +134,16 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
             total == 0 ? 0 : Math.Round(100.0 * l.Publico / total, 1))).ToList();
     }
 
-    public async Task<AudioDto> ObterAudioAsync(SemanaCinematografica semana, CancellationToken ct)
+    public async Task<AudioDto> ObterAudioAsync(Periodo periodo, CancellationToken ct)
     {
         await using var conexao = await dados.OpenConnectionAsync(ct);
         var l = await conexao.QuerySingleAsync<LinhaAudio>(new CommandDefinition("""
             SELECT coalesce(sum(publico_dublado), 0)::bigint AS dublado,
                    coalesce(sum(publico_original), 0)::bigint AS legendado
-            FROM agregado_semana_obra
-            WHERE semana = @ini::date
+            FROM agregado_periodo_obra
+            WHERE granularidade = @g AND inicio = @ini::date
               AND codigo_obra LIKE 'E%'
-            """, new { ini = Dia(semana.Inicio) }, cancellationToken: ct));
+            """, Parametros(periodo), cancellationToken: ct));
 
         var total = l.Dublado + l.Legendado;
         return new AudioDto(l.Dublado, l.Legendado, total == 0 ? 0 : Math.Round(100.0 * l.Dublado / total, 1));
@@ -236,9 +223,9 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
         return linhas.AsList();
     }
 
-    private static object Parametros(SemanaCinematografica semana, SemanaCinematografica anterior) => new
+    private static object Parametros(Periodo periodo) => new
     {
-        ini = Dia(semana.Inicio), iniAnt = Dia(anterior.Inicio),
+        g = Granularidades.Nome(periodo.Granularidade), ini = Dia(periodo.Inicio), iniAnt = Dia(periodo.Anterior().Inicio),
     };
 
     private static DateTime Dia(DateOnly data) => data.ToDateTime(TimeOnly.MinValue);

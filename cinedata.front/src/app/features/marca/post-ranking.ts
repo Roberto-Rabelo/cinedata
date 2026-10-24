@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { PainelSemana } from '../../core/api/modelos';
+import { PainelPeriodo } from '../../core/api/modelos';
 import { formatar } from '../../shared/formatar';
 import { Logo } from '../../shared/ui/logo';
 
@@ -55,7 +55,7 @@ import { Logo } from '../../shared/ui/logo';
   `,
 })
 export class PostRanking {
-  readonly painel = input.required<PainelSemana>();
+  readonly painel = input.required<PainelPeriodo>();
   protected readonly top5 = computed(() => this.painel().ranking.slice(0, 5));
   protected readonly maximo = computed(() => Math.max(1, ...this.top5().map(i => i.publico)));
   protected readonly formatar = formatar;

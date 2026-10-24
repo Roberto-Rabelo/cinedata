@@ -1,22 +1,36 @@
 <section class="conteudo painel">
   <header class="cabecalho">
     <div>
-      <span class="rotulo">Semana cinematográfica · quinta a quarta</span>
+      <span class="rotulo">{{ legendaGranularidade[granularidade()] }}</span>
       @if (painel.value(); as p) {
-        <h1>{{ formatar.periodo(p.resumo.inicio, p.resumo.fim) }}</h1>
+        <h1>{{ tituloPeriodo(p.periodo) }}</h1>
+        @if (!p.periodo.completo) {
+          <span class="chip parcial" title="A ANCINE ainda recebe dados deste período">
+            parcial · {{ p.periodo.diasConsolidados }} de {{ p.periodo.dias }} dias consolidados
+          </span>
+        }
       } @else {
-        <h1>Bilheteria da semana</h1>
+        <h1>Bilheteria {{ doPeriodo[granularidade()] }}</h1>
       }
     </div>
-    <label class="seletor">
-      <span class="rotulo">Semana</span>
-      <select (change)="escolherSemana($any($event.target).value)" [value]="semanaEscolhida() ?? ''">
-        <option value="">Última semana completa</option>
-        @for (s of semanas.value(); track s.inicio) {
-          <option [value]="s.inicio">{{ rotuloSemana(s) }}</option>
+    <div class="filtros">
+      <div class="granularidades" role="group" aria-label="Granularidade do período">
+        @for (g of granularidades; track g.valor) {
+          <button type="button" [attr.aria-pressed]="g.valor === granularidade()" (click)="escolherGranularidade(g.valor)">
+            {{ g.rotulo }}
+          </button>
         }
-      </select>
-    </label>
+      </div>
+      <label class="seletor">
+        <span class="rotulo">Período</span>
+        <select (change)="escolherPeriodo($any($event.target).value)">
+          <option value="" [selected]="selecionado() === ''">{{ ultimoCompleto[granularidade()] }}</option>
+          @for (s of periodos.value(); track s.inicio) {
+            <option [value]="s.inicio" [selected]="s.inicio === selecionado()">{{ rotuloOpcao(s) }}</option>
+          }
+        </select>
+      </label>
+    </div>
   </header>
 
   @if (painel.error()) {
@@ -33,7 +47,10 @@
     }
 
     <div class="kpis">
-      <cd-kpi rotulo="Público" [valor]="formatar.inteiro(p.resumo.publico)" [variacao]="p.resumo.variacaoPct" />
+      <cd-kpi rotulo="Público" [valor]="formatar.inteiro(p.resumo.publico)"
+              [variacao]="p.periodo.completo ? p.resumo.variacaoPct : null"
+              [comparacao]="periodoAnterior[p.periodo.granularidade]"
+              [detalhe]="p.periodo.completo ? undefined : 'período parcial: sem comparação com o anterior'" />
       <cd-kpi rotulo="Sessões" [valor]="formatar.inteiro(p.resumo.sessoes)"
               [detalhe]="formatar.decimal(p.resumo.publicoMedioPorSessao) + ' pessoas por sessão, em média'" />
       <cd-kpi rotulo="Filmes em cartaz" [valor]="formatar.inteiro(p.resumo.obras)"
@@ -44,10 +61,10 @@
     <div class="colunas">
       <article class="cartao">
         <header class="titulo-cartao">
-          <h2>Top {{ p.ranking.length }} da semana</h2>
+          <h2>Top {{ p.ranking.length }} {{ doPeriodo[p.periodo.granularidade] }}</h2>
           <span class="secundario">por público</span>
         </header>
-        <cd-ranking-barras [itens]="p.ranking" />
+        <cd-ranking-barras [itens]="p.ranking" [comVariacao]="p.periodo.completo" />
       </article>
 
       <div class="pilha">

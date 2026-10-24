@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-import { PainelSemana } from '../../core/api/modelos';
+import { PainelPeriodo } from '../../core/api/modelos';
 import { rotasApi } from '../../core/api/rotas-api';
 import { Logo } from '../../shared/ui/logo';
 import { PostRanking } from './post-ranking';
@@ -105,7 +105,7 @@ interface Cor {
   `,
 })
 export class Marca {
-  protected readonly painel = httpResource<PainelSemana>(() => rotasApi.painel());
+  protected readonly painel = httpResource<PainelPeriodo>(() => rotasApi.painel());
 
   protected readonly cores: Cor[] = [
     { nome: 'Sala', token: '--cd-sala', hex: '#0D0E12', uso: 'fundo' },

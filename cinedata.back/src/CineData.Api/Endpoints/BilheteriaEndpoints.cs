@@ -11,16 +11,21 @@ internal static class BilheteriaEndpoints
         api.MapGet("/semanas", (ServicoConsultas s, CancellationToken ct) => s.ListarSemanasAsync(ct))
             .WithSummary("Semanas cinematográficas (quinta a quarta) disponíveis, da mais recente para a mais antiga.");
 
-        api.MapGet("/painel", (ServicoConsultas s, DateOnly? data, int? top, CancellationToken ct) =>
-                s.ObterPainelAsync(data, top ?? 10, ct))
-            .WithSummary("Tudo de uma semana: resumo, ranking, origem, áudio e UFs. Sem 'data', usa a última semana completa.");
+        api.MapGet("/periodos", (ServicoConsultas s, string? periodo, CancellationToken ct) => s.ListarPeriodosAsync(periodo, ct))
+            .WithSummary("Períodos disponíveis numa granularidade (periodo=semana|mes|trimestre|semestre|ano), do mais recente para o mais antigo.");
 
-        api.MapGet("/ranking", (ServicoConsultas s, DateOnly? data, int? top, CancellationToken ct) =>
-                s.ObterRankingAsync(data, top ?? 10, ct))
-            .WithSummary("Ranking de obras por público na semana que contém 'data'.");
+        api.MapGet("/painel", (ServicoConsultas s, string? periodo, DateOnly? data, int? top, CancellationToken ct) =>
+                s.ObterPainelAsync(periodo, data, top ?? 10, ct))
+            .WithSummary("Tudo de um período: resumo, ranking, origem, áudio e UFs. 'periodo' = semana (padrão), mes, trimestre, " +
+                "semestre ou ano; sem 'data', usa o último período completo.");
 
-        api.MapGet("/ufs", (ServicoConsultas s, DateOnly? data, CancellationToken ct) => s.ObterPorUfAsync(data, ct))
-            .WithSummary("Público por UF, filme líder e % de público dublado entre estrangeiros.");
+        api.MapGet("/ranking", (ServicoConsultas s, string? periodo, DateOnly? data, int? top, CancellationToken ct) =>
+                s.ObterRankingAsync(periodo, data, top ?? 10, ct))
+            .WithSummary("Ranking de obras por público no período (semana por padrão) que contém 'data'.");
+
+        api.MapGet("/ufs", (ServicoConsultas s, string? periodo, DateOnly? data, CancellationToken ct) =>
+                s.ObterPorUfAsync(periodo, data, ct))
+            .WithSummary("Público por UF, filme líder e % de público dublado entre estrangeiros no período.");
 
         api.MapGet("/obras", (ServicoConsultas s, string? busca, CancellationToken ct) => s.BuscarObrasAsync(busca, ct))
             .WithSummary("Busca obras pelo título (original ou no Brasil).");

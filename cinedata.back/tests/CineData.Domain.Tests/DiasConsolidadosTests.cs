@@ -1,10 +1,12 @@
 using CineData.Domain.Bilheteria;
+using CineData.Domain.Common;
 
 namespace CineData.Domain.Tests;
 
 public class DiasConsolidadosTests
 {
     private static readonly DateOnly Inicio = new(2026, 8, 1);
+    private static readonly DateOnly SerieDesde2014 = new(2014, 6, 1);
 
     [Fact]
     public void Ultimos_dias_com_poucas_salas_nao_sao_consolidados()
@@ -60,6 +62,41 @@ public class DiasConsolidadosTests
         Assert.Equal(
             DiasConsolidados.Calcular(Dias([3000, 3000, 3000, 100])),
             DiasConsolidados.Calcular(Dias([3000, 3000, 3000, 100]).Reverse()));
+
+    [Fact]
+    public void Semana_completa_exige_os_sete_dias_consolidados()
+    {
+        var semana = Periodo.Contendo(Granularidade.Semana, new DateOnly(2025, 12, 25));
+
+        Assert.True(DiasConsolidados.PeriodoCompleto(semana, 7, SerieDesde2014, new DateOnly(2026, 10, 20)));
+        Assert.False(DiasConsolidados.PeriodoCompleto(semana, 5, SerieDesde2014, new DateOnly(2026, 10, 20)));
+    }
+
+    [Fact]
+    public void Natal_parcial_nao_impede_dezembro_nem_o_ano_de_serem_completos()
+    {
+        // 24, 25 e 31/12 têm poucas salas de verdade: são fechamentos, não dado atrasado.
+        var ultimoConsolidado = new DateOnly(2026, 10, 20);
+
+        Assert.True(DiasConsolidados.PeriodoCompleto(Periodo.Contendo(Granularidade.Mes, new DateOnly(2025, 12, 1)), 28, SerieDesde2014, ultimoConsolidado));
+        Assert.True(DiasConsolidados.PeriodoCompleto(Periodo.Contendo(Granularidade.Ano, new DateOnly(2025, 1, 1)), 361, SerieDesde2014, ultimoConsolidado));
+    }
+
+    [Theory]
+    [InlineData(Granularidade.Mes, "2026-09-01", true)]
+    [InlineData(Granularidade.Mes, "2026-10-01", false)]       // a cauda ainda chega da ANCINE
+    [InlineData(Granularidade.Trimestre, "2026-07-01", true)]
+    [InlineData(Granularidade.Trimestre, "2026-10-01", false)]
+    [InlineData(Granularidade.Semestre, "2026-07-01", false)]
+    [InlineData(Granularidade.Ano, "2026-01-01", false)]
+    [InlineData(Granularidade.Ano, "2014-01-01", false)]       // a série começa em junho/2014
+    [InlineData(Granularidade.Semestre, "2014-07-01", true)]
+    public void Calendario_completo_quando_a_serie_cobre_o_periodo_e_consolidou_o_fim(Granularidade granularidade, string inicio, bool completo)
+    {
+        var periodo = Periodo.Contendo(granularidade, DateOnly.Parse(inicio));
+
+        Assert.Equal(completo, DiasConsolidados.PeriodoCompleto(periodo, 0, SerieDesde2014, new DateOnly(2026, 10, 20)));
+    }
 
     [Theory]
     [InlineData(new[] { 5 }, 5.0)]

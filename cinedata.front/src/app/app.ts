@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { IsActiveMatchOptions, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Busca } from './shared/ui/busca';
 import { Logo } from './shared/ui/logo';
 
@@ -10,4 +10,12 @@ import { Logo } from './shared/ui/logo';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {}
+export class App {
+  /** "/" exato, mas com qualquer filtro de período na query string (?periodo=mes&data=…). */
+  protected readonly painelAtivo: IsActiveMatchOptions = {
+    paths: 'exact',
+    queryParams: 'ignored',
+    matrixParams: 'ignored',
+    fragment: 'ignored',
+  };
+}

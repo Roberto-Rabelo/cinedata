@@ -2,16 +2,25 @@
 
 export type Origem = 'Nacional' | 'Estrangeira' | 'Generica';
 
-export interface Semana {
+/** Valor do parâmetro `periodo` da API. Semana é a cinematográfica (quinta a quarta); os demais, o calendário civil. */
+export type Granularidade = 'semana' | 'mes' | 'trimestre' | 'semestre' | 'ano';
+
+export interface Periodo {
+  granularidade: Granularidade;
   inicio: string;
   fim: string;
-  diasComDados: number;
+  /** "08/10 a 14/10/2026", "out/2026", "3º tri 2025", "1º sem 2026", "2025". */
+  rotulo: string;
+  dias: number;
+  /** Dias com ao menos 90% da mediana de salas da janela de 8 semanas (ADR 0004). */
+  diasConsolidados: number;
   publico: number;
   sessoes: number;
-  completa: boolean;
+  /** Semana: 7 dias consolidados. Calendário: a ANCINE já publicou e consolidou o período inteiro (ADR 0005). */
+  completo: boolean;
 }
 
-export interface ResumoSemana {
+export interface Resumo {
   inicio: string;
   fim: string;
   publico: number;
@@ -20,7 +29,7 @@ export interface ResumoSemana {
   salas: number;
   municipios: number;
   publicoMedioPorSessao: number;
-  publicoSemanaAnterior: number | null;
+  publicoPeriodoAnterior: number | null;
   variacaoPct: number | null;
 }
 
@@ -36,7 +45,7 @@ export interface ItemRanking {
   publicoMedioPorSessao: number;
   ocupacaoPct: number | null;
   participacaoPct: number;
-  publicoSemanaAnterior: number | null;
+  publicoPeriodoAnterior: number | null;
   variacaoPct: number | null;
   estreia: boolean;
 }
@@ -67,8 +76,9 @@ export interface Audio {
   dubladoPct: number;
 }
 
-export interface PainelSemana {
-  resumo: ResumoSemana;
+export interface PainelPeriodo {
+  periodo: Periodo;
+  resumo: Resumo;
   ranking: ItemRanking[];
   origem: OrigemResumo[];
   audio: Audio;

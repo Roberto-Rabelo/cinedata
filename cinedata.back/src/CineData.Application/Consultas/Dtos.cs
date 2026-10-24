@@ -6,7 +6,26 @@ public sealed record SemanaDto(DateOnly Inicio, DateOnly Fim, int DiasComDados, 
     public bool Completa => DiasComDados == 7;
 }
 
-public sealed record ResumoSemanaDto(
+/// <param name="Granularidade">semana, mes, trimestre, semestre ou ano (o mesmo valor do parâmetro <c>periodo</c>).</param>
+/// <param name="Rotulo">Rótulo curto em português: "08/10 a 14/10/2026", "out/2026", "3º tri 2025", "1º sem 2026", "2025".</param>
+/// <param name="DiasConsolidados">Dias com ao menos 90% da mediana de salas da janela de 8 semanas (ADR 0004).</param>
+/// <param name="Completo">Semana: 7 dias consolidados. Calendário: a série cobre o período inteiro e já consolidou o último dia (ADR 0005).</param>
+public sealed record PeriodoDto(
+    string Granularidade,
+    DateOnly Inicio,
+    DateOnly Fim,
+    string Rotulo,
+    int Dias,
+    int DiasConsolidados,
+    long Publico,
+    int Sessoes,
+    bool Completo);
+
+/// <summary>Cobertura de um dia (<c>agregado_dia</c>): base dos dias consolidados e da lista de períodos.</summary>
+public sealed record DiaBilheteriaDto(DateOnly Data, int Salas, int Sessoes, long Publico);
+
+/// <param name="PublicoPeriodoAnterior">Público do período equivalente anterior (semana, mês, trimestre… anterior).</param>
+public sealed record ResumoDto(
     DateOnly Inicio,
     DateOnly Fim,
     long Publico,
@@ -15,7 +34,7 @@ public sealed record ResumoSemanaDto(
     int Salas,
     int Municipios,
     double PublicoMedioPorSessao,
-    long? PublicoSemanaAnterior,
+    long? PublicoPeriodoAnterior,
     double? VariacaoPct);
 
 public sealed record ItemRankingDto(
@@ -30,7 +49,7 @@ public sealed record ItemRankingDto(
     double PublicoMedioPorSessao,
     double? OcupacaoPct,
     double ParticipacaoPct,
-    long? PublicoSemanaAnterior,
+    long? PublicoPeriodoAnterior,
     double? VariacaoPct,
     bool Estreia);
 
@@ -50,8 +69,9 @@ public sealed record OrigemDto(string Origem, long Publico, int Obras, int Sesso
 /// <summary>Só obras estrangeiras: dublado vs. áudio original (legendado).</summary>
 public sealed record AudioDto(long PublicoDublado, long PublicoLegendado, double DubladoPct);
 
-public sealed record PainelSemanaDto(
-    ResumoSemanaDto Resumo,
+public sealed record PainelDto(
+    PeriodoDto Periodo,
+    ResumoDto Resumo,
     IReadOnlyList<ItemRankingDto> Ranking,
     IReadOnlyList<OrigemDto> Origem,
     AudioDto Audio,

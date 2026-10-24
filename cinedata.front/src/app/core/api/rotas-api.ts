@@ -1,3 +1,5 @@
+import { Granularidade } from './modelos';
+
 // URLs da CineData API. Em desenvolvimento o proxy do `ng serve` encaminha /api para o back.
 const BASE = '/api/v1';
 
@@ -11,8 +13,8 @@ const consulta = (params: Record<string, string | number | undefined>) => {
 };
 
 export const rotasApi = {
-  semanas: () => `${BASE}/semanas`,
-  painel: (data?: string, top = 10) => `${BASE}/painel${consulta({ data, top })}`,
+  periodos: (periodo: Granularidade) => `${BASE}/periodos${consulta({ periodo })}`,
+  painel: (periodo?: Granularidade, data?: string, top = 10) => `${BASE}/painel${consulta({ periodo, data, top })}`,
   buscarObras: (busca: string) => `${BASE}/obras${consulta({ busca })}`,
   curvaObra: (codigo: string) => `${BASE}/obras/${encodeURIComponent(codigo)}/curva`,
 };

@@ -13,7 +13,7 @@ import { Kpi } from '../../shared/ui/kpi';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="conteudo obra">
-      <a routerLink="/" class="voltar secundario">← Painel da semana</a>
+      <a routerLink="/" class="voltar secundario">← Painel</a>
 
       @if (curva.error()) {
         <div class="cartao" role="alert"><h2>Obra não encontrada</h2><p class="secundario">Código {{ codigo() }}.</p></div>
