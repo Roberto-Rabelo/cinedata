@@ -35,6 +35,18 @@ Fonte: ANCINE (dados abertos)
 #cinemabrasileiro #bilheteria #cinema #dadosabertos
 ```
 
+## Teaser do nº 1 (Verity)
+
+Trailers oficiais da distribuidora (Sony Pictures Brasil), conferidos no YouTube em 24/10/2026:
+
+- Trailer Oficial Legendado (2:24): https://www.youtube.com/watch?v=NTiqVJ8vVQM
+- Teaser Oficial Legendado (1:56): https://www.youtube.com/watch?v=MXAaETtP3M0
+- Trailer Oficial Dublado (2:24): https://www.youtube.com/watch?v=JjIVd97hoFE
+
+O vídeo é da Sony Pictures Brasil, não nosso. Para usar no post, credite "Trailer: Sony Pictures Brasil" e prefira
+compartilhar o Reel oficial da distribuidora ou um trecho curto; repostar o trailer inteiro pode levar a bloqueio
+por direitos autorais no Instagram.
+
 ## De onde vem cada número
 
 Banco local, publicação da ANCINE com dados até 22/10/2026, conferido em 24/10/2026. O ranking pelo agregado
