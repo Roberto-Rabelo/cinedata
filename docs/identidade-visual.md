@@ -53,6 +53,7 @@ Regras: cor nunca é a única pista (legenda ou rótulo direto sempre); texto nu
 | Carrossel de apresentação | 7 × 1080×1350 | pronto: `/marca/apresentacao` (`slides-apresentacao.ts`), PNGs e legenda em `docs/posts/apresentacao` |
 | Top 5 da semana (carrossel) | 6 × 1080×1350 (2 vídeos) | pronto para 08 a 14/10: `/marca/top5-2026-10-08` (`slides-top5.ts`); capa e vídeo do nº 1 e do nº 2, ranking, contexto; números ainda fixos no componente |
 | Como medimos | 5 × 1080×1350 | pronto: `/marca/como-medimos` (`slides-como-medimos.ts`) |
+| Especial com foto (Halloween) | 12 × 1080×1350 | pronto: `/marca/halloween-terror-top10` (`slides-halloween.ts`); `cd-slide` aceita `fundo` (foto de divulgação) e `credito` |
 | Reels / TikTok | 1080×1920 (9:16) | a fazer |
 | Story | 1080×1920 | a fazer |
 
