@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <!-- Foto de perfil do Instagram: símbolo B (feixe do projetor) centralizado; margem segura para o recorte circular. -->
+  <defs>
+    <linearGradient id="feixe" x1="9.5" y1="0" x2="29" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFB547" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#FFB547" stop-opacity=".07"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1080" fill="#0D0E12"/>
+  <circle cx="540" cy="540" r="540" fill="#0D0E12"/>
+  <!-- símbolo: extensão horizontal 3..29 (centro 16), vertical 6.5..25.5 (centro 16); escala 24 → 624px de largura -->
+  <g transform="translate(540 540) scale(24) translate(-16 -16)">
+    <polygon points="9.5,14.6 29,6.5 29,25.5 9.5,17.4" fill="url(#feixe)"/>
+    <rect x="3" y="12.5" width="6.5" height="7" rx="1.4" fill="#F3EFE6"/>
+    <rect x="15.5" y="18" width="2.6" height="5" rx=".8" fill="#F3EFE6"/>
+    <rect x="20" y="14.5" width="2.6" height="8.5" rx=".8" fill="#F3EFE6"/>
+    <rect x="24.5" y="10" width="2.6" height="13" rx=".8" fill="#FFB547"/>
+  </g>
+</svg>

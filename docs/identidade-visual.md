@@ -6,9 +6,11 @@ A página `/marca` do front mostra tudo isso ao vivo, inclusive uma prévia de p
 
 ## Logo
 
-Um **fotograma** (quadro com perfurações de película) com **três barras crescentes**; a maior recebe a luz âmbar.
+O **feixe do projetor** formando um gráfico: o projetor (cor da tela) lança um feixe âmbar — a luz do exibidor —, em
+degradê de opacidade (~0,55 na lente a ~0,07 na tela), que ilumina **três barras crescentes**; a maior é âmbar.
 Wordmark `cinedata` em Bricolage Grotesque: "cine" regular + "data" extra-bold. Fonte: `cinedata.front/src/app/shared/ui/logo.ts`
-e `cinedata.front/public/favicon.svg`.
+e `cinedata.front/public/favicon.svg`. Foto de perfil do Instagram: `docs/marca/avatar-instagram-1080.png` (fonte em
+`docs/marca/avatar-instagram.svg`; símbolo centralizado num círculo escuro, com margem para o recorte circular).
 
 ## Cores
 

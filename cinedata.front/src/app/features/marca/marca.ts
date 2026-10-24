@@ -33,7 +33,7 @@ interface Cor {
           <cd-logo [tamanho]="48" />
           <div class="variantes">
             <cd-logo [tamanho]="28" [comNome]="false" />
-            <span class="secundario">Símbolo: um fotograma com três barras crescentes. A maior recebe a luz do projetor.</span>
+            <span class="secundario">Símbolo: o feixe âmbar do projetor ilumina três barras crescentes. A maior é âmbar.</span>
           </div>
         </article>
 
