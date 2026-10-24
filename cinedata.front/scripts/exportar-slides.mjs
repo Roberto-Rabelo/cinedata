@@ -28,7 +28,8 @@ try {
     // Conteúdo maior que o quadro passaria por cima do rodapé sem erro nenhum.
     const sobra = await slides.nth(i).locator('.corpo').evaluate(c => c.scrollHeight - c.clientHeight);
     if (sobra > 0) throw new Error(`slide ${i + 1}: conteúdo passa ${sobra} px do quadro`);
-    const arquivo = resolve(saida, `slide-${String(i + 1).padStart(2, '0')}.png`);
+    const numero = await slides.nth(i).getAttribute('data-numero');
+    const arquivo = resolve(saida, `slide-${numero.padStart(2, '0')}.png`);
     await slides.nth(i).screenshot({ path: arquivo });
     console.log(arquivo);
   }

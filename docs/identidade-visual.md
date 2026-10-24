@@ -51,11 +51,13 @@ Regras: cor nunca é a única pista (legenda ou rótulo direto sempre); texto nu
 | --- | --- | --- |
 | Carrossel / feed | 1080×1350 (4:5) | template "Top 5 da semana" pronto (`post-ranking.ts`) |
 | Carrossel de apresentação | 7 × 1080×1350 | pronto: `/marca/apresentacao` (`slides-apresentacao.ts`), PNGs e legenda em `docs/posts/apresentacao` |
-| Top 5 da semana (carrossel) | 3 × 1080×1350 | pronto para 08 a 14/10: `/marca/top5-2026-10-08` (`slides-top5.ts`); números ainda fixos no componente |
+| Top 5 da semana (carrossel) | 6 × 1080×1350 (2 vídeos) | pronto para 08 a 14/10: `/marca/top5-2026-10-08` (`slides-top5.ts`); capa e vídeo do nº 1 e do nº 2, ranking, contexto; números ainda fixos no componente |
 | Como medimos | 5 × 1080×1350 | pronto: `/marca/como-medimos` (`slides-como-medimos.ts`) |
 | Reels / TikTok | 1080×1920 (9:16) | a fazer |
 | Story | 1080×1920 | a fazer |
 
 Os slides em PNG saem de `cinedata.front/scripts/exportar-slides.mjs` (playwright-core com o Chrome instalado), que
-fotografa cada `cd-slide` da rota em 1080×1350 (uso: `node scripts/exportar-slides.mjs <rota> <pasta>`) e falha se algum conteúdo passar do quadro. Rodapé de todo slide:
+fotografa cada `cd-slide` da rota em 1080×1350 (uso: `node scripts/exportar-slides.mjs <rota> <pasta>`). Slides de vídeo usam
+`scripts/emoldurar-video.mjs`: o spot oficial da distribuidora inteiro, sem cortes, numa moldura 4:5 com lugar,
+título e "Vídeo: <distribuidora>" no rodapé e falha se algum conteúdo passar do quadro. Rodapé de todo slide:
 "Fonte: ANCINE (dados abertos)" e o perfil; nunca "oficial ANCINE" nem logo da agência.

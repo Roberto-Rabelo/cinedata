@@ -9,6 +9,8 @@ import { Logo } from '../../shared/ui/logo';
   selector: 'cd-slide',
   imports: [Logo],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // Posição no carrossel, para o script de exportação nomear o PNG (há slides de vídeo entre eles).
+  host: { '[attr.data-numero]': 'numero()' },
   template: `
     <section class="slide">
       <header class="topo">

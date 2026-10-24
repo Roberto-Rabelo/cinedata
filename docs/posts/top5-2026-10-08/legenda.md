@@ -1,10 +1,27 @@
 # Top 5 da semana · 08 a 14/10/2026
 
-3 slides 1080×1350 (`slide-01.png` … `slide-03.png`), da rota `/marca/top5-2026-10-08` do front
-(`cinedata.front/src/app/features/marca/slides-top5.ts`). Publicação combinada: sábado, 24/10/2026, à noite.
+Carrossel de 6 slides 1080×1350, nesta ordem (suba os arquivos na ordem dos números):
+
+| Slide | Arquivo | Conteúdo |
+| --- | --- | --- |
+| 1 | `slide-01.png` | capa do nº 1: Verity, 622.946 ingressos |
+| 2 | `slide-02.mp4` | vídeo de Verity (15 s, spot oficial da Sony Pictures Brasil) |
+| 3 | `slide-03.png` | capa do nº 2: Minha Melhor Amiga, 299.571 ingressos |
+| 4 | `slide-04.mp4` | vídeo de Minha Melhor Amiga (20 s, short oficial da Paris Filmes) |
+| 5 | `slide-05.png` | ranking do Top 5 |
+| 6 | `slide-06.png` | a semana em números |
+
+Publicação combinada: sábado, 24/10/2026, à noite. Os PNGs vêm da rota `/marca/top5-2026-10-08` do front
+(`cinedata.front/src/app/features/marca/slides-top5.ts`); os vídeos são os originais das distribuidoras, inteiros e
+sem cortes, encaixados na moldura 4:5 com o crédito no rodapé.
 
 ```bash
-cd cinedata.front && node scripts/exportar-slides.mjs /marca/top5-2026-10-08 ../docs/posts/top5-2026-10-08
+cd cinedata.front
+node scripts/exportar-slides.mjs /marca/top5-2026-10-08 ../docs/posts/top5-2026-10-08
+node scripts/emoldurar-video.mjs ../docs/posts/top5-2026-10-08/videos/verity-spot-deceive.mp4 \
+  ../docs/posts/top5-2026-10-08/slide-02.mp4 "nº 1" "Verity" "Sony Pictures Brasil"
+node scripts/emoldurar-video.mjs ../docs/posts/top5-2026-10-08/videos/minha-melhor-amiga-fa-e-hater.mp4 \
+  ../docs/posts/top5-2026-10-08/slide-04.mp4 "nº 2" "Minha Melhor Amiga" "Paris Filmes"
 ```
 
 Por que 08 a 14/10: é a última semana completa. A de 15 a 21/10 ainda está parcial pela regra de dias consolidados
@@ -12,7 +29,7 @@ Por que 08 a 14/10: é a última semana completa. A de 15 a 21/10 ainda está pa
 
 ## Legenda
 
-Contagem: 714 caracteres (limite do Instagram: 2.200).
+Contagem: 790 caracteres (limite do Instagram: 2.200).
 
 ```text
 Verity levou 622.946 pessoas ao cinema de 08 a 14/10: mais de 1 em cada 4 ingressos da semana no Brasil. 🎬
@@ -30,22 +47,28 @@ Por que 08 a 14/10? Os cinemas ainda estão enviando os dados de 15 a 21/10, e o
 
 Qual desses você viu? Conta aqui nos comentários. 👇
 
-Fonte: ANCINE (dados abertos)
+Fonte: ANCINE (dados abertos). Vídeos: Sony Pictures Brasil (Verity) e Paris Filmes (Minha Melhor Amiga).
 
 #cinemabrasileiro #bilheteria #cinema #dadosabertos
 ```
 
-## Teaser do nº 1 (Verity)
+## Vídeos (slides 2 e 4)
 
-Trailers oficiais da distribuidora (Sony Pictures Brasil), conferidos no YouTube em 24/10/2026:
+Baixados em 24/10/2026 dos canais oficiais das distribuidoras no YouTube (`yt-dlp`), 1080×1920 com legenda em
+português na imagem. Os originais ficam em `videos/` e não vão para o git (`videos/.gitignore`).
 
-- Trailer Oficial Legendado (2:24): https://www.youtube.com/watch?v=NTiqVJ8vVQM
-- Teaser Oficial Legendado (1:56): https://www.youtube.com/watch?v=MXAaETtP3M0
-- Trailer Oficial Dublado (2:24): https://www.youtube.com/watch?v=JjIVd97hoFE
+| Slide | Vídeo | Canal | Duração | Link |
+| --- | --- | --- | --- | --- |
+| 2 | Verity, Spot "Deceive" | Sony Pictures Brasil | 15 s | https://www.youtube.com/shorts/a_hSKwzXg3k |
+| 4 | "Aquela amiga que é fã e hater ao mesmo tempo" | Paris Filmes | 20 s | https://www.youtube.com/shorts/_dveIuDlY_4 |
 
-O vídeo é da Sony Pictures Brasil, não nosso. Para usar no post, credite "Trailer: Sony Pictures Brasil" e prefira
-compartilhar o Reel oficial da distribuidora ou um trecho curto; repostar o trailer inteiro pode levar a bloqueio
-por direitos autorais no Instagram.
+Alternativas: Verity, Spot "The Truth" (30 s, https://www.youtube.com/shorts/qkq3S0puc1M); Minha Melhor Amiga, "Tem
+amiga que chega quando você mais precisa" (25 s, https://www.youtube.com/shorts/Kd6L-NWV2Ts). Trailer completo
+legendado de Verity (2:24): https://www.youtube.com/watch?v=NTiqVJ8vVQM
+
+Os vídeos são das distribuidoras, não nossos: o crédito está no rodapé de cada um e na legenda do post. Mesmo assim o
+Instagram pode silenciar ou remover o post por direitos autorais; se acontecer, publique só com os PNGs e compartilhe
+os Reels oficiais nos Stories.
 
 ## De onde vem cada número
 
@@ -55,14 +78,15 @@ Banco local, publicação da ANCINE com dados até 22/10/2026, conferido em 24/1
 
 | Slide | Número | Resultado |
 | --- | --- | --- |
-| 1, 2 | Top 5 (público, salas) | Verity 622.946 (1.228 salas) · Minha Melhor Amiga 299.571 (843) · Outra Mamãe 277.657 (778) · Carros 225.814 (787) · Se Eu Fosse Você 3 185.253 (1.042) |
+| 1, 3, 5 | Top 5 (público, salas) | Verity 622.946 (1.228 salas) · Minha Melhor Amiga 299.571 (843) · Outra Mamãe 277.657 (778) · Carros 225.814 (787) · Se Eu Fosse Você 3 185.253 (1.042) |
 | 1 | "mais de 1 em cada 4" | Verity = 26,7% do público da semana |
-| 2 | Variação sobre 01 a 07/10 | Verity 748.093 → −16,7% · Minha Melhor Amiga 416.180 → −28,0% |
-| 2 | Estreias | Outra Mamãe e Carros sem público em 01 a 07/10; Se Eu Fosse Você 3 tinha 51 (pré-estreia, < 5% do atual: conta como estreia, regra da API) |
-| 2 | Carros = relançamento | código `E1500588000000` (registro de 2015); é o filme de 2006 voltando às salas |
-| 2 | Origem | prefixo do código: `B` nacional, `E` estrangeiro |
-| 3 | 2,33 mi na semana, +7,2% | 2.331.061 contra 2.174.028 |
-| 3 | 69,1% com o Top 5, 155 filmes | 1.611.241 / 2.331.061; 155 obras na semana |
+| 3, 5 | Variação sobre 01 a 07/10 | Verity 748.093 → −16,7% · Minha Melhor Amiga 416.180 → −28,0% |
+| 5 | Estreias | Outra Mamãe e Carros sem público em 01 a 07/10; Se Eu Fosse Você 3 tinha 51 (pré-estreia, < 5% do atual: conta como estreia, regra da API) |
+| 5 | Carros = relançamento | código `E1500588000000` (registro de 2015); é o filme de 2006 voltando às salas |
+| 5 | Origem | prefixo do código: `B` nacional, `E` estrangeiro |
+| 6 | 2,33 mi na semana, +7,2% | 2.331.061 contra 2.174.028 |
+| 6 | 69,1% com o Top 5, 155 filmes | 1.611.241 / 2.331.061; 155 obras na semana |
+| 3 | Minha Melhor Amiga: 6ª semana, 5,6 mi desde a estreia em 03/09 | 5.636.284 de 03/09 a 14/10 |
 
 ```sql
 -- Ranking com semana anterior, salas e participação (mesma lógica da API)
@@ -83,6 +107,10 @@ GROUP BY 1 ORDER BY 2 DESC LIMIT 5;
 -- Totais da semana e da anterior
 SELECT semana, publico, sessoes, obras, salas, municipios
 FROM agregado_semana WHERE semana IN ('2026-10-01', '2026-10-08');
+
+-- Slide 3: acumulado de Minha Melhor Amiga até 14/10
+SELECT sum(publico), count(*) AS semanas FROM agregado_semana_obra
+WHERE codigo_obra = 'B2600181900000' AND semana <= '2026-10-08';
 
 -- Histórico semanal do Top 5 (estreias, pré-estreias e relançamento)
 SELECT codigo_obra, string_agg(semana::text || '=' || publico, ' ' ORDER BY semana)

@@ -24,6 +24,8 @@ const semana = {
   fim: '2026-10-14',
   publico: 2_331_061,
   publicoAnterior: 2_174_028,
+  /** Público de Minha Melhor Amiga da estreia (03/09) até 14/10. */
+  acumuladoSegundo: 5_636_284,
   obras: 155,
   salas: 3_425,
   top5: <ItemTop5[]>[
@@ -39,7 +41,10 @@ const semana = {
 const duasCasas = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const pct = (parte: number, todo: number) => Math.round((parte / todo) * 1000) / 10;
 
-/** Post do Top 5 da semana (3 slides 1080×1350): capa com o nº 1, ranking e contexto. */
+/**
+ * Post do Top 5 da semana (6 slides 1080×1350): capa do nº 1, vídeo do nº 1, capa do nº 2, vídeo do nº 2,
+ * ranking e contexto. Os vídeos são spots oficiais das distribuidoras, emoldurados por scripts/emoldurar-video.mjs.
+ */
 @Component({
   selector: 'cd-slides-top5',
   imports: [Slide, RouterLink],
@@ -51,12 +56,12 @@ const pct = (parte: number, todo: number) => Math.round((parte / todo) * 1000) /
       <header class="conteudo cabecalho">
         <a routerLink="/marca" class="secundario">← Marca</a>
         <h1>Top 5 da semana · {{ periodo }}</h1>
-        <p class="secundario">3 slides 1080×1350. PNGs em docs/posts/top5-2026-10-08.</p>
+        <p class="secundario">6 slides 1080×1350: os 2 e 4 são vídeos (docs/posts/top5-2026-10-08/slide-02.mp4 e slide-04.mp4).</p>
       </header>
     }
     <div class="slides">
       <!-- 1. Capa: o nº 1 -->
-      <cd-slide [numero]="1" [total]="3">
+      <cd-slide [numero]="1" [total]="6">
         <span class="rotulo">Top 5 da semana · {{ periodo }}</span>
         <div class="capa">
           <p class="lugar">nº 1</p>
@@ -64,11 +69,27 @@ const pct = (parte: number, todo: number) => Math.round((parte / todo) * 1000) /
           <p class="numero">{{ formatar.inteiro(primeiro.publico) }}</p>
           <p class="manchete">ingressos em {{ formatar.inteiro(primeiro.salas) }} salas: mais de 1 em cada 4 da semana.</p>
         </div>
-        <p class="arraste">Arraste para o Top 5 →</p>
+        <p class="arraste">Arraste para o vídeo →</p>
       </cd-slide>
 
-      <!-- 2. Ranking -->
-      <cd-slide [numero]="2" [total]="3">
+      <!-- 2 é o vídeo do nº 1 -->
+
+      <!-- 3. Capa: o nº 2 -->
+      <cd-slide [numero]="3" [total]="6">
+        <span class="rotulo">Top 5 da semana · {{ periodo }}</span>
+        <div class="capa">
+          <p class="lugar">nº 2</p>
+          <p class="filme medio">{{ segundo.titulo }}</p>
+          <p class="numero">{{ formatar.inteiro(segundo.publico) }}</p>
+          <p class="manchete">ingressos na 6ª semana. Já são {{ acumuladoSegundo }} milhões desde a estreia, em 03/09.</p>
+        </div>
+        <p class="arraste">Arraste para o vídeo →</p>
+      </cd-slide>
+
+      <!-- 4 é o vídeo do nº 2 -->
+
+      <!-- 5. Ranking -->
+      <cd-slide [numero]="5" [total]="6">
         <span class="rotulo">Top 5 da semana · {{ periodo }}</span>
         <p class="manchete titulo-ranking">Os 5 filmes mais vistos</p>
         <ol class="ranking">
@@ -92,8 +113,8 @@ const pct = (parte: number, todo: number) => Math.round((parte / todo) * 1000) /
         </ol>
       </cd-slide>
 
-      <!-- 3. Contexto -->
-      <cd-slide [numero]="3" [total]="3">
+      <!-- 6. Contexto -->
+      <cd-slide [numero]="6" [total]="6">
         <span class="rotulo">A semana em números</span>
         <p class="numero total">{{ milhoes(semana.publico) }} mi</p>
         <p class="manchete pequena">de ingressos de 08 a 14/10, <span class="alta">▲</span> {{ formatar.decimal(altaSemana) }}% sobre a semana anterior.</p>
@@ -110,6 +131,7 @@ const pct = (parte: number, todo: number) => Math.round((parte / todo) * 1000) /
     /* 1 */
     .lugar { font-family: var(--cd-fonte-display); font-weight: 800; font-size: 6cqw; color: var(--cd-projetor); }
     .filme { font-family: var(--cd-fonte-display); font-weight: 800; font-size: 17cqw; line-height: .95; letter-spacing: -0.045em; margin: 1cqw 0 5cqw; }
+    .filme.medio { font-size: 12cqw; }
     .capa .numero { font-size: 13cqw; }
     .capa .manchete { font-size: 6cqw; font-weight: 600; color: var(--cd-tela-2); }
 
@@ -142,6 +164,8 @@ export class SlidesTop5 {
 
   protected readonly semana = semana;
   protected readonly primeiro = semana.top5[0];
+  protected readonly segundo = semana.top5[1];
+  protected readonly acumuladoSegundo = formatar.decimal(Math.round(semana.acumuladoSegundo / 1e5) / 10);
   protected readonly formatar = formatar;
   protected readonly cor = corOrigem;
   protected readonly origem = rotuloOrigem;
