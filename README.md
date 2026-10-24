@@ -39,10 +39,10 @@ dotnet run --project src/CineData.Api --launch-profile http       # http://local
 cd ../cinedata.front && npm install && npx ng serve --port 4300   # http://localhost:4300
 ```
 
-Comandos da ingestão: `amostra [semanas]`, `bilheteria [semanas]` (sem número = histórico desde 2014),
+Comandos da ingestão: `amostra [semanas]`, `bilheteria [semanas]` (sem número = histórico desde 2014: ~20 min, 38 milhões de sessões, 5 GB),
 `cadastros`, `migrar`.
 
-Testes: `dotnet test` em `cinedata.back` (43 testes) e `npx ng test --watch=false` em `cinedata.front`.
+Testes: `dotnet test` em `cinedata.back` (57 testes) e `npx ng test --watch=false` em `cinedata.front`.
 
 ## Estrutura
 

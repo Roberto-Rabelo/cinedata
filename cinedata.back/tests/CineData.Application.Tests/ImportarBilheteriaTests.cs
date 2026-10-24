@@ -42,6 +42,30 @@ public class ImportarBilheteriaTests
     }
 
     [Fact]
+    public async Task Agregados_sao_atualizados_uma_vez_por_carga_e_nao_por_arquivo()
+    {
+        _fonte.Arquivos.AddRange([Arquivo("2026-09-s05", 1), Arquivo("2026-10-s01", 2), Arquivo("2026-10-s02", 3)]);
+
+        await CriarCaso().ExecutarAsync(new ImportarBilheteriaComando(null), default);
+
+        Assert.Equal(3, _repos.Lotes.Count);
+        Assert.Equal(1, _repos.AtualizacoesDeAgregados);
+    }
+
+    [Fact]
+    public async Task Carga_sem_mudancas_ainda_processa_agregados_pendentes_de_carga_interrompida()
+    {
+        _fonte.Arquivos.Add(Arquivo("2026-10-s01", 42));
+        _repos.Existentes["bilheteria-2026-10-s01.csv"] =
+            ArquivoImportado.Novo(FonteDados.BilheteriaExibidoras, "bilheteria-2026-10-s01.csv", 42, 10, DateTimeOffset.UtcNow);
+
+        await CriarCaso().ExecutarAsync(new ImportarBilheteriaComando(null), default);
+
+        Assert.Empty(_repos.Lotes);
+        Assert.Equal(1, _repos.AtualizacoesDeAgregados);
+    }
+
+    [Fact]
     public async Task Arquivo_retificado_e_reimportado_reaproveitando_o_registro()
     {
         _fonte.Arquivos.Add(Arquivo("2026-10-s01", 99));
@@ -134,6 +158,14 @@ public class ImportarBilheteriaTests
         public Task SalvarLoteAsync(LoteBilheteria lote, CancellationToken ct)
         {
             Lotes.Add(lote);
+            return Task.CompletedTask;
+        }
+
+        public int AtualizacoesDeAgregados { get; private set; }
+
+        public Task AtualizarAgregadosAsync(CancellationToken ct)
+        {
+            AtualizacoesDeAgregados++;
             return Task.CompletedTask;
         }
     }

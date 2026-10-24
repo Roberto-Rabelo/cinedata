@@ -31,7 +31,10 @@ int? semanas = args.Length > 1 && int.TryParse(args[1], out var n) ? n : null;
 await using var escopo = host.Services.CreateAsyncScope();
 var servicos = escopo.ServiceProvider;
 
-await servicos.GetRequiredService<CineDataDbContext>().Database.MigrateAsync(ct);
+var db = servicos.GetRequiredService<CineDataDbContext>();
+db.Database.SetCommandTimeout(TimeSpan.FromMinutes(30)); // migrations que criam agregados varrem o histórico
+await db.Database.MigrateAsync(ct);
+db.Database.SetCommandTimeout(null);
 if (comando == "migrar") return 0;
 
 if (comando is "amostra" or "cadastros")

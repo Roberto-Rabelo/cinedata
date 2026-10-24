@@ -18,6 +18,15 @@ internal sealed class RepositorioBilheteria(CineDataDbContext db) : IRepositorio
         await Upserts.ObrasAsync(db, lote.Obras, ct);
         await Upserts.SalasAsync(db, lote.Salas, ct);
 
+        // Período que o arquivo cobria antes da recarga: os agregados dessas semanas também mudam.
+        // O "+ 0" impede o PostgreSQL de trocar min/max por uma varredura de ix_sessoes_data_exibicao procurando o
+        // arquivo: para um arquivo novo ela percorria o índice inteiro (7,8 s por arquivo com 38 milhões de sessões).
+        var anterior = await db.Database
+            .SqlQuery<Agregados.Periodo>($"""
+                SELECT min(data_exibicao + 0) AS inicio, max(data_exibicao + 0) AS fim FROM sessoes WHERE arquivo_id = {lote.Arquivo.Id}
+                """)
+            .SingleAsync(ct);
+
         // Recarga idempotente: um arquivo retificado substitui por completo o que ele trouxe antes.
         await db.Database.ExecuteSqlAsync($"DELETE FROM sessoes WHERE arquivo_id = {lote.Arquivo.Id}", ct);
 
@@ -42,6 +51,17 @@ internal sealed class RepositorioBilheteria(CineDataDbContext db) : IRepositorio
             await copia.CompleteAsync(ct);
         }
 
+        var datas = lote.Sessoes.Select(s => (DateOnly?)s.DataExibicao).Append(anterior.Inicio).Append(anterior.Fim).ToList();
+        if (datas.Min() is { } inicio && datas.Max() is { } fim)
+            await Agregados.MarcarPendenteAsync(db, inicio, fim, ct);
+
+        await transacao.CommitAsync(ct);
+    }
+
+    public async Task AtualizarAgregadosAsync(CancellationToken ct)
+    {
+        await using var transacao = await db.Database.BeginTransactionAsync(ct);
+        await Agregados.AtualizarPendentesAsync(db, ct);
         await transacao.CommitAsync(ct);
     }
 }

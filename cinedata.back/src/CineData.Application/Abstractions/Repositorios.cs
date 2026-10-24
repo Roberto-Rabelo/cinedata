@@ -20,8 +20,14 @@ public interface IRepositorioImportacao
 
 public interface IRepositorioBilheteria
 {
-    /// <summary>Grava o lote substituindo as sessões que o mesmo arquivo trouxe antes (idempotente).</summary>
+    /// <summary>
+    /// Grava o lote substituindo as sessões que o mesmo arquivo trouxe antes (idempotente) e registra as datas
+    /// afetadas como pendentes para os agregados de leitura.
+    /// </summary>
     Task SalvarLoteAsync(LoteBilheteria lote, CancellationToken ct);
+
+    /// <summary>Recalcula os agregados de leitura dos períodos pendentes, inclusive os deixados por uma carga interrompida.</summary>
+    Task AtualizarAgregadosAsync(CancellationToken ct);
 }
 
 public interface IRepositorioCadastros

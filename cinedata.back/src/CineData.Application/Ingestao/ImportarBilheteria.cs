@@ -69,6 +69,9 @@ public sealed class ImportarBilheteria(
                 remoto.Nome, arquivo.Linhas, arquivo.LinhasRejeitadas);
         }
 
+        // Uma vez por carga, não por arquivo: na carga do histórico são 661 arquivos e um único recálculo.
+        await bilheteria.AtualizarAgregadosAsync(ct);
+
         return new ResultadoImportacao(alvo.Count, importados, semMudanca, linhas, rejeitadas, cronometro.Elapsed);
     }
 

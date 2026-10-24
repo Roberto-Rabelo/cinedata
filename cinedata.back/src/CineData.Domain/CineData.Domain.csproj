@@ -3,4 +3,8 @@
   <PropertyGroup>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="CineData.Domain.Tests" />
+  </ItemGroup>
+
 </Project>

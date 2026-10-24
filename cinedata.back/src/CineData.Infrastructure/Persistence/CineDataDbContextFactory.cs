@@ -9,7 +9,8 @@ internal sealed class CineDataDbContextFactory : IDesignTimeDbContextFactory<Cin
     public CineDataDbContext CreateDbContext(string[] args)
     {
         var opcoes = new DbContextOptionsBuilder<CineDataDbContext>()
-            .UseNpgsql("Host=localhost;Database=cinedata;Username=cinedata;Password=cinedata")
+            .UseNpgsql("Host=localhost;Database=cinedata;Username=cinedata;Password=cinedata",
+                o => o.CommandTimeout((int)TimeSpan.FromMinutes(30).TotalSeconds))
             .UseSnakeCaseNamingConvention()
             .Options;
         return new CineDataDbContext(opcoes);

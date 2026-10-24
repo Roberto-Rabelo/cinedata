@@ -1,6 +1,6 @@
 namespace CineData.Application.Consultas;
 
-/// <param name="DiasComDados">Dias consolidados: com ao menos 90% das salas que costumam reportar.</param>
+/// <param name="DiasComDados">Dias consolidados: com ao menos 90% da mediana de salas da janela de 8 semanas que termina no dia (ADR 0004).</param>
 public sealed record SemanaDto(DateOnly Inicio, DateOnly Fim, int DiasComDados, long Publico, int Sessoes)
 {
     public bool Completa => DiasComDados == 7;

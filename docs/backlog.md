@@ -13,9 +13,9 @@ O que o POC provou e o que vem a seguir. Cada item vira uma issue no GitHub.
 
 ## Etapa 1 — Dados completos
 
-- [ ] Carga do histórico completo (desde 2014) e medição de tempo/volume
-- [ ] Agregados materializados (`semana × obra`, `semana × UF`) para não varrer `sessoes` a cada consulta
-- [ ] Mediana de salas por janela móvel no critério de dia consolidado (ADR 0004)
+- [x] Carga do histórico completo (desde 2014) e medição de tempo/volume — 19 min, 38,5 mi de sessões, 5,1 GB
+- [x] Agregados materializados (`semana × obra`, `semana × UF`) para não varrer `sessoes` a cada consulta — painel de 27 s para 13 ms
+- [x] Mediana de salas por janela móvel no critério de dia consolidado (ADR 0004)
 - [ ] Agendamento semanal da ingestão (worker com Quartz/Hangfire ou cron do host) + alerta em falha
 - [ ] Verificar CRC32 do conteúdo baixado (integridade)
 - [ ] Dimensão de município com código IBGE (mapas por cidade)

@@ -27,7 +27,14 @@ As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
   contadas em `ArquivoImportado.LinhasRejeitadas`, não derrubam a carga.
 - **Gravação em lote:** dimensões via `INSERT … SELECT unnest(…) ON CONFLICT`, fatos via `COPY` binário do Npgsql,
   tudo numa transação por arquivo. Recarregar um arquivo apaga e regrava as sessões dele (idempotente).
-- **Leitura** não materializa entidades: SQL agregado com Dapper direto para DTOs.
+- **Leitura** não materializa entidades: SQL com Dapper direto para DTOs, sobre agregados de leitura.
+- **Agregados** (`agregado_dia`, `agregado_semana`, `agregado_semana_obra`, `agregado_semana_uf`): tabelas criadas
+  por migration e mantidas pela função `atualizar_agregados_bilheteria(inicio, fim)`, que recalcula as semanas
+  cinematográficas inteiras do período. Cada arquivo importado registra em `agregado_pendente`, na mesma transação,
+  as datas que tinha e as que tem agora; ao fim da carga os períodos são juntados e recalculados uma vez (uma carga
+  interrompida deixa pendências que a próxima processa). O cadastro de salas recalcula o histórico (UF, município e
+  assentos entram nos agregados). O painel não varre `sessoes`; só a curva de uma obra lê o fato direto (por índice).
+- **Dias consolidados** são regra de domínio (`DiasConsolidados`), aplicada em memória sobre `agregado_dia`.
 
 ## Modelo de dados
 
@@ -38,6 +45,11 @@ As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
 | `sessoes` | `id` | fato: obra, sala, data, início, público, áudio, legenda, `arquivo_id` |
 | `lancamentos` | `id` | público e renda totais por distribuidora (única fonte de R$) |
 | `arquivos_importados` | `id` (único por fonte + nome) | CRC32, tamanho, linhas, rejeitadas |
+| `agregado_dia` | `data` | salas que reportaram, sessões, público (base dos dias consolidados) |
+| `agregado_semana` | `semana` (quinta) | público, sessões, obras, salas e municípios distintos |
+| `agregado_semana_obra` | `semana`, `codigo_obra` | público, sessões, salas, assentos (ocupação), público dublado/original |
+| `agregado_semana_uf` | `semana`, `uf` | público, sessões, público estrangeiro e dublado, obra líder |
+| `agregado_pendente` | `id` | períodos importados ainda não recalculados nos agregados |
 
 ## Front
 
