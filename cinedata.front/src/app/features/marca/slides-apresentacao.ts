@@ -54,6 +54,7 @@ const duasCasas = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, max
   selector: 'cd-slides-apresentacao',
   imports: [Slide, Logo, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './slides-comum.css',
   host: { '[class.exportar]': 'exportar() !== undefined' },
   template: `
     @if (exportar() === undefined) {
@@ -200,35 +201,12 @@ const duasCasas = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, max
     </div>
   `,
   styles: `
-    .cabecalho { padding-top: 32px; display: flex; flex-direction: column; gap: 6px; }
-    .slides { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: var(--cd-gap); padding: 24px max(16px, calc((100% - 1200px) / 2)) 48px; }
-    .slides cd-slide { border: 1px solid var(--cd-linha); border-radius: 12px; overflow: hidden; }
-    :host(.exportar) .slides { display: flex; flex-direction: column; gap: 40px; padding: 0; }
-    :host(.exportar) .slides cd-slide { width: 1080px; border: 0; border-radius: 0; }
-
-    p { margin: 0; }
-    .rotulo { font-size: 3cqw; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--cd-projetor); margin-bottom: 3cqw; }
-    .numero { font-family: var(--cd-fonte-display); font-weight: 800; font-size: 15cqw; line-height: 1; letter-spacing: -0.04em; color: var(--cd-projetor); font-variant-numeric: tabular-nums; }
-    .numero.medio { font-size: 8cqw; }
-    .numero.apagado { color: var(--cd-tela-2); }
-    .manchete { font-family: var(--cd-fonte-display); font-weight: 700; font-size: 6cqw; line-height: 1.1; letter-spacing: -0.03em; margin-top: 2.5cqw; }
-    .manchete.pequena { font-size: 5cqw; font-weight: 600; }
-    .manchete.grande { font-size: 8.4cqw; line-height: 1.02; margin-top: 0; }
-    .destaque { color: var(--cd-projetor); }
-    .texto { font-size: 3.8cqw; line-height: 1.4; color: var(--cd-tela-2); }
-    .nota { font-size: 3.2cqw; line-height: 1.4; color: var(--cd-tela-2); margin-top: auto; }
-
     /* 1 */
-    .capa { flex: 1; display: flex; flex-direction: column; justify-content: center; }
     .capa .numero { font-size: 17cqw; }
     .capa .manchete { font-size: 8cqw; }
-    .arraste { font-size: 3.6cqw; color: var(--cd-tela-2); text-align: right; }
 
     /* 2 */
-    .texto + .chips { margin-top: 3cqw; }
     .manchete + .texto { margin-top: 4cqw; }
-    .chips { list-style: none; padding: 0; margin: 0; display: flex; gap: 2.4cqw; flex-wrap: wrap; }
-    .chips li { font-family: var(--cd-fonte-display); font-weight: 700; font-size: 4.2cqw; padding: 1.6cqw 3.2cqw; border-radius: 99cqw; background: var(--cd-poltrona); border: .3cqw solid var(--cd-linha); }
 
     /* 3 */
     .itens { list-style: none; padding: 0; margin: 0; flex: 1; display: flex; flex-direction: column; justify-content: space-around; }

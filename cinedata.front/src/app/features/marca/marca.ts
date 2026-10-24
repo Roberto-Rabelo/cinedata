@@ -70,7 +70,7 @@ interface Cor {
           <ul class="voz">
             <li><strong>O número primeiro.</strong> A manchete é o dado: "Filme X levou 1,2 milhão de pessoas ao cinema".</li>
             <li><strong>Contexto, não opinião.</strong> Comparar com a semana anterior, com outros estados, com o histórico.</li>
-            <li><strong>Sempre com fonte.</strong> Todo post termina com "Fonte: ANCINE/OCA".</li>
+            <li><strong>Sempre com fonte.</strong> Todo post termina com "Fonte: ANCINE (dados abertos)".</li>
             <li><strong>Brasileiro e regional.</strong> O leitor quer se ver no mapa: estado, cidade, sala.</li>
           </ul>
         </article>
@@ -85,6 +85,8 @@ interface Cor {
             <div class="esqueleto" style="aspect-ratio: 4 / 5"></div>
           }
           <a routerLink="/marca/apresentacao" class="secundario">Carrossel de apresentação (7 slides) →</a>
+          <a routerLink="/marca/top5-2026-10-08" class="secundario">Top 5 de 08 a 14/10 (3 slides) →</a>
+          <a routerLink="/marca/como-medimos" class="secundario">Como medimos (5 slides) →</a>
         </article>
       </div>
     </section>

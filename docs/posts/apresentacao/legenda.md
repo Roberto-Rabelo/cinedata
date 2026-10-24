@@ -4,7 +4,7 @@
 (`cinedata.front/src/app/features/marca/slides-apresentacao.ts`). Para regerar, com o front rodando:
 
 ```bash
-cd cinedata.front && node scripts/exportar-slides.mjs http://localhost:4300 ../docs/posts/apresentacao
+cd cinedata.front && node scripts/exportar-slides.mjs /marca/apresentacao ../docs/posts/apresentacao
 ```
 
 O script usa o Google Chrome instalado (playwright-core), confere que cada slide tem 1080×1350 e falha se algum

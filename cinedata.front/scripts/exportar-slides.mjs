@@ -1,20 +1,21 @@
 // Exporta os slides de uma rota do front em PNG 1080×1350, um arquivo por slide.
 // Uso (com o front rodando):
-//   node scripts/exportar-slides.mjs [url-base] [pasta-saida]
-//   node scripts/exportar-slides.mjs http://localhost:4300 ../docs/posts/apresentacao
+//   node scripts/exportar-slides.mjs <rota> <pasta-saida> [url-base]
+//   node scripts/exportar-slides.mjs /marca/apresentacao ../docs/posts/apresentacao http://localhost:4300
 // Usa o Google Chrome instalado (playwright-core, canal "chrome"), sem baixar navegador.
 import { mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright-core';
 
-const base = process.argv[2] ?? 'http://localhost:4300';
-const saida = resolve(process.argv[3] ?? '../docs/posts/apresentacao');
+const [rota, pasta, base = 'http://localhost:4300'] = process.argv.slice(2);
+if (!rota || !pasta) throw new Error('uso: node scripts/exportar-slides.mjs <rota> <pasta-saida> [url-base]');
+const saida = resolve(pasta);
 
 await mkdir(saida, { recursive: true });
 const navegador = await chromium.launch({ channel: 'chrome' });
 try {
   const pagina = await navegador.newPage({ viewport: { width: 1200, height: 1400 }, deviceScaleFactor: 1 });
-  await pagina.goto(`${base}/marca/apresentacao?exportar=1`, { waitUntil: 'networkidle' });
+  await pagina.goto(`${base}${rota}?exportar=1`, { waitUntil: 'networkidle' });
   await pagina.evaluate(() => document.fonts.ready);
   // O cabeçalho fixo do app cobriria o topo dos slides na captura.
   await pagina.addStyleTag({ content: 'app-root > header, app-root > footer { display: none !important; }' });
