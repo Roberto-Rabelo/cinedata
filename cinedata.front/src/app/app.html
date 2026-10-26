@@ -4,10 +4,10 @@
   <div class="conteudo barra">
     <a routerLink="/" aria-label="CineData, página inicial"><cd-logo /></a>
     <nav aria-label="Principal">
+      <a routerLink="/mapa" routerLinkActive="ativo">Mapa</a>
       <a routerLink="/" routerLinkActive="ativo" [routerLinkActiveOptions]="inicioAtivo">Semana</a>
       <a routerLink="/mes" routerLinkActive="ativo">Mês</a>
       <a routerLink="/ano" routerLinkActive="ativo">Ano</a>
-      <a routerLink="/mapa" routerLinkActive="ativo">Mapa</a>
       <a routerLink="/sobre" routerLinkActive="ativo">Como medimos</a>
       @if (comMarca) {
         <a routerLink="/marca" routerLinkActive="ativo">Marca</a>
