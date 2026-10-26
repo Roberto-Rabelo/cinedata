@@ -5,6 +5,7 @@ const moeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL
 const moedaCompacta = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', notation: 'compact', maximumFractionDigits: 1 });
 const diaMes = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', timeZone: 'UTC' });
 const diaMesAno = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
+const dataCurta = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', timeZone: 'UTC' });
 const diaSemana = new Intl.DateTimeFormat('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit', timeZone: 'UTC' });
 
 // Datas da API são DateOnly ("2026-10-08"); tratadas em UTC para não "voltar um dia" no fuso local.
@@ -56,6 +57,8 @@ export const formatar = {
   diaMes: (iso: string) => diaMes.format(data(iso)),
   diaMesAno: (iso: string) => diaMesAno.format(data(iso)),
   diaSemana: (iso: string) => diaSemana.format(data(iso)),
+  /** "19/09/24": tabelas no celular. */
+  dataCurta: (iso: string) => dataCurta.format(data(iso)),
   periodo: (inicio: string, fim: string) => `${diaMes.format(data(inicio))} a ${diaMesAno.format(data(fim))}`,
   titulo: tituloLegivel,
 };

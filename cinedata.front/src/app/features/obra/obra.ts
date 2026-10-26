@@ -21,6 +21,9 @@ export interface SemanaEmCartaz {
   parcial: boolean;
 }
 
+/** Abaixo disso, a semana anterior é pré-estreia: a variação seria absurda (+122.000%). A mesma regra da API. */
+const LIMITE_PRE_ESTREIA = 0.05;
+
 /** Agrupa a curva diária em semanas de quinta a quarta, numeradas a partir da primeira com sessão. */
 export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
   const semanas = new Map<string, SemanaEmCartaz>();
@@ -36,7 +39,8 @@ export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
   lista.forEach((s, i) => {
     s.numero = i + 1;
     const anterior = lista[i - 1];
-    s.variacaoPct = anterior?.publico && !s.parcial ? Math.round((1000 * (s.publico - anterior.publico)) / anterior.publico) / 10 : null;
+    const comparavel = anterior && anterior.publico >= s.publico * LIMITE_PRE_ESTREIA && !s.parcial;
+    s.variacaoPct = comparavel ? Math.round((1000 * (s.publico - anterior.publico)) / anterior.publico) / 10 : null;
   });
   return lista;
 }
@@ -111,9 +115,9 @@ export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
                       <td>{{ s.numero }}ª</td>
                       <td>
                         @if (temPagina(s.inicio)) {
-                          <a [routerLink]="linkPeriodo('semana', s.inicio)">{{ formatar.diaMesAno(s.inicio) }}</a>
+                          <a [routerLink]="linkPeriodo('semana', s.inicio)">{{ formatar.dataCurta(s.inicio) }}</a>
                         } @else {
-                          {{ formatar.diaMesAno(s.inicio) }}
+                          {{ formatar.dataCurta(s.inicio) }}
                         }
                         @if (s.parcial) { <span class="chip">parcial</span> }
                       </td>
@@ -163,6 +167,12 @@ export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
     td a:hover { text-decoration-color: var(--cd-tela); }
     td .chip { margin-left: 6px; }
     .n { text-align: right; }
+    @media (max-width: 640px) {
+      table { font-size: 13px; }
+      th { font-size: 11px; letter-spacing: .03em; padding-right: 8px; }
+      td { padding: 8px 8px 8px 0; white-space: normal; }
+      td .chip { margin: 2px 0 0; }
+    }
     .fonte { font-size: 13px; margin: 0; }
     .aviso { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
     .aviso h1 { font-size: 28px; margin: 0; }

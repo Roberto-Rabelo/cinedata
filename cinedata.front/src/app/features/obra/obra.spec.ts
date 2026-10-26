@@ -19,4 +19,9 @@ describe('semanasEmCartaz', () => {
     ]);
     expect(semanas.map(s => s.variacaoPct)).toEqual([null, -50, null]);
   });
+
+  it('não calcula variação contra semana de pré-estreia (menos de 5% do público)', () => {
+    const semanas = semanasEmCartaz([dia('2026-10-01', 474), dia('2026-10-08', 579_064), dia('2026-10-15', 797_813)]);
+    expect(semanas.map(s => s.variacaoPct)).toEqual([null, null, 37.8]);
+  });
 });
