@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { httpResource } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
 import { PainelPeriodo } from '../../core/api/modelos';
 import { rotasApi } from '../../core/api/rotas-api';
 import { Logo } from '../../shared/ui/logo';
@@ -14,7 +15,7 @@ interface Cor {
 
 @Component({
   selector: 'cd-marca',
-  imports: [Logo, PostRanking],
+  imports: [Logo, PostRanking, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="conteudo marca">
@@ -33,7 +34,7 @@ interface Cor {
           <cd-logo [tamanho]="48" />
           <div class="variantes">
             <cd-logo [tamanho]="28" [comNome]="false" />
-            <span class="secundario">Símbolo: um fotograma com três barras crescentes. A maior recebe a luz do projetor.</span>
+            <span class="secundario">Símbolo: o feixe âmbar do projetor ilumina três barras crescentes. A maior é âmbar.</span>
           </div>
         </article>
 
@@ -69,7 +70,7 @@ interface Cor {
           <ul class="voz">
             <li><strong>O número primeiro.</strong> A manchete é o dado: "Filme X levou 1,2 milhão de pessoas ao cinema".</li>
             <li><strong>Contexto, não opinião.</strong> Comparar com a semana anterior, com outros estados, com o histórico.</li>
-            <li><strong>Sempre com fonte.</strong> Todo post termina com "Fonte: ANCINE/OCA".</li>
+            <li><strong>Sempre com fonte.</strong> Todo post termina com "Fonte: ANCINE (dados abertos)".</li>
             <li><strong>Brasileiro e regional.</strong> O leitor quer se ver no mapa: estado, cidade, sala.</li>
           </ul>
         </article>
@@ -83,6 +84,10 @@ interface Cor {
           } @else {
             <div class="esqueleto" style="aspect-ratio: 4 / 5"></div>
           }
+          <a routerLink="/marca/apresentacao" class="secundario">Carrossel de apresentação (7 slides) →</a>
+          <a routerLink="/marca/top5-2026-10-08" class="secundario">Top 5 de 08 a 14/10 (3 slides) →</a>
+          <a routerLink="/marca/como-medimos" class="secundario">Como medimos (5 slides) →</a>
+          <a routerLink="/marca/halloween-terror-top10" class="secundario">Halloween: top 10 do terror (12 slides) →</a>
         </article>
       </div>
     </section>

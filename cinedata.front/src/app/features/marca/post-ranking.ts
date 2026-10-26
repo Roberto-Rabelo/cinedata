@@ -30,7 +30,7 @@ import { Logo } from '../../shared/ui/logo';
         }
       </ol>
       <p class="total">{{ formatar.compacto(painel().resumo.publico) }} ingressos no total</p>
-      <p class="fonte">Fonte: ANCINE/OCA · dados abertos · &#64;cinedata</p>
+      <p class="fonte">Fonte: ANCINE (dados abertos) · &#64;cinedata.br</p>
     </div>
   `,
   styles: `
