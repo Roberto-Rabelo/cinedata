@@ -8,11 +8,10 @@
 // Gera <pasta>/reels.mp4 (H.264, sem áudio: a música entra no Instagram) e <pasta>/capa.png.
 // Com REELS_PREVIA=3.5,10,21 (segundos) grava só esses quadros em <pasta>/previa-*.png, para ajustar o layout.
 // Precisa de ffmpeg no PATH e do Google Chrome instalado (playwright-core).
-import { execFileSync } from 'node:child_process';
-import { mkdir, mkdtemp, readFile, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { readFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright-core';
+import { gravarVideo } from './quadros.mjs';
 
 const [saidaArg, site = 'http://localhost:4320'] = process.argv.slice(2);
 if (!saidaArg) throw new Error('uso: node scripts/gerar-reels.mjs <pasta-saida> [url-do-site]');
@@ -213,47 +212,18 @@ const composicao = (telas, simbolo) => `<!doctype html><html><head><meta charset
   };
 </script></body></html>`;
 
-const pasta = await mkdtemp(join(tmpdir(), 'cd-reels-'));
+const simbolo = (await readFile(new URL('../public/favicon.svg', import.meta.url), 'utf8'))
+  .replace('<rect width="32" height="32" rx="7" fill="#0D0E12"/>', '')
+  .replace('<svg ', '<svg aria-hidden="true" ');
+const navegador = await chromium.launch({ channel: 'chrome' });
 try {
-  const simbolo = (await readFile(new URL('../public/favicon.svg', import.meta.url), 'utf8'))
-    .replace('<rect width="32" height="32" rx="7" fill="#0D0E12"/>', '')
-    .replace('<svg ', '<svg aria-hidden="true" ');
-  const navegador = await chromium.launch({ channel: 'chrome' });
-  try {
-    const telas = await capturarTelas(navegador);
-    const pagina = await navegador.newPage({ viewport: { width: 1080, height: 1920 } });
-    await pagina.setContent(composicao(telas, simbolo), { waitUntil: 'networkidle' });
-    await pagina.evaluate(() => document.fonts.ready);
-    const quadro = pagina.locator('#q');
-    await mkdir(saida, { recursive: true });
-    const previa = process.env.REELS_PREVIA?.split(',').map(Number);
-    if (previa) {
-      for (const t of previa) {
-        await pagina.evaluate(t => window.render(t), t);
-        await quadro.screenshot({ path: join(saida, `previa-${t}.png`) });
-      }
-      process.exit(0);
-    }
-    const total = FPS * DURACAO;
-    for (let i = 0; i < total; i++) {
-      await pagina.evaluate(t => window.render(t), i / FPS);
-      await quadro.screenshot({ path: join(pasta, `${String(i).padStart(4, '0')}.jpg`), type: 'jpeg', quality: 92 });
-      if (i % 150 === 0) console.log(`quadro ${i}/${total}`);
-    }
-    await pagina.evaluate(t => window.render(t), 13.2); // capa: o mapa com "27 de 27 estados"
-    await quadro.screenshot({ path: join(saida, 'capa.png') });
-  } finally {
-    await navegador.close();
-  }
-
-  execFileSync('ffmpeg', [
-    '-y', '-loglevel', 'error', '-framerate', String(FPS), '-i', join(pasta, '%04d.jpg'),
-    // Quadros JPEG vêm em faixa de cor cheia; o Instagram espera yuv420p em faixa de TV.
-    '-vf', 'scale=in_range=pc:out_range=tv,format=yuv420p', '-color_range', 'tv',
-    '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-profile:v', 'high',
-    '-movflags', '+faststart', join(saida, 'reels.mp4'),
-  ]);
-  console.log(`Pronto: ${join(saida, 'reels.mp4')} e capa.png`);
+  const telas = await capturarTelas(navegador);
+  const pagina = await navegador.newPage({ viewport: { width: 1080, height: 1920 } });
+  await pagina.setContent(composicao(telas, simbolo), { waitUntil: 'networkidle' });
+  await pagina.evaluate(() => document.fonts.ready);
+  // Capa: o mapa com "27 de 27 estados".
+  await gravarVideo(pagina, { fps: FPS, duracao: DURACAO, saida, nome: 'reels.mp4', capa: 13.2, previa: process.env.REELS_PREVIA?.split(',').map(Number) });
 } finally {
-  await rm(pasta, { recursive: true, force: true });
+  await navegador.close();
 }
+if (!process.env.REELS_PREVIA) console.log(`Pronto: ${join(saida, 'reels.mp4')} e capa.png`);

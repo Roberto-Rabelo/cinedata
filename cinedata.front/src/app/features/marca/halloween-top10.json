@@ -1,0 +1,108 @@
+{
+  "_comentario": "Top 10 do terror desde 2016 (lançamentos comerciais da ANCINE). Usado pelo carrossel (slides-halloween.ts) e pelo vídeo (scripts/gerar-video-halloween.mjs). Critério e SQL em docs/posts/halloween-terror-top10/legenda.md.",
+  "capa": "tfKxFPq4lel0bL80H0C6kGYKGEq.jpg",
+  "filmes": [
+    {
+      "posicao": 1,
+      "titulo": "A Freira",
+      "ano": 2018,
+      "publico": 5288640,
+      "renda": 76346873,
+      "imagem": "cMnVmutb5mVgIBeiMOncAbwNjvG.jpg",
+      "posicao4x5": "56% 50%"
+    },
+    {
+      "posicao": 2,
+      "titulo": "Invocação do Mal 4: O Último Ritual",
+      "ano": 2025,
+      "publico": 4677895,
+      "renda": 96662489,
+      "imagem": "i8MupUe4xgmYXoRNAQMYvuoexSU.jpg",
+      "posicao4x5": "55% 50%"
+    },
+    {
+      "posicao": 3,
+      "titulo": "It: A Coisa",
+      "ano": 2017,
+      "publico": 4424375,
+      "renda": 62062142,
+      "imagem": "qVGpxnjrGlHaSTCqTQI6viBDSfp.jpg",
+      "posicao4x5": "32% 50%"
+    },
+    {
+      "posicao": 4,
+      "titulo": "Invocação do Mal 2",
+      "ano": 2016,
+      "publico": 3613365,
+      "renda": 47172846,
+      "imagem": "mFCS5OuhPYT79KXu5jl7RqznPR1.jpg",
+      "posicao4x5": "50% 50%"
+    },
+    {
+      "posicao": 5,
+      "titulo": "It: Capítulo Dois",
+      "ano": 2019,
+      "publico": 3157825,
+      "renda": 47757632,
+      "imagem": "6LVSrgm83UYWlrLTCVGmWhFKYO0.jpg",
+      "posicao4x5": "68% 50%"
+    },
+    {
+      "posicao": 6,
+      "titulo": "A Freira 2",
+      "ano": 2023,
+      "publico": 3016574,
+      "renda": 55012523,
+      "imagem": "27jtaS1oCiLK5Y7P6iOXG2yj1Nc.jpg",
+      "posicao4x5": "60% 50%"
+    },
+    {
+      "posicao": 7,
+      "titulo": "Five Nights at Freddy's",
+      "ano": 2023,
+      "publico": 2960417,
+      "renda": 53664726,
+      "imagem": "7NRGAtu8E4343NSKwhkgmVRDINw.jpg",
+      "posicao4x5": "58% 50%"
+    },
+    {
+      "posicao": 8,
+      "titulo": "Annabelle 2: A Criação do Mal",
+      "ano": 2017,
+      "publico": 2957303,
+      "renda": 40538041,
+      "imagem": "o8u0NyEigCEaZHBdCYTRfXR8U4i.jpg",
+      "posicao4x5": "52% 50%"
+    },
+    {
+      "posicao": 9,
+      "titulo": "Órfã 2: A Origem",
+      "ano": 2022,
+      "publico": 2151675,
+      "renda": 27753514,
+      "imagem": "e77LAFvZq5KteWsKxuc5nP9B6OD.jpg",
+      "posicao4x5": "46% 50%"
+    },
+    {
+      "posicao": 10,
+      "titulo": "Five Nights at Freddy's 2",
+      "ano": 2025,
+      "publico": 1955358,
+      "renda": 38512639,
+      "imagem": "uuvN5g4hnl1DDVJH2gJz8euSTYP.jpg",
+      "posicao4x5": "72% 50%"
+    }
+  ],
+  "universoInvocacao": [
+    1,
+    2,
+    4,
+    6,
+    8
+  ],
+  "terrorNacional": {
+    "titulo": "Os Exterminadores do Além contra a Loira do Banheiro",
+    "ano": 2018,
+    "publico": 181695
+  }
+}

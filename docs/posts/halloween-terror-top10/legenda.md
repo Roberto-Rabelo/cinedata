@@ -9,6 +9,44 @@ foto do filme por slide. Sugestão de publicação: quinta (29/10) ou sexta (30/
 cd cinedata.front && node scripts/exportar-slides.mjs /marca/halloween-terror-top10 ../docs/posts/halloween-terror-top10
 ```
 
+## Reels (vídeo)
+
+`reels.mp4`: 1080×1920 (9:16), 30 fps, 41,8 s, H.264 sem áudio. `capa-reels.png`: capa (o nº 1 revelado). Mesmos
+dados do carrossel (`cinedata.front/src/app/features/marca/halloween-top10.json`), com as cenas de divulgação em 4K
+do TMDB quando há.
+
+```bash
+cd cinedata.front && node scripts/gerar-video-halloween.mjs ../docs/posts/halloween-terror-top10
+```
+
+| Tempo | Cena |
+| --- | --- |
+| 0–3,6 s | Abertura: o projetor liga piscando sobre A Freira; "Os 10 filmes de terror mais vistos nos cinemas do Brasil", 34,2 milhões desde 2016, "Do 10º ao 1º. Se tiver coragem." |
+| 3,6–26,1 s | Contagem regressiva do 10º ao 2º, 2,5 s cada: cena do filme se aproximando, lugar, título, ano, público contando, renda e barra contra o nº 1 |
+| 26,1–27,6 s | Suspense: tela escura, feixe piscando, "O terror mais visto do Brasil desde 2016 é…" |
+| 27,6–32,6 s | O nº 1: A Freira, 5.288.640 espectadores |
+| 32,6–37,4 s | O que a lista revela: 5 de 10 do universo Invocação do Mal; R$ 545,5 mi somando os 10; 181,7 mil no maior terror nacional |
+| 37,4–41,8 s | "Qual desses te deu mais medo?", logo, cinedatabr.tech, fonte e crédito das imagens |
+
+Entre as cenas, a tela apaga e a luz volta piscando, como um projetor trocando de rolo. Ao publicar: escolher um
+áudio de suspense/terror da biblioteca do Instagram; capa `capa-reels.png`.
+
+Legenda do Reels (~560 caracteres):
+
+```text
+Do 10º ao 1º: os filmes de terror mais vistos nos cinemas do Brasil desde 2016. 🎃
+
+Juntos, 34,2 milhões de espectadores. Metade da lista é do universo Invocação do Mal, e o nº 1… assiste até o fim. 👻
+
+Qual desses te deu mais medo? Conta aqui.
+
+O mapa do cinema e o Top 10 de toda semana estão em cinedatabr.tech (link na bio).
+
+Fonte: ANCINE (dados abertos), lançamentos comerciais. Bilheteria em valores da época. Imagens: divulgação.
+
+#halloween #filmesdeterror #terror #cinema #bilheteria #dadosabertos
+```
+
 ## Legenda
 
 Contagem: 1.162 caracteres (limite do Instagram: 2.200).
@@ -99,8 +137,8 @@ GROUP BY 1 HAVING sum(l.publico_total) >= 150000 ORDER BY 2 DESC;
 ## Imagens
 
 Cenas de divulgação dos estúdios, do The Movie Database (TMDB), carregadas direto de `image.tmdb.org` na hora de gerar
-o PNG (nenhum arquivo de imagem fica no repositório). Os arquivos de cada filme estão em `slides-halloween.ts`; a capa
-usa outra cena de A Freira. Crédito no slide ("Imagem: divulgação") e na legenda.
+o PNG e o vídeo (nenhum arquivo de imagem fica no repositório, só os PNGs e o MP4 finais). Os arquivos de cada filme
+estão em `halloween-top10.json`; a capa usa outra cena de A Freira. Crédito no slide ("Imagem: divulgação") e na legenda.
 
 | # | Filme | TMDB |
 | --- | --- | --- |

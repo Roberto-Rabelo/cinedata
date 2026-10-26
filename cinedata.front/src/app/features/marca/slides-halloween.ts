@@ -1,44 +1,24 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { formatar } from '../../shared/formatar';
+import dados from './halloween-top10.json';
 import { Slide } from './slide';
-
-interface FilmeTerror {
-  posicao: number;
-  titulo: string;
-  ano: number;
-  publico: number;
-  /** Renda total em R$, nominal (sem correção pela inflação). */
-  renda: number;
-  /** Cena de divulgação no TMDB e o object-position do recorte 4:5. */
-  imagem: string;
-  posicao4x5: string;
-}
 
 const tmdb = (arquivo: string) => `https://image.tmdb.org/t/p/w1280/${arquivo}`;
 
 /**
  * Os 10 filmes de terror mais vistos nos cinemas do Brasil entre os lançados desde 2016, pelo consolidado de
  * lançamentos comerciais da ANCINE (público e renda de toda a carreira do filme). Terror como gênero principal;
- * critério, exclusões e SQL em docs/posts/halloween-terror-top10/legenda.md.
+ * critério, exclusões e SQL em docs/posts/halloween-terror-top10/legenda.md. Os dados ficam em halloween-top10.json,
+ * que o vídeo (scripts/gerar-video-halloween.mjs) também lê. A renda é nominal (sem correção pela inflação); a imagem
+ * é uma cena de divulgação no TMDB, com o object-position do recorte 4:5.
  */
-const top10: FilmeTerror[] = [
-  { posicao: 1, titulo: 'A Freira', ano: 2018, publico: 5_288_640, renda: 76_346_873, imagem: tmdb('cMnVmutb5mVgIBeiMOncAbwNjvG.jpg'), posicao4x5: '56% 50%' },
-  { posicao: 2, titulo: 'Invocação do Mal 4: O Último Ritual', ano: 2025, publico: 4_677_895, renda: 96_662_489, imagem: tmdb('i8MupUe4xgmYXoRNAQMYvuoexSU.jpg'), posicao4x5: '55% 50%' },
-  { posicao: 3, titulo: 'It: A Coisa', ano: 2017, publico: 4_424_375, renda: 62_062_142, imagem: tmdb('qVGpxnjrGlHaSTCqTQI6viBDSfp.jpg'), posicao4x5: '32% 50%' },
-  { posicao: 4, titulo: 'Invocação do Mal 2', ano: 2016, publico: 3_613_365, renda: 47_172_846, imagem: tmdb('mFCS5OuhPYT79KXu5jl7RqznPR1.jpg'), posicao4x5: '50% 50%' },
-  { posicao: 5, titulo: 'It: Capítulo Dois', ano: 2019, publico: 3_157_825, renda: 47_757_632, imagem: tmdb('6LVSrgm83UYWlrLTCVGmWhFKYO0.jpg'), posicao4x5: '68% 50%' },
-  { posicao: 6, titulo: 'A Freira 2', ano: 2023, publico: 3_016_574, renda: 55_012_523, imagem: tmdb('27jtaS1oCiLK5Y7P6iOXG2yj1Nc.jpg'), posicao4x5: '60% 50%' },
-  { posicao: 7, titulo: "Five Nights at Freddy's", ano: 2023, publico: 2_960_417, renda: 53_664_726, imagem: tmdb('7NRGAtu8E4343NSKwhkgmVRDINw.jpg'), posicao4x5: '58% 50%' },
-  { posicao: 8, titulo: 'Annabelle 2: A\u00a0Criação do Mal', ano: 2017, publico: 2_957_303, renda: 40_538_041, imagem: tmdb('o8u0NyEigCEaZHBdCYTRfXR8U4i.jpg'), posicao4x5: '52% 50%' },
-  { posicao: 9, titulo: 'Órfã 2: A Origem', ano: 2022, publico: 2_151_675, renda: 27_753_514, imagem: tmdb('e77LAFvZq5KteWsKxuc5nP9B6OD.jpg'), posicao4x5: '46% 50%' },
-  { posicao: 10, titulo: "Five Nights at Freddy's 2", ano: 2025, publico: 1_955_358, renda: 38_512_639, imagem: tmdb('uuvN5g4hnl1DDVJH2gJz8euSTYP.jpg'), posicao4x5: '72% 50%' },
-];
+const top10 = dados.filmes.map(f => ({ ...f, imagem: tmdb(f.imagem) }));
 
 /** Universo Invocação do Mal: A Freira, Invocação 4, Invocação 2, A Freira 2 e Annabelle 2. */
-const universoInvocacao = [1, 2, 4, 6, 8];
+const universoInvocacao = dados.universoInvocacao;
 /** O terror brasileiro mais visto lançado desde 2016 (terror-comédia). */
-const terrorNacional = { titulo: 'Os Exterminadores do Além contra a Loira do Banheiro', ano: 2018, publico: 181_695 };
+const terrorNacional = dados.terrorNacional;
 
 const total = 12;
 /** Milhões com uma casa fixa ("55,0", não "55"), para os valores alinharem entre os slides. */
@@ -62,7 +42,7 @@ const milhoes = (n: number) => umaCasa.format(n / 1e6);
     }
     <div class="slides">
       <!-- 1. Capa -->
-      <cd-slide [numero]="1" [total]="total" fundo="https://image.tmdb.org/t/p/w1280/tfKxFPq4lel0bL80H0C6kGYKGEq.jpg"
+      <cd-slide [numero]="1" [total]="total" [fundo]="capa"
                 posicaoFundo="42% 50%" credito="Imagem: divulgação">
         <div class="capa base">
           <span class="rotulo">Especial de Halloween</span>
@@ -131,6 +111,7 @@ export class SlidesHalloween {
   readonly exportar = input<string>();
 
   protected readonly top10 = top10;
+  protected readonly capa = tmdb(dados.capa);
   protected readonly total = total;
   protected readonly terrorNacional = terrorNacional;
   protected readonly formatar = formatar;
