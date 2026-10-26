@@ -14,6 +14,7 @@ import { Metrica, origemDoCodigo, valorMetrica } from './metricas';
         <li>
           <button type="button" class="linha" [class.ativa]="u.uf === selecionada()" [class.realce]="u.uf === destacada()"
                   [attr.aria-pressed]="u.uf === selecionada()" (click)="escolher.emit(u.uf)"
+                  data-umami-event="mapa-estado" data-umami-event-origem="lista" [attr.data-umami-event-uf]="u.uf"
                   (mouseenter)="previa.emit(u.uf)" (mouseleave)="previa.emit(null)">
             <span class="pos num">{{ $index + 1 }}</span>
             <strong class="nome">{{ nome[u.uf] }}</strong>

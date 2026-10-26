@@ -36,7 +36,8 @@
         <section class="cartao mapa-cartao" aria-label="Mapa por estado">
           <div class="metricas" role="radiogroup" aria-label="O que o mapa mostra">
             @for (m of metricas; track m.valor) {
-              <button type="button" role="radio" [attr.aria-checked]="m.valor === metrica()" (click)="escolherMetrica(m.valor)">
+              <button type="button" role="radio" [attr.aria-checked]="m.valor === metrica()" (click)="escolherMetrica(m.valor)"
+                      data-umami-event="mapa-metrica" [attr.data-umami-event-metrica]="m.valor">
                 {{ m.rotulo }}
               </button>
             }
@@ -51,6 +52,7 @@
                 @for (f of vencedores(); track f.codigo) {
                   <li>
                     <a [routerLink]="['/obras', f.codigo]" [class.ativo]="realce()?.filme === f.codigo"
+                       data-umami-event="filme-aberto" data-umami-event-origem="mapa-vencedores" [attr.data-umami-event-filme]="f.codigo"
                        (mouseenter)="realce.set({ filme: f.codigo })" (mouseleave)="realce.set(null)"
                        (focus)="realce.set({ filme: f.codigo })" (blur)="realce.set(null)">
                       <span class="amostra" [style.background]="corOrigem[f.origem]"></span>
@@ -127,7 +129,7 @@
             @if (d.liderTitulo && d.liderCodigo) {
               <div class="lider">
                 <span class="rotulo">Filme mais visto</span>
-                <a class="lider-titulo" [routerLink]="['/obras', d.liderCodigo]">{{ formatar.titulo(d.liderTitulo) }} →</a>
+                <a class="lider-titulo" [routerLink]="['/obras', d.liderCodigo]" data-umami-event="filme-aberto" data-umami-event-origem="mapa-estado" [attr.data-umami-event-filme]="d.liderCodigo">{{ formatar.titulo(d.liderTitulo) }} →</a>
                 <span class="secundario num">
                   {{ formatar.inteiro(d.liderPublico) }} espectadores ·
                   {{ formatar.pct(d.publico ? (100 * d.liderPublico) / d.publico : 0) }} do público do estado
@@ -167,10 +169,10 @@
 
             <nav class="vizinhos" aria-label="Estados vizinhos no ranking">
               @if (d.acima; as a) {
-                <button type="button" (click)="escolher(a.uf)">← {{ a.posicao }}º {{ nomeUf[a.uf] }}</button>
+                <button type="button" (click)="escolher(a.uf)" data-umami-event="mapa-estado" data-umami-event-origem="vizinho" [attr.data-umami-event-uf]="a.uf">← {{ a.posicao }}º {{ nomeUf[a.uf] }}</button>
               }
               @if (d.abaixo; as b) {
-                <button type="button" (click)="escolher(b.uf)">{{ b.posicao }}º {{ nomeUf[b.uf] }} →</button>
+                <button type="button" (click)="escolher(b.uf)" data-umami-event="mapa-estado" data-umami-event-origem="vizinho" [attr.data-umami-event-uf]="b.uf">{{ b.posicao }}º {{ nomeUf[b.uf] }} →</button>
               }
             </nav>
           } @else {
@@ -196,7 +198,7 @@
             <div class="podio">
               <span class="rotulo">Onde mais se foi ao cinema</span>
               @for (u of ranking().slice(0, 3); track u.uf) {
-                <button type="button" class="podio-item" (click)="escolher(u.uf)">
+                <button type="button" class="podio-item" (click)="escolher(u.uf)" data-umami-event="mapa-estado" data-umami-event-origem="podio" [attr.data-umami-event-uf]="u.uf">
                   <span class="pos num">{{ u.posicao }}</span>
                   <span>{{ nomeUf[u.uf] }}</span>
                   <span class="num secundario">{{ formatar.compacto(u.publico) }}</span>

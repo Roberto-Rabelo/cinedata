@@ -12,7 +12,8 @@ import { formatar, rotuloOrigem } from '../formatar';
     <ol class="ranking">
       @for (item of itens(); track item.codigoObra) {
         <li>
-          <a class="linha" [routerLink]="['/obras', item.codigoObra]" [attr.aria-label]="descricao(item)">
+          <a class="linha" [routerLink]="['/obras', item.codigoObra]" [attr.aria-label]="descricao(item)"
+             data-umami-event="filme-aberto" data-umami-event-origem="top10" [attr.data-umami-event-filme]="item.codigoObra">
             <span class="pos num">{{ item.posicao }}</span>
             <span class="corpo">
               <span class="topo">

@@ -2,7 +2,8 @@
 //
 //   URL_SITE=https://cinedata.com.br node scripts/pos-build-estatico.mjs
 //
-// 1. Troca o marcador %URL_SITE% (og:url, og:image, canonical) pelo endereço público.
+// 1. Troca o marcador %URL_SITE% (og:url, og:image, canonical) pelo endereço público e, com UMAMI_ID, inclui o
+//    script do Umami (contagem de acessos sem cookies) em todas as páginas.
 // 2. Cria o 404.html a partir do index.csr.html (o app sem pré-render mostra a página "não encontrada").
 // 3. Gera sitemap.xml e robots.txt a partir de prerendered-routes.json.
 // 4. Mostra o tamanho do site.
@@ -15,6 +16,12 @@ const raiz = new URL('../dist/site/', import.meta.url).pathname;
 const site = join(raiz, 'browser');
 const urlSite = (process.env.URL_SITE ?? '').trim().replace(/\/+$/, '');
 const MARCADOR = '%URL_SITE%';
+const umamiId = (process.env.UMAMI_ID ?? '').trim();
+// data-domains: só conta acessos no endereço público (não no localhost de quem testa o build).
+const umami = umamiId
+  ? `<script defer src="https://cloud.umami.is/script.js" data-website-id="${umamiId}"` +
+    `${urlSite ? ` data-domains="${new URL(urlSite).hostname}"` : ''}></script>`
+  : '';
 
 if (!urlSite) console.warn('URL_SITE não definida: og:url, og:image e canonical ficam relativos e não há sitemap.');
 
@@ -33,7 +40,9 @@ for await (const arquivo of arquivos(site)) {
   bytes += (await stat(arquivo)).size;
   if (!/\.(html|js)$/.test(arquivo)) continue;
   const texto = await readFile(arquivo, 'utf8');
-  if (texto.includes(MARCADOR)) await writeFile(arquivo, texto.replaceAll(MARCADOR, urlSite));
+  let novo = texto.replaceAll(MARCADOR, urlSite);
+  if (umami && arquivo.endsWith('.html') && !novo.includes('cloud.umami.is')) novo = novo.replace('</head>', `${umami}</head>`);
+  if (novo !== texto) await writeFile(arquivo, novo);
 }
 
 await copyFile(join(site, 'index.csr.html'), join(site, '404.html'));
@@ -51,5 +60,5 @@ await writeFile(join(site, 'robots.txt'), `User-agent: *\nAllow: /\n${urlSite ? 
 
 console.log(
   `Site estático em ${site}: ${rotas.length} páginas pré-renderizadas, ${total} arquivos, ` +
-    `${(bytes / 1024 / 1024).toFixed(1)} MB${urlSite ? `, endereço ${urlSite}` : ''}.`,
+    `${(bytes / 1024 / 1024).toFixed(1)} MB${urlSite ? `, endereço ${urlSite}` : ''}${umami ? ', com Umami' : ', sem contagem de acessos'}.`,
 );

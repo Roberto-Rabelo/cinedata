@@ -55,7 +55,7 @@
         <article class="cartao numero-um" aria-labelledby="titulo-n1">
           <div class="n1-texto">
             <span class="rotulo">Nº 1 {{ doPeriodo[p.periodo.granularidade] }}</span>
-            <h2 id="titulo-n1" class="n1-titulo"><a [routerLink]="['/obras', l.codigoObra]">{{ formatar.titulo(l.titulo) }}</a></h2>
+            <h2 id="titulo-n1" class="n1-titulo"><a [routerLink]="['/obras', l.codigoObra]" data-umami-event="filme-aberto" data-umami-event-origem="numero-1" [attr.data-umami-event-filme]="l.codigoObra">{{ formatar.titulo(l.titulo) }}</a></h2>
             <div class="chips">
               @if (l.estreia) { <span class="chip chip--estreia">Estreia</span> }
               <span class="chip"><span class="amostra" [style.background]="corOrigem[l.origem]"></span>{{ rotuloOrigem[l.origem] }}</span>
@@ -72,7 +72,7 @@
                 <span class="secundario">vs. {{ periodoAnterior[p.periodo.granularidade] }}</span>
               </p>
             }
-            <a class="mais" [routerLink]="['/obras', l.codigoObra]">Curva de público completa →</a>
+            <a class="mais" [routerLink]="['/obras', l.codigoObra]" data-umami-event="filme-aberto" data-umami-event-origem="numero-1" [attr.data-umami-event-filme]="l.codigoObra">Curva de público completa →</a>
           </div>
           <figure class="n1-grafico">
             <figcaption class="rotulo">Público por dia {{ doPeriodo[p.periodo.granularidade] }}</figcaption>
@@ -137,7 +137,7 @@
           <span class="secundario">público por estado · toque num estado para ver o filme líder</span>
         </header>
         <cd-mapa-ufs [ufs]="p.ufs" />
-        <a class="mais abrir-mapa" [routerLink]="linkPeriodo(p.periodo.granularidade, p.periodo.inicio, ['mapa'])">Abrir o mapa interativo →</a>
+        <a class="mais abrir-mapa" data-umami-event="abrir-mapa" [routerLink]="linkPeriodo(p.periodo.granularidade, p.periodo.inicio, ['mapa'])">Abrir o mapa interativo →</a>
       </article>
 
       @if (mesDestaque(); as m) {
@@ -161,7 +161,7 @@
               @for (item of m.ranking.slice(0, 5); track item.codigoObra) {
                 <li>
                   <span class="pos num">{{ item.posicao }}</span>
-                  <a [routerLink]="['/obras', item.codigoObra]">{{ formatar.titulo(item.titulo) }}</a>
+                  <a [routerLink]="['/obras', item.codigoObra]" data-umami-event="filme-aberto" data-umami-event-origem="mes" [attr.data-umami-event-filme]="item.codigoObra">{{ formatar.titulo(item.titulo) }}</a>
                   <span class="num secundario">{{ formatar.compacto(item.publico) }}</span>
                 </li>
               }

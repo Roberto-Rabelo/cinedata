@@ -75,6 +75,13 @@ import { FONTE, Seo } from '../../shared/seo';
           </p>
         </section>
         <section>
+          <h2>Privacidade</h2>
+          <p>
+            Contamos as visitas para saber o que é mais útil: páginas vistas, de onde a pessoa veio e o que ela clicou
+            no mapa e na busca. Usamos o Umami, sem cookies e sem guardar dados pessoais ou endereço IP.
+          </p>
+        </section>
+        <section>
           <h2>Atualização</h2>
           <p>
             Uma vez por semana, depois que a ANCINE publica os dados novos. Arquivos antigos que a agência corrige são

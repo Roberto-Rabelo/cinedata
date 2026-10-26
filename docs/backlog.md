@@ -46,7 +46,9 @@ O que o POC provou e o que vem a seguir. Cada item vira uma issue no GitHub.
 - [x] Site público estático: export em JSON (`exportar`, 20 s, 15,7 MB), prerender de 2.178 páginas (semana, mês,
   trimestre, semestre, ano, obra) com Open Graph, script `publicar-semana` e workflow para GitHub/Cloudflare Pages
   ([publicacao.md](publicacao.md))
-- [ ] Ativar o destino do site (Cloudflare Pages ou GitHub Pages) e o domínio próprio
+- [x] Site publicado no GitHub Pages em cinedatabr.tech
+- [x] Contagem de acessos (Umami, sem cookies) com eventos do mapa, busca e filmes — falta criar a conta e o `UMAMI_ID`
+- [ ] Captura de e-mail ("receba o Top 10 toda semana") para medir interesse antes da assinatura
 - [ ] Imagem Open Graph por página (top 5 da semana em 1200×630), gerada no build
 - [x] Mapa interativo (`/mapa`): métricas por estado, detalhe com série navegável, quem venceu em cada estado
 - [ ] Top 5 por estado no detalhe do mapa (precisa de um agregado período × UF × obra)

@@ -141,6 +141,32 @@ Para conferir o DNS: `dig seudominio.com.br +short` deve listar os quatro IPs `1
 
 Sem `DESTINO_SITE` o workflow só gera o site e guarda como artefato por 7 dias (útil para conferir).
 
+## Acessos (Umami)
+
+O site conta visitas com o [Umami Cloud](https://umami.is): sem cookies (dispensa banner de consentimento) e sem
+guardar IP; a página `/sobre` avisa o leitor. O script só entra no site publicado, e só com a variável `UMAMI_ID`.
+
+**Ativar (uma vez):**
+1. Crie a conta em https://cloud.umami.is → **Add website** → nome `CineData`, domínio `cinedatabr.tech`.
+2. Copie o **Website ID** (Settings do site no Umami; um UUID).
+3. No GitHub: Settings → Secrets and variables → Actions → **Variables** → `UMAMI_ID` = o UUID.
+4. Rode o workflow **Publicar site**. O script vai em todas as páginas, com `data-domains="cinedatabr.tech"`
+   (acessos de teste em localhost não contam).
+
+**O que aparece no painel:** visitantes, páginas, de onde vieram (referrer e UTM), país, dispositivo e os eventos:
+
+| Evento | Quando | Dados |
+| --- | --- | --- |
+| `mapa-estado` | clique num estado | `uf`, `origem` (mapa, lista, vizinho, podio) |
+| `mapa-metrica` | troca do que o mapa mostra | `metrica` |
+| `filme-aberto` | clique num filme | `filme` (código), `origem` (top10, numero-1, mes, mapa-estado, mapa-vencedores) |
+| `busca` | resultado escolhido na busca | `termo`, `filme` |
+| `abrir-mapa`, `instagram`, `fonte-ancine` | cliques nesses links | — |
+
+Os eventos ficam em atributos `data-umami-event` no HTML dos componentes. Para medir o Instagram, use na bio
+`https://cinedatabr.tech/?utm_source=instagram&utm_medium=bio` (e `utm_medium=story` / `post` nos outros links): o
+Umami separa as visitas por campanha.
+
 ## Opção futura: tudo no GitHub Actions, com PostgreSQL temporário
 
 Hoje a ingestão roda na máquina local porque o banco tem o histórico inteiro (5,1 GB) e a ingestão é incremental.

@@ -39,7 +39,8 @@ export function filtrarObras(obras: ObraResumo[], termo: string, limite = 20): O
           } @else {
             @for (obra of encontradas(); track obra.codigo) {
               <li>
-                <a [routerLink]="['/obras', obra.codigo]" (click)="limpar()">
+                <a [routerLink]="['/obras', obra.codigo]" (click)="limpar()" data-umami-event="busca"
+                   [attr.data-umami-event-termo]="termo().trim().toLowerCase()" [attr.data-umami-event-filme]="obra.codigo">
                   <span class="titulo">{{ formatar.titulo(obra.titulo) }}</span>
                   <span class="secundario num">{{ rotuloOrigem[obra.origem] }} · {{ formatar.compacto(obra.publico) }}</span>
                 </a>

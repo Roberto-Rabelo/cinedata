@@ -6,6 +6,7 @@
 #   URL_SITE     = https://seu-dominio            (og:url, og:image, canonical e sitemap)
 #   BASE_HREF    = /cinedata/                     (só para GitHub Pages sem domínio próprio: usuario.github.io/cinedata)
 #   CLOUDFLARE_PROJETO = cinedata                 (nome do projeto no Cloudflare Pages)
+#   UMAMI_ID     = <website id do Umami>          (contagem de acessos; sem a variável o site sai sem analytics)
 # Segredos (só Cloudflare): CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID. Passo a passo em docs/publicacao.md.
 name: Publicar site
 
@@ -42,10 +43,11 @@ jobs:
         run: npx ng build --configuration estatico ${BASE_HREF:+--base-href "$BASE_HREF"}
         env:
           BASE_HREF: ${{ vars.BASE_HREF }}
-      - name: 404, sitemap, robots e endereço público
+      - name: 404, sitemap, robots, endereço público e analytics
         run: node scripts/pos-build-estatico.mjs
         env:
           URL_SITE: ${{ vars.URL_SITE }}
+          UMAMI_ID: ${{ vars.UMAMI_ID }}
       - name: Artefato do GitHub Pages
         if: vars.DESTINO_SITE == 'github-pages'
         uses: actions/upload-pages-artifact@v3
