@@ -8,6 +8,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0D0E12">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script>
+    // O host serve /mapa/ (pasta com index.html) e o Angular troca para /mapa. Normalizar antes de o contador de
+    // acessos ler o endereço evita contar a mesma visita duas vezes.
+    (function () {
+      var raiz = new URL(document.baseURI).pathname, caminho = location.pathname;
+      if (caminho !== raiz && caminho.length > 1 && caminho.slice(-1) === '/') {
+        history.replaceState(history.state, '', caminho.replace(/\/+$/, '') + location.search + location.hash);
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
