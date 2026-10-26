@@ -117,6 +117,28 @@ com o repositório público.
    (Settings → Pages → Custom domain), `URL_SITE=https://seu-dominio` e sem `BASE_HREF`.
 3. Rode o workflow **Publicar site**.
 
+#### Domínio próprio no GitHub Pages
+
+O deploy é por GitHub Actions, então **não precisa de arquivo `CNAME`** no site: o domínio fica nas configurações.
+
+1. **Verificar o domínio na conta** (protege contra outra conta usar o domínio): avatar → Settings → Pages → Add a
+   domain. O GitHub mostra um registro TXT (`_github-pages-challenge-<usuario>`) para criar no DNS; depois, Verify.
+2. **DNS** (no Registro.br: Editar zona; ou no provedor de DNS que você usa):
+   - Domínio raiz (`seudominio.com.br`): quatro registros **A** — `185.199.108.153`, `185.199.109.153`,
+     `185.199.110.153`, `185.199.111.153` — e, para IPv6, quatro **AAAA** — `2606:50c0:8000::153`,
+     `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`.
+   - `www`: um **CNAME** apontando para `<usuario>.github.io` (sem o nome do repositório).
+   - Apague registros A/AAAA/CNAME antigos do mesmo nome (página de estacionamento do registrador).
+3. **No repositório:** Settings → Pages → Custom domain → `seudominio.com.br` → Save. O GitHub checa o DNS
+   (a propagação leva de minutos a algumas horas).
+4. Quando o certificado sair (até ~24 h), marque **Enforce HTTPS**.
+5. **Variáveis do workflow:** `URL_SITE=https://seudominio.com.br` e **remova `BASE_HREF`** (com domínio próprio o
+   site fica na raiz). Rode o workflow **Publicar site** de novo para as páginas saírem com o endereço certo
+   (og:url, canonical, sitemap).
+
+Para conferir o DNS: `dig seudominio.com.br +short` deve listar os quatro IPs `185.199.x.153`, e
+`dig www.seudominio.com.br +short` deve mostrar `<usuario>.github.io`.
+
 Sem `DESTINO_SITE` o workflow só gera o site e guarda como artefato por 7 dias (útil para conferir).
 
 ## Opção futura: tudo no GitHub Actions, com PostgreSQL temporário
