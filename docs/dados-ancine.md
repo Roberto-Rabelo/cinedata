@@ -112,3 +112,5 @@ global, ~3.000 salas, era alta demais para a época). Com a janela móvel são 6
 anos quase vazios, fechamentos reais (mar–abr/2020, mar–abr/2021), Natal e Ano-Novo (as salas fecham de fato
 em 24, 25 e 31/12 e 1/1) e a cauda ainda chegando da ANCINE. Na publicação atual, a semana de 15/10 passa a contar
 como parcial (21/10 tem 2.894 salas, 86% da mediana recente), e o painel usa a de 08/10.
+
+Para conferir qualquer número à mão (banco, CSV original e Anuário), veja [verificacao.md](verificacao.md).
