@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IsActiveMatchOptions, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ambiente } from '../environments/ambiente';
+import { controlarRolagem } from './shared/rolagem';
 import { Busca } from './shared/ui/busca';
 import { Logo } from './shared/ui/logo';
 
@@ -21,4 +22,8 @@ export class App {
   };
   /** Páginas de identidade visual e posts: ferramenta interna, fora do site publicado. */
   protected readonly comMarca = ambiente.fonte === 'api';
+
+  constructor() {
+    controlarRolagem();
+  }
 }

@@ -19,6 +19,11 @@ export const serverRoutes: ServerRoute[] = [
     { path: valor, renderMode: RenderMode.Prerender },
     { path: `${valor}/:chave`, renderMode: RenderMode.Prerender, getPrerenderParams: chaves(valor) },
   ]),
+  { path: 'mapa', renderMode: RenderMode.Prerender },
+  ...granularidades.flatMap(({ valor }): ServerRoute[] => [
+    { path: `mapa/${valor}`, renderMode: RenderMode.Prerender },
+    { path: `mapa/${valor}/:chave`, renderMode: RenderMode.Prerender, getPrerenderParams: chaves(valor) },
+  ]),
   {
     path: 'obras/:codigo',
     renderMode: RenderMode.Prerender,

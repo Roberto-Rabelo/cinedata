@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, PLATFORM_ID, computed, effect, inject, input } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
-import { CurvaObra, Granularidade, IndiceSite, PainelPeriodo, Periodo } from '../../core/api/modelos';
+import { RouterLink } from '@angular/router';
+import { CurvaObra, Granularidade, IndiceSite, PainelPeriodo } from '../../core/api/modelos';
 import { rotasApi } from '../../core/api/rotas-api';
 import { BarraDividida, Fatia } from '../../shared/charts/barra-dividida';
 import { BarrasDia } from '../../shared/charts/barras-dia';
@@ -12,24 +11,19 @@ import { corOrigem, formatar, rotuloOrigem } from '../../shared/formatar';
 import {
   chavePeriodo,
   doPeriodo,
-  granularidades,
   inicioDaChave,
   inicioDoPeriodo,
   legendaGranularidade,
   lerGranularidade,
   oPeriodo,
-  linkGranularidade,
   linkPeriodo,
   periodoAnterior,
-  periodoVizinho,
-  rotuloOpcao,
   tituloPeriodo,
-  ultimoCompleto,
-  vizinhoPorExtenso,
 } from '../../shared/periodo';
 import { valorDe } from '../../shared/recurso';
 import { FONTE, Seo } from '../../shared/seo';
 import { Kpi } from '../../shared/ui/kpi';
+import { NavegacaoPeriodo } from '../../shared/ui/navegacao-periodo';
 
 const preposicao: Record<Granularidade, string> = { semana: 'de', mes: 'em', trimestre: 'no', semestre: 'no', ano: 'em' };
 
@@ -39,15 +33,13 @@ const preposicao: Record<Granularidade, string> = { semana: 'de', mes: 'em', tri
  */
 @Component({
   selector: 'cd-painel',
-  imports: [RouterLink, Kpi, RankingBarras, BarraDividida, MapaUfs, BarrasDia],
+  imports: [RouterLink, Kpi, RankingBarras, BarraDividida, MapaUfs, BarrasDia, NavegacaoPeriodo],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './painel.html',
   styleUrl: './painel.scss',
 })
 export class Painel {
-  private readonly router = inject(Router);
   private readonly seo = inject(Seo);
-  private readonly noNavegador = isPlatformBrowser(inject(PLATFORM_ID));
 
   /** Granularidade: dado da rota (/mes/2026-09) ou query param das URLs antigas (?periodo=mes). */
   readonly periodo = input<string>();
@@ -73,12 +65,6 @@ export class Painel {
     const data = this.dataPedida();
     return data === null ? undefined : rotasApi.painel(this.granularidade(), data);
   });
-  // A lista inteira (530 semanas) só serve ao seletor: fica fora do HTML pré-renderizado e chega depois.
-  protected readonly periodos = httpResource<Periodo[]>(
-    () => (this.noNavegador ? rotasApi.periodos(this.granularidade()) : undefined),
-    { defaultValue: [] },
-  );
-
   protected readonly lider = computed(() => this.dados()?.ranking[0] ?? null);
   protected readonly curvaLider = httpResource<CurvaObra>(() => {
     const lider = this.lider();
@@ -97,7 +83,6 @@ export class Painel {
   // Leituras seguras: um resource com erro lança exceção em value().
   protected readonly dados = computed(() => valorDe(this.painel));
   protected readonly indiceSite = computed(() => valorDe(this.indice));
-  protected readonly listaPeriodos = computed(() => valorDe(this.periodos) ?? []);
   protected readonly mesDestaque = computed(() => valorDe(this.mes));
 
   protected readonly naoEncontrado = computed(() => this.dataPedida() === null || this.painel.error() !== undefined);
@@ -114,37 +99,13 @@ export class Painel {
     return data ? inicioDoPeriodo(this.granularidade(), data) : '';
   });
 
-  /** Primeiro e último período com página: no site estático vêm do índice do export; na API, da lista de períodos. */
-  private readonly limites = computed(() => {
-    const doIndice = this.indiceSite()?.granularidades[this.granularidade()];
-    if (doIndice) return doIndice;
-    const lista = this.listaPeriodos();
-    return lista.length ? { primeiro: lista[lista.length - 1].inicio, ultimo: lista[0].inicio } : null;
-  });
-
-  protected readonly vizinhos = computed(() => {
-    const p = this.dados()?.periodo;
-    if (!p) return [null, null];
-    const g = p.granularidade;
-    const limites = this.limites();
-    return ([-1, 1] as const).map((passo, i) => {
-      const inicio = periodoVizinho(g, p.inicio, passo);
-      if (limites && (inicio < limites.primeiro || inicio > limites.ultimo)) return null;
-      return { link: linkPeriodo(g, inicio), rotulo: vizinhoPorExtenso[g][i] };
-    });
-  });
-
   protected readonly formatar = formatar;
-  protected readonly granularidades = granularidades;
   protected readonly doPeriodo = doPeriodo;
   protected readonly periodoAnterior = periodoAnterior;
-  protected readonly ultimoCompleto = ultimoCompleto;
   protected readonly legendaGranularidade = legendaGranularidade;
   protected readonly tituloPeriodo = tituloPeriodo;
-  protected readonly rotuloOpcao = rotuloOpcao;
   protected readonly rotuloOrigem = rotuloOrigem;
   protected readonly corOrigem = corOrigem;
-  protected readonly linkGranularidade = linkGranularidade;
   protected readonly linkPeriodo = linkPeriodo;
   protected readonly fonte = FONTE;
 
@@ -181,11 +142,6 @@ export class Painel {
       const p = this.dados();
       if (p) this.seo.definir(this.descreverPagina(p));
     });
-  }
-
-  protected escolherPeriodo(inicio: string) {
-    const g = this.granularidade();
-    void this.router.navigate(inicio ? linkPeriodo(g, inicio) : linkGranularidade(g));
   }
 
   private descreverPagina(p: PainelPeriodo) {

@@ -8,6 +8,7 @@ export interface RotasDados {
   painel(periodo?: Granularidade, data?: string, top?: number): string;
   buscarObras(busca: string): string;
   curvaObra(codigo: string): string;
+  serieUf(uf: string, periodo: Granularidade): string;
   /** Índice do export (data dos dados, limites e período padrão); a API não tem. */
   indice(): string | undefined;
   /** A busca devolve todas as obras do site e o front filtra (no estático não há quem filtre). */
@@ -31,6 +32,7 @@ export const rotasDaApi: RotasDados = {
   painel: (periodo, data, top = 10) => `${API}/painel${consulta({ periodo, data, top })}`,
   buscarObras: busca => `${API}/obras${consulta({ busca })}`,
   curvaObra: codigo => `${API}/obras/${encodeURIComponent(codigo)}/curva`,
+  serieUf: (uf, periodo) => `${API}/ufs/${uf}/serie${consulta({ periodo })}`,
   indice: () => undefined,
   buscaLocal: false,
 };
@@ -44,6 +46,7 @@ export const rotasEstaticas: RotasDados = {
   painel: (periodo = 'semana', data) => `${DADOS}/${periodo}/${data ? chavePeriodo(periodo, data) : 'padrao'}.json`,
   buscarObras: () => `${DADOS}/busca.json`,
   curvaObra: codigo => `${DADOS}/obras/${encodeURIComponent(codigo)}.json`,
+  serieUf: (uf, periodo) => `${DADOS}/ufs/${uf}/${periodo}.json`,
   indice: () => `${DADOS}/indice.json`,
   buscaLocal: true,
 };

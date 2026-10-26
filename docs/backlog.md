@@ -48,6 +48,9 @@ O que o POC provou e o que vem a seguir. Cada item vira uma issue no GitHub.
   ([publicacao.md](publicacao.md))
 - [ ] Ativar o destino do site (Cloudflare Pages ou GitHub Pages) e o domínio próprio
 - [ ] Imagem Open Graph por página (top 5 da semana em 1200×630), gerada no build
+- [x] Mapa interativo (`/mapa`): métricas por estado, detalhe com série navegável, quem venceu em cada estado
+- [ ] Top 5 por estado no detalhe do mapa (precisa de um agregado período × UF × obra)
+- [ ] Público por habitante no mapa (população do IBGE por UF)
 - [ ] Páginas por UF indexáveis (`/uf/sp`), com ranking e série do estado
 - [ ] Publicação semanal sem a máquina local: Actions agendado com PostgreSQL temporário ou `pg_dump` em cache
 - [ ] Enriquecimento com TMDB (pôster, gênero) — checar termos de uso comercial

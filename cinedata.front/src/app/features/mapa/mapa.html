@@ -1,0 +1,233 @@
+@if (naoEncontrado()) {
+  <section class="conteudo vazio">
+    <div class="cartao aviso" role="alert">
+      <h1>Período não encontrado</h1>
+      <p class="secundario">O endereço não corresponde a uma semana, mês, trimestre, semestre ou ano publicado.</p>
+      <a class="mais" routerLink="/mapa">Ver o mapa desta semana →</a>
+    </div>
+  </section>
+} @else {
+  <section class="abertura">
+    <div class="feixe" aria-hidden="true"></div>
+    <div class="conteudo">
+      <p class="sobretitulo">Mapa do cinema</p>
+      <h1 class="titulo-pagina">O Brasil que foi ao cinema</h1>
+      <p class="subtitulo">
+        @if (dados(); as p) {
+          <strong>{{ tituloPagina() }}</strong>
+          @if (!p.periodo.completo) {
+            <span class="chip parcial">parcial · {{ p.periodo.diasConsolidados }} de {{ p.periodo.dias }} dias consolidados</span>
+          }
+        }
+        @if (indiceSite(); as i) {
+          <span class="secundario">Dados da ANCINE até {{ formatar.diaMesAno(i.dadosAte) }}.</span>
+        }
+      </p>
+      <cd-navegacao-periodo class="navegacao" [granularidade]="granularidade()" [periodo]="dados()?.periodo"
+                            [selecionado]="selecionadoNav()" [secao]="['mapa']" [manterQuery]="true" />
+    </div>
+  </section>
+
+  <div class="conteudo corpo">
+    <p class="visualmente-oculto" aria-live="polite">{{ anuncio() }}</p>
+
+    @if (dados(); as p) {
+      <div class="palco">
+        <section class="cartao mapa-cartao" aria-label="Mapa por estado">
+          <div class="metricas" role="radiogroup" aria-label="O que o mapa mostra">
+            @for (m of metricas; track m.valor) {
+              <button type="button" role="radio" [attr.aria-checked]="m.valor === metrica()" (click)="escolherMetrica(m.valor)">
+                {{ m.rotulo }}
+              </button>
+            }
+          </div>
+
+          <cd-mapa-brasil [ufs]="p.ufs" [metrica]="metrica()" [selecionada]="selecionada()" [destacada]="previa()"
+                          [grupo]="grupo()" (escolher)="escolher($event)" (previa)="previa.set($event)" />
+
+          <div class="legenda">
+            @if (metrica() === 'lider') {
+              <ul class="vencedores">
+                @for (f of vencedores(); track f.codigo) {
+                  <li>
+                    <a [routerLink]="['/obras', f.codigo]" [class.ativo]="realce()?.filme === f.codigo"
+                       (mouseenter)="realce.set({ filme: f.codigo })" (mouseleave)="realce.set(null)"
+                       (focus)="realce.set({ filme: f.codigo })" (blur)="realce.set(null)">
+                      <span class="amostra" [style.background]="corOrigem[f.origem]"></span>
+                      <span class="vencedor">{{ formatar.titulo(f.titulo) }}</span>
+                      <span class="num secundario">{{ f.estados }} {{ f.estados === 1 ? 'estado' : 'estados' }}</span>
+                    </a>
+                  </li>
+                }
+              </ul>
+              <span class="secundario">Cor: <span class="amostra" [style.background]="corOrigem['Nacional']"></span> nacional
+                <span class="amostra" [style.background]="corOrigem['Estrangeira']"></span> estrangeiro. Passe o mouse num filme para ver onde ele venceu.</span>
+            } @else {
+              <span class="escala" aria-hidden="true"><span>menos</span><span class="gradiente"></span><span>mais</span></span>
+              @for (m of metricas; track m.valor) {
+                @if (m.valor === metrica()) { <span class="secundario">{{ m.legenda }}</span> }
+              }
+            }
+          </div>
+          <p class="instrucao secundario">Toque num estado para ver os detalhes. No teclado, setas andam pelo mapa.</p>
+        </section>
+
+        <aside #areaDetalhe class="cartao detalhe" aria-labelledby="titulo-detalhe">
+          @if (detalhe(); as d) {
+            <header class="detalhe-topo">
+              <div>
+                <span class="rotulo">{{ d.uf }} · {{ nomeRegiao[d.regiao] }}</span>
+                <h2 id="titulo-detalhe">{{ d.nome }}</h2>
+              </div>
+              <button type="button" class="fechar" (click)="escolher(null)" aria-label="Fechar e voltar ao Brasil">✕</button>
+            </header>
+
+            <p class="destaque">
+              <strong class="num">{{ formatar.inteiro(d.publico) }}</strong>
+              espectadores {{ doPeriodo[p.periodo.granularidade] }}
+            </p>
+            <div class="selos">
+              <span class="selo"><strong class="num">{{ d.posicao }}º</strong> de {{ ranking().length }} estados</span>
+              <span class="selo"><strong class="num">{{ formatar.pct(d.participacaoPct) }}</strong> do Brasil</span>
+              @if (p.periodo.completo && tendencia()?.variacaoPct; as v) {
+                <span class="selo num">
+                  <strong [class.variacao--alta]="v > 0" [class.variacao--queda]="v < 0">{{ v > 0 ? '▲' : '▼' }} {{ formatar.variacao(v) }}</strong>
+                  vs. {{ periodoAnterior[p.periodo.granularidade] }}
+                </span>
+              }
+            </div>
+
+            <dl class="comparacoes">
+              <div>
+                <dt>Sessões</dt>
+                <dd class="num">{{ formatar.inteiro(d.sessoes) }}</dd>
+              </div>
+              <div>
+                <dt>Pessoas por sessão</dt>
+                <dd class="num">
+                  {{ formatar.decimal(d.publicoMedioPorSessao) }}
+                  <small [class.variacao--alta]="d.publicoMedioPorSessao > p.resumo.publicoMedioPorSessao"
+                         [class.variacao--queda]="d.publicoMedioPorSessao < p.resumo.publicoMedioPorSessao">
+                    {{ d.publicoMedioPorSessao >= p.resumo.publicoMedioPorSessao ? '▲' : '▼' }}
+                  </small>
+                  <small class="secundario">Brasil {{ formatar.decimal(p.resumo.publicoMedioPorSessao) }}</small>
+                </dd>
+              </div>
+              <div>
+                <dt>Estrangeiros dublados</dt>
+                <dd class="num">
+                  @if (d.dubladoPctEstrangeiros !== null) {
+                    {{ formatar.pct(d.dubladoPctEstrangeiros) }}
+                    <small class="secundario">Brasil {{ formatar.pct(p.audio.dubladoPct) }}</small>
+                  } @else { — }
+                </dd>
+              </div>
+            </dl>
+
+            @if (d.liderTitulo && d.liderCodigo) {
+              <div class="lider">
+                <span class="rotulo">Filme mais visto</span>
+                <a class="lider-titulo" [routerLink]="['/obras', d.liderCodigo]">{{ formatar.titulo(d.liderTitulo) }} →</a>
+                <span class="secundario num">
+                  {{ formatar.inteiro(d.liderPublico) }} espectadores ·
+                  {{ formatar.pct(d.publico ? (100 * d.liderPublico) / d.publico : 0) }} do público do estado
+                </span>
+                @if (origemDoCodigo(d.liderCodigo); as origem) {
+                  <span class="chip"><span class="amostra" [style.background]="corOrigem[origem]"></span>{{ rotuloOrigem[origem] }}</span>
+                }
+              </div>
+            }
+
+            <div class="tendencia">
+              <span class="rotulo">Público {{ noEstado[d.uf] }}, período a período</span>
+              @if (tendencia(); as t) {
+                <div class="barras">
+                  @for (pt of t.pontos; track pt.inicio) {
+                    <a class="barra" [class.atual]="pt.atual" [routerLink]="linkPeriodo(p.periodo.granularidade, pt.inicio, ['mapa'])"
+                       queryParamsHandling="preserve" [state]="manterRolagem" [attr.aria-current]="pt.atual ? 'page' : null"
+                       [attr.aria-label]="rotuloCurto(p.periodo.granularidade, pt.inicio) + ': ' + formatar.inteiro(pt.publico) + ' espectadores, ' + pt.posicao + 'º lugar'">
+                      <span class="coluna" [style.height.%]="pt.altura"></span>
+                      <span class="dica-barra num" aria-hidden="true">{{ rotuloCurto(p.periodo.granularidade, pt.inicio) }} · {{ formatar.compacto(pt.publico) }}</span>
+                    </a>
+                  }
+                </div>
+                <div class="eixo" aria-hidden="true">
+                  <span>{{ rotuloCurto(p.periodo.granularidade, t.pontos[0].inicio) }}</span>
+                  <span>{{ rotuloCurto(p.periodo.granularidade, t.pontos[t.pontos.length - 1].inicio) }}</span>
+                </div>
+                <p class="nota secundario">
+                  Toque numa barra para ver o mapa daquele período.
+                  Recorde do estado: <strong class="num">{{ formatar.compacto(t.melhor.publico) }}</strong>
+                  {{ p.periodo.granularidade === 'semana' ? 'na semana de ' + formatar.diaMesAno(t.melhor.inicio) : 'em ' + rotuloCurto(p.periodo.granularidade, t.melhor.inicio) }}.
+                </p>
+              } @else {
+                <div class="esqueleto" style="height: 112px"></div>
+              }
+            </div>
+
+            <nav class="vizinhos" aria-label="Estados vizinhos no ranking">
+              @if (d.acima; as a) {
+                <button type="button" (click)="escolher(a.uf)">← {{ a.posicao }}º {{ nomeUf[a.uf] }}</button>
+              }
+              @if (d.abaixo; as b) {
+                <button type="button" (click)="escolher(b.uf)">{{ b.posicao }}º {{ nomeUf[b.uf] }} →</button>
+              }
+            </nav>
+          } @else {
+            <span class="rotulo">Brasil · {{ tituloPagina() }}</span>
+            <h2 id="titulo-detalhe" class="brasil-total"><span class="num">{{ formatar.compacto(p.resumo.publico) }}</span> espectadores</h2>
+            <p class="secundario convite">Escolha um estado no mapa para ver posição, filme mais visto e a evolução período a período.</p>
+
+            <div class="regioes">
+              <span class="rotulo">Por região</span>
+              @for (r of regioes(); track r.regiao) {
+                <button type="button" class="regiao" [class.ativa]="realce()?.regiao === r.regiao"
+                        (mouseenter)="realce.set({ regiao: r.regiao })" (mouseleave)="realce.set(null)"
+                        (focus)="realce.set({ regiao: r.regiao })" (blur)="realce.set(null)"
+                        (click)="r.lider && escolher(r.lider.uf)"
+                        [attr.aria-label]="r.nome + ': ' + formatar.pct(r.pct) + ' do público. Abrir ' + (r.lider ? nomeUf[r.lider.uf] : '')">
+                  <span class="regiao-nome">{{ r.nome }}</span>
+                  <span class="trilho"><span class="barra-regiao" [style.width.%]="r.pct"></span></span>
+                  <span class="num">{{ formatar.pct(r.pct) }}</span>
+                </button>
+              }
+            </div>
+
+            <div class="podio">
+              <span class="rotulo">Onde mais se foi ao cinema</span>
+              @for (u of ranking().slice(0, 3); track u.uf) {
+                <button type="button" class="podio-item" (click)="escolher(u.uf)">
+                  <span class="pos num">{{ u.posicao }}</span>
+                  <span>{{ nomeUf[u.uf] }}</span>
+                  <span class="num secundario">{{ formatar.compacto(u.publico) }}</span>
+                </button>
+              }
+            </div>
+          }
+          <a class="mais" [routerLink]="linkPeriodo(p.periodo.granularidade, p.periodo.inicio)">Top 10 do Brasil {{ doPeriodo[p.periodo.granularidade] }} →</a>
+        </aside>
+      </div>
+
+      <section class="cartao estados" aria-labelledby="titulo-estados">
+        <header class="titulo-cartao">
+          <h2 id="titulo-estados">Todos os estados</h2>
+          <span class="secundario">ordenados {{ metrica() === 'sessao' ? 'por pessoas por sessão' : metrica() === 'dublado' ? 'pela parcela dublada' : 'por público' }} · escolha um para ver o detalhe</span>
+        </header>
+        <cd-lista-estados [ufs]="p.ufs" [metrica]="metrica()" [selecionada]="selecionada()" [destacada]="previa()"
+                          (escolher)="escolher($event)" (previa)="previa.set($event)" />
+      </section>
+
+      <p class="fonte secundario">
+        {{ fonte }}. Estado da sala de exibição, pelo cadastro de salas da ANCINE. Parcela do Brasil = público do estado
+        ÷ soma dos estados no período.
+      </p>
+    } @else if (falhou()) {
+      <div class="cartao aviso" role="alert"><h2>Não foi possível carregar o mapa</h2></div>
+    } @else {
+      <div class="palco">
+        <div class="esqueleto" style="height: 560px"></div>
+        <div class="esqueleto" style="height: 560px"></div>
+      </div>
+    }
+  </div>
+}

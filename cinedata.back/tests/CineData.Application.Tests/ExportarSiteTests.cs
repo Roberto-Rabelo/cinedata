@@ -87,6 +87,19 @@ public class ExportarSiteTests
         Assert.Equal("Nacional", busca[1].Origem);
     }
 
+    [Fact]
+    public async Task Cada_uf_ganha_a_serie_de_cada_granularidade_so_com_os_periodos_exportados()
+    {
+        _consultas.Cobrir("2026-09-01", "2026-10-17");
+
+        await Exportar(desde: "2026-09-01");
+
+        Assert.Equal(27, _gravador.Arquivos.Keys.Count(k => k.StartsWith("ufs/") && k.EndsWith("/semana.json")));
+        var serie = Assert.IsType<SerieUfDto>(_gravador.Arquivos["ufs/SP/mes.json"]);
+        Assert.Equal([new DateOnly(2026, 9, 3)], serie.Pontos.Select(p => p.Inicio));
+        Assert.Equal("Sudeste", serie.Regiao);
+    }
+
     private Task<ResultadoExportacao> Exportar(string desde) =>
         new ExportarSite(new ServicoConsultas(_consultas), _consultas, _gravador, TimeProvider.System, NullLogger<ExportarSite>.Instance)
             .ExecutarAsync(new ExportarSiteComando(DateOnly.Parse(desde), Paralelismo: 2), default);
@@ -138,6 +151,14 @@ public class ExportarSiteTests
                 new UfDto("SP", "Sudeste", 500, 10, 50, Ranking.FirstOrDefault(), null, 300, null),
                 new UfDto("PE", "Nordeste", 100, 4, 25, LiderUf, null, 60, null),
                 new UfDto("AC", "Norte", 0, 0, 0, null, null, 0, null),
+            ]);
+
+        // Uma semana antes e outra depois do corte de 2026-09-01.
+        public Task<IReadOnlyList<PontoUfDto>> ObterSerieUfAsync(Granularidade granularidade, Uf uf, CancellationToken ct) =>
+            Task.FromResult<IReadOnlyList<PontoUfDto>>(
+            [
+                new PontoUfDto(new DateOnly(2026, 8, 27), 10, 1, 5, 2, null, null, 0, null),
+                new PontoUfDto(new DateOnly(2026, 9, 3), 20, 2, 6, 1, LiderUf, null, 15, null),
             ]);
 
         public Task<ResumoDto> ObterResumoAsync(Periodo periodo, CancellationToken ct) =>

@@ -62,6 +62,28 @@ export interface Uf {
   dubladoPctEstrangeiros: number | null;
 }
 
+export interface PontoUf {
+  inicio: string;
+  publico: number;
+  sessoes: number;
+  /** Parcela do público do Brasil no período. */
+  participacaoPct: number;
+  /** Posição entre as UFs por público no período (1 = maior). */
+  posicao: number;
+  liderCodigo: string | null;
+  liderTitulo: string | null;
+  liderPublico: number;
+  dubladoPctEstrangeiros: number | null;
+}
+
+/** Uma UF em todos os períodos de uma granularidade, do mais antigo ao mais recente. */
+export interface SerieUf {
+  uf: string;
+  regiao: string;
+  granularidade: Granularidade;
+  pontos: PontoUf[];
+}
+
 export interface OrigemResumo {
   origem: Origem;
   publico: number;

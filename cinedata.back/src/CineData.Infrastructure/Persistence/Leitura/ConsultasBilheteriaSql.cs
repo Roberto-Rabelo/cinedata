@@ -113,6 +113,32 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
             l.Dublado is { } d ? Math.Round(d, 1) : null)).ToList();
     }
 
+    public async Task<IReadOnlyList<PontoUfDto>> ObterSerieUfAsync(Granularidade granularidade, Uf uf, CancellationToken ct)
+    {
+        // Parcela e posição precisam de todas as UFs de cada período; ~27 × 600 linhas por granularidade (~40 ms).
+        await using var conexao = await dados.OpenConnectionAsync(ct);
+        var linhas = await conexao.QueryAsync<LinhaSerieUf>(new CommandDefinition("""
+            SELECT x.inicio::timestamp AS inicio, x.publico, x.sessoes, coalesce(x.participacao, 0) AS participacao, x.posicao,
+                   x.lider_codigo, coalesce(nullif(o.titulo_brasil, ''), o.titulo_original) AS lider_titulo,
+                   x.lider_publico, x.dublado
+            FROM (
+                SELECT u.inicio, u.uf, u.publico, u.sessoes, u.lider_codigo, u.lider_publico,
+                       u.publico::float8 / nullif(sum(u.publico) OVER (PARTITION BY u.inicio), 0) * 100 AS participacao,
+                       rank() OVER (PARTITION BY u.inicio ORDER BY u.publico DESC)::int AS posicao,
+                       u.publico_estrangeiro_dublado::float8 / nullif(u.publico_estrangeiro, 0) * 100 AS dublado
+                FROM agregado_periodo_uf u
+                WHERE u.granularidade = @g
+            ) x
+            LEFT JOIN obras o ON o.codigo = x.lider_codigo
+            WHERE x.uf = @uf
+            ORDER BY x.inicio
+            """, new { g = Granularidades.Nome(granularidade), uf = uf.Sigla }, cancellationToken: ct));
+
+        return linhas.Select(l => new PontoUfDto(
+            DateOnly.FromDateTime(l.Inicio), l.Publico, l.Sessoes, Math.Round(l.Participacao, 1), l.Posicao,
+            l.LiderCodigo, l.LiderTitulo, l.LiderPublico, l.Dublado is { } d ? Math.Round(d, 1) : null)).ToList();
+    }
+
     public async Task<IReadOnlyList<OrigemDto>> ObterPorOrigemAsync(Periodo periodo, CancellationToken ct)
     {
         await using var conexao = await dados.OpenConnectionAsync(ct);
@@ -242,6 +268,8 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
         double? Ocupacao, double Participacao, long? PublicoAnterior, bool Estreia);
     private sealed record LinhaUf(string Uf, long Publico, int Sessoes, double? Dublado, string? LiderCodigo,
         string? LiderTitulo, long LiderPublico);
+    private sealed record LinhaSerieUf(DateTime Inicio, long Publico, int Sessoes, double Participacao, int Posicao,
+        string? LiderCodigo, string? LiderTitulo, long LiderPublico, double? Dublado);
     private sealed record LinhaOrigem(string Prefixo, long Publico, int Obras, int Sessoes);
     private sealed record LinhaAudio(long Dublado, long Legendado);
     private sealed record LinhaObra(string Codigo, string Titulo, string TituloOriginal, string? Pais, DateTime? DataLancamento,

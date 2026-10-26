@@ -22,12 +22,12 @@
     <div class="conteudo">
       <p class="sobretitulo">{{ ehInicio() ? 'Esta semana no cinema' : legendaGranularidade[granularidade()] }}</p>
       @if (dados(); as p) {
-        <h1>{{ tituloPeriodo(p.periodo) }}</h1>
+        <h1 class="titulo-pagina">{{ tituloPeriodo(p.periodo) }}</h1>
         @if (manchete(); as frase) {
           <p class="manchete">{{ frase }}</p>
         }
       } @else {
-        <h1><span class="esqueleto titulo-esqueleto"></span></h1>
+        <h1 class="titulo-pagina"><span class="esqueleto titulo-esqueleto"></span></h1>
       }
       <p class="contexto secundario">
         @if (ehInicio()) {
@@ -45,31 +45,7 @@
         }
       </p>
 
-      <nav class="navegacao" aria-label="Escolha do período">
-        <div class="granularidades">
-          @for (g of granularidades; track g.valor) {
-            <a [routerLink]="linkGranularidade(g.valor)" [class.ativa]="g.valor === granularidade()"
-               [attr.aria-current]="g.valor === granularidade() ? 'true' : null">{{ g.rotulo }}</a>
-          }
-        </div>
-        <div class="passos">
-          @if (vizinhos()[0]; as v) {
-            <a class="passo" [routerLink]="v.link" rel="prev" [attr.aria-label]="v.rotulo">←<span>{{ v.rotulo }}</span></a>
-          }
-          <label class="seletor">
-            <span class="visualmente-oculto">Período</span>
-            <select (change)="escolherPeriodo($any($event.target).value)">
-              <option value="" [selected]="selecionado() === ''">{{ ultimoCompleto[granularidade()] }}</option>
-              @for (s of listaPeriodos(); track s.inicio) {
-                <option [value]="s.inicio" [selected]="s.inicio === selecionado()">{{ rotuloOpcao(s) }}</option>
-              }
-            </select>
-          </label>
-          @if (vizinhos()[1]; as v) {
-            <a class="passo" [routerLink]="v.link" rel="next" [attr.aria-label]="v.rotulo"><span>{{ v.rotulo }}</span>→</a>
-          }
-        </div>
-      </nav>
+      <cd-navegacao-periodo class="navegacao" [granularidade]="granularidade()" [periodo]="dados()?.periodo" [selecionado]="selecionado()" />
     </div>
   </section>
 
@@ -161,6 +137,7 @@
           <span class="secundario">público por estado · toque num estado para ver o filme líder</span>
         </header>
         <cd-mapa-ufs [ufs]="p.ufs" />
+        <a class="mais abrir-mapa" [routerLink]="linkPeriodo(p.periodo.granularidade, p.periodo.inicio, ['mapa'])">Abrir o mapa interativo →</a>
       </article>
 
       @if (mesDestaque(); as m) {

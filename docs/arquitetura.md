@@ -18,7 +18,7 @@ As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
 | **Domain** | Linguagem do negócio e invariantes | `CodigoObra` (CPB/ROE → origem), `SemanaCinematografica` (quinta a quarta), `Periodo` (semana, mês, trimestre, semestre, ano; anterior equivalente), `DiasConsolidados` (dia e período completos), `Uf` (com região), `Sessao`, `Sala`, `Lancamento`, `ArquivoImportado` (versão por CRC) |
 | **Application** | Casos de uso e portas | `ImportarBilheteria` (incremental por CRC), `ImportarCadastros`, `ServicoConsultas` (período padrão por granularidade, completude, validações), `CoberturaPeriodos`, `ExportarSite` (site estático), `ChavePeriodo`; interfaces `IFonteDadosAncine`, `ILeitorCsvAncine`, `IRepositorio*`, `IConsultasBilheteria`, `IGravadorSite` |
 | **Infrastructure** | Adaptadores | `ZipRemoto` (HTTP Range), `LeitorCsvAncine` (CsvHelper), `CineDataDbContext` (EF Core + snake_case), upserts com `unnest`, `COPY` binário, `ConsultasBilheteriaSql` (Dapper), `GravadorSiteArquivos` (JSON do site, troca atômica da pasta) |
-| **Api** | Entrega HTTP | Minimal APIs em `/api/v1` (`periodo=semana\|mes\|trimestre\|semestre\|ano` + `data` em `/painel`, `/ranking`, `/ufs`; lista em `/periodos`), `ProblemDetails` para 400/404, OpenAPI + Scalar em `/scalar` |
+| **Api** | Entrega HTTP | Minimal APIs em `/api/v1` (`periodo=semana\|mes\|trimestre\|semestre\|ano` + `data` em `/painel`, `/ranking`, `/ufs`; lista em `/periodos`; série de um estado em `/ufs/{uf}/serie`), `ProblemDetails` para 400/404, OpenAPI + Scalar em `/scalar` |
 | **Ingestion** | Entrega CLI | `amostra`, `bilheteria`, `cadastros`, `migrar`, `exportar <pasta> [desde]` (só lê o banco) |
 
 ## Escrita × leitura (CQRS leve)
@@ -73,7 +73,7 @@ Em desenvolvimento o `ng serve` faz proxy de `/api` para `localhost:5232` (`prox
 - **Páginas:** `/` ("esta semana no cinema": a última semana completa, com o nº 1 em destaque, Top 10, KPIs,
   nacional × estrangeiro, dublado × legendado, mapa por UF e o último mês completo), `/{g}` e `/{g}/{chave}` para
   semana, mês, trimestre, semestre e ano (`/mes/2026-09`, `/trimestre/2025-t3`), `/obras/{codigo}` (curva diária e
-  semana a semana) e `/sobre` (como medimos). A granularidade vem do `data` da rota e a chave do caminho; as URLs
+  semana a semana), `/mapa` (mapa interativo, abaixo) e `/sobre` (como medimos). A granularidade vem do `data` da rota e a chave do caminho; as URLs
   antigas (`/?periodo=trimestre&data=2025-07-01`) continuam valendo. Sem chave, o último período completo.
 - **Fonte dos dados por configuração:** `environments/ambiente.ts` (`api`) ou `ambiente.estatico.ts` (`estatico`,
   via `fileReplacements`); `core/api/rotas-api.ts` escolhe entre `rotasDaApi` e `rotasEstaticas` (JSON do export).
@@ -81,6 +81,14 @@ Em desenvolvimento o `ng serve` faz proxy de `/api` para `localhost:5232` (`prox
 - **Site estático:** build `estatico` (`outputMode: static`, `server: main.server.ts`), prerender de cada período e
   obra exportados (`app.routes.server.ts`), hidratação com transfer cache, `<title>`/Open Graph/canonical por página
   (`shared/seo.ts`). Detalhes e publicação em [publicacao.md](publicacao.md).
+- **Mapa** (`features/mapa`): `/mapa`, `/mapa/{g}`, `/mapa/{g}/{chave}`, com o estado e a métrica na query
+  (`?uf=PE&ver=dublado`), para o link compartilhado abrir igual. Quadrados na posição aproximada de cada estado
+  (`shared/ufs.ts`), pintados por público, pessoas por sessão, % dublado ou origem do filme vencedor; setas do teclado
+  andam pela grade. O detalhe do estado traz posição, parcela do Brasil, comparação com a média nacional, filme líder
+  e a série do estado (`SerieUfDto`: parcela e posição calculadas com janela sobre `agregado_periodo_uf`, ~40 ms);
+  cada barra da série leva ao mapa daquele período sem perder o estado. Lista dos 27 estados como alternativa sem cor.
+  A navegação de período (`shared/ui/navegacao-periodo.ts`) é a mesma do painel. Trocar só a query não volta ao topo
+  da página (`shared/rolagem.ts`).
 - Rótulos curtos vêm da API ("out/2026", "3º tri 2025"); títulos por extenso, chaves de URL e vizinhos ficam em
   `shared/periodo.ts`. Em período parcial o front não mostra variação. Títulos da ANCINE (caixa alta) são exibidos em
   caixa de título (`formatar.titulo`). As páginas `/marca/*` (posts, identidade) só existem no modo `api`.

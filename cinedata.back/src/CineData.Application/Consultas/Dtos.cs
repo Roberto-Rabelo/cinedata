@@ -64,6 +64,23 @@ public sealed record UfDto(
     long LiderPublico,
     double? DubladoPctEstrangeiros);
 
+/// <summary>Uma UF em cada período de uma granularidade, do mais antigo ao mais recente: a série do mapa.</summary>
+/// <param name="Regiao">Norte, Nordeste, CentroOeste, Sudeste ou Sul (como em <see cref="UfDto"/>).</param>
+public sealed record SerieUfDto(string Uf, string Regiao, string Granularidade, IReadOnlyList<PontoUfDto> Pontos);
+
+/// <param name="ParticipacaoPct">Parcela do público do Brasil no período.</param>
+/// <param name="Posicao">Posição entre as UFs por público no período (1 = a de maior público).</param>
+public sealed record PontoUfDto(
+    DateOnly Inicio,
+    long Publico,
+    int Sessoes,
+    double ParticipacaoPct,
+    int Posicao,
+    string? LiderCodigo,
+    string? LiderTitulo,
+    long LiderPublico,
+    double? DubladoPctEstrangeiros);
+
 public sealed record OrigemDto(string Origem, long Publico, int Obras, int Sessoes, double ParticipacaoPct);
 
 /// <summary>Só obras estrangeiras: dublado vs. áudio original (legendado).</summary>

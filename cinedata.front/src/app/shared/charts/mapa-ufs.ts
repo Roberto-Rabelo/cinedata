@@ -2,18 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, signal } from '@an
 import { RouterLink } from '@angular/router';
 import { Uf } from '../../core/api/modelos';
 import { formatar } from '../formatar';
-
-// Cartograma em grade: cada UF ocupa um quadrado na posição aproximada do mapa (coluna, linha).
-const GRADE: Record<string, [number, number]> = {
-  RR: [2, 1], AP: [4, 1],
-  AM: [2, 2], PA: [3, 2], MA: [4, 2], CE: [5, 2], RN: [6, 2],
-  AC: [1, 3], RO: [2, 3], TO: [3, 3], PI: [4, 3], PE: [5, 3], PB: [6, 3],
-  MT: [2, 4], GO: [3, 4], BA: [4, 4], SE: [5, 4], AL: [6, 4],
-  MS: [2, 5], DF: [3, 5], MG: [4, 5], ES: [5, 5],
-  PR: [2, 6], SP: [3, 6], RJ: [4, 6],
-  SC: [2, 7],
-  RS: [2, 8],
-};
+import { GRADE, NOME_REGIAO } from '../ufs';
 
 /** Público por UF em escala sequencial de um só tom (âmbar), com detalhe da UF em foco. */
 @Component({
@@ -45,7 +34,7 @@ const GRADE: Record<string, [number, number]> = {
       </div>
       <div class="lado">
         @if (foco(); as uf) {
-          <span class="rotulo">{{ uf.uf }} · {{ uf.regiao }}</span>
+          <span class="rotulo">{{ uf.uf }} · {{ NOME_REGIAO[uf.regiao] }}</span>
           <strong class="grande num">{{ formatar.inteiro(uf.publico) }}</strong>
           <span class="secundario">espectadores em {{ formatar.inteiro(uf.sessoes) }} sessões</span>
           @if (uf.liderTitulo) {
@@ -91,6 +80,7 @@ export class MapaUfs {
   readonly ufs = input.required<Uf[]>();
   protected readonly selecionada = signal<string | null>(null);
   protected readonly formatar = formatar;
+  protected readonly NOME_REGIAO = NOME_REGIAO;
 
   protected readonly ufsOrdenadas = computed(() => this.ufs().filter(u => GRADE[u.uf]));
   private readonly maximo = computed(() => Math.max(1, ...this.ufs().map(u => u.publico)));

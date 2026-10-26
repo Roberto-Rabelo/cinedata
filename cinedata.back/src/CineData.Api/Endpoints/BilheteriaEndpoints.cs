@@ -27,6 +27,11 @@ internal static class BilheteriaEndpoints
                 s.ObterPorUfAsync(periodo, data, ct))
             .WithSummary("Público por UF, filme líder e % de público dublado entre estrangeiros no período.");
 
+        api.MapGet("/ufs/{uf}/serie", (ServicoConsultas s, string uf, string? periodo, CancellationToken ct) =>
+                s.ObterSerieUfAsync(uf, periodo, ct))
+            .WithSummary("Uma UF em todos os períodos da granularidade (semana por padrão): público, parcela do Brasil, " +
+                "posição entre os estados e filme líder.");
+
         api.MapGet("/obras", (ServicoConsultas s, string? busca, CancellationToken ct) => s.BuscarObrasAsync(busca, ct))
             .WithSummary("Busca obras pelo título (original ou no Brasil).");
 

@@ -177,11 +177,20 @@ export function periodoVizinho(granularidade: Granularidade, inicio: string, pas
   return iso(d);
 }
 
-/** Endereço da página do período: /semana/2026-10-08, /mes/2026-09, /ano/2025. */
-export const linkPeriodo = (granularidade: Granularidade, inicio: string) => ['/', granularidade, chavePeriodo(granularidade, inicio)];
+/** Endereço da página do período: /semana/2026-10-08, /mes/2026-09, /ano/2025; no mapa, /mapa/mes/2026-09. */
+export const linkPeriodo = (granularidade: Granularidade, inicio: string, secao: string[] = []) => [
+  '/',
+  ...secao,
+  granularidade,
+  chavePeriodo(granularidade, inicio),
+];
 
-/** Página padrão da granularidade (último período completo): a semana é a página inicial. */
-export const linkGranularidade = (granularidade: Granularidade) => (granularidade === 'semana' ? ['/'] : ['/', granularidade]);
+/** Página padrão da granularidade (último período completo): a semana é a raiz da seção (/ ou /mapa). */
+export const linkGranularidade = (granularidade: Granularidade, secao: string[] = []) => [
+  '/',
+  ...secao,
+  ...(granularidade === 'semana' ? [] : [granularidade]),
+];
 
 /** "semana anterior", "próximo mês": rótulo dos links de navegação. */
 export const vizinhoPorExtenso: Record<Granularidade, [string, string]> = {

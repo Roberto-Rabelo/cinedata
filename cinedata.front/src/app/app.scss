@@ -12,8 +12,10 @@ main:focus { outline: none; }
 .rodape a { color: var(--cd-tela); text-decoration: underline; text-decoration-color: var(--cd-linha); text-underline-offset: 3px; }
 .rodape a:hover { text-decoration-color: var(--cd-tela); }
 .aviso-legal { margin: 0; color: var(--cd-tela-3); }
+// No celular o menu vira uma segunda linha rolável e o cabeçalho deixa de ser fixo (sobra tela para o conteúdo).
 @media (max-width: 860px) {
-  .barra { gap: 12px; }
-  nav { display: none; }
-  cd-busca { margin-left: auto; }
+  .topo { position: static; }
+  .barra { flex-wrap: wrap; height: auto; padding-block: 12px 8px; gap: 8px 12px; }
+  nav { order: 3; flex-basis: 100%; overflow-x: auto; scrollbar-width: none; margin-inline: -12px; padding-inline: 8px; }
+  cd-busca { margin-left: auto; flex: 1; max-width: 240px; }
 }

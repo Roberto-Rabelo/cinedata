@@ -38,7 +38,9 @@ marca aparece no site só como marca: logo, foco, sobretítulos e o feixe decora
 
 Home "esta semana no cinema": título da semana por extenso em Bricolage 800, manchete com o número do nº 1, cartão do
 nº 1 com público em destaque e barras do público por dia, depois KPIs, Top 10, nacional × estrangeiro, dublado ×
-legendado, mapa e o último mês. Títulos de filmes em caixa de título (a ANCINE manda em caixa alta). Nada de pôster
+legendado, mapa e o último mês. Mapa interativo (`/mapa`): quadrados por estado em um só tom de âmbar de dado (ou
+verde/azul em "quem venceu"); o estado escolhido ganha contorno na cor da tela e os outros apagam (foco e contexto);
+a lista dos estados repete o dado sem depender da cor. Títulos de filmes em caixa de título (a ANCINE manda em caixa alta). Nada de pôster
 ou foto de filme. Imagem de compartilhamento 1200×630: `cinedata.front/public/og-cinedata.png` (fonte em
 `docs/marca/og-cinedata.html`). Rodapé de toda página: "Fonte: ANCINE (dados abertos)".
 

@@ -123,6 +123,22 @@ public class ServicoConsultasTests
             new ServicoConsultas(_consultas).ObterRankingAsync(null, new DateOnly(2026, 10, 8), top, default));
 
     [Fact]
+    public async Task Serie_da_uf_aceita_sigla_minuscula_e_traz_regiao_e_granularidade()
+    {
+        var serie = await new ServicoConsultas(_consultas).ObterSerieUfAsync(" pe ", "mes", default);
+
+        Assert.Equal(("PE", "Nordeste", "mes"), (serie.Uf, serie.Regiao, serie.Granularidade));
+        Assert.Equal(Granularidade.Mes, _consultas.GranularidadeDaSerie);
+        Assert.Single(serie.Pontos);
+    }
+
+    [Theory]
+    [InlineData("XX")]
+    [InlineData("São Paulo")]
+    public async Task Serie_de_uf_inexistente_e_invalida(string uf) =>
+        await Assert.ThrowsAsync<ValidacaoException>(() => new ServicoConsultas(_consultas).ObterSerieUfAsync(uf, null, default));
+
+    [Fact]
     public async Task Curva_com_codigo_invalido_e_invalida() =>
         await Assert.ThrowsAsync<ValidacaoException>(() =>
             new ServicoConsultas(_consultas).ObterCurvaObraAsync("abc", default));
@@ -146,6 +162,14 @@ public class ServicoConsultasTests
         {
             PeriodoConsultado = periodo;
             return Task.FromResult<IReadOnlyList<ItemRankingDto>>([]);
+        }
+
+        public Granularidade? GranularidadeDaSerie { get; private set; }
+
+        public Task<IReadOnlyList<PontoUfDto>> ObterSerieUfAsync(Granularidade granularidade, Uf uf, CancellationToken ct)
+        {
+            GranularidadeDaSerie = granularidade;
+            return Task.FromResult<IReadOnlyList<PontoUfDto>>([new PontoUfDto(new DateOnly(2026, 9, 1), 100, 4, 30, 1, null, null, 0, null)]);
         }
 
         public Task<ResumoDto> ObterResumoAsync(Periodo periodo, CancellationToken ct) =>

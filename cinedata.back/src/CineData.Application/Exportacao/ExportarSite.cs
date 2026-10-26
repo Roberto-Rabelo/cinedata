@@ -24,7 +24,8 @@ public sealed record ExportarSiteComando(DateOnly Desde, int Top = 10, int Paral
 /// </summary>
 /// <remarks>
 /// Layout: <c>indice.json</c>; por granularidade, <c>{g}/periodos.json</c>, <c>{g}/padrao.json</c> e
-/// <c>{g}/{chave}.json</c> (<see cref="ChavePeriodo"/>); <c>obras/{codigo}.json</c> para cada obra que aparece num
+/// <c>{g}/{chave}.json</c> (<see cref="ChavePeriodo"/>); <c>ufs/{UF}/{g}.json</c> (série do estado);
+/// <c>obras/{codigo}.json</c> para cada obra que aparece num
 /// ranking ou como líder de UF; <c>busca.json</c> com essas obras.
 /// </remarks>
 public sealed class ExportarSite(
@@ -70,6 +71,14 @@ public sealed class ExportarSite(
             obras.Coletar(padrao);
             await saida.GravarAsync($"{nome}/padrao.json", padrao, ct);
             await saida.GravarAsync($"{nome}/periodos.json", periodos, ct);
+
+            // A série de cada UF (painel do estado no mapa), só com os períodos que têm página.
+            foreach (var uf in Uf.Todas.Order(StringComparer.Ordinal))
+            {
+                var serie = await servico.ObterSerieUfAsync(uf, nome, ct);
+                await saida.GravarAsync($"ufs/{uf}/{nome}.json",
+                    serie with { Pontos = serie.Pontos.Where(p => p.Inicio >= comando.Desde).ToList() }, ct);
+            }
 
             granularidades[nome] = new GranularidadeSiteDto(padrao.Periodo.Inicio, periodos[^1].Inicio, periodos[0].Inicio, periodos.Count);
             periodosExportados += periodos.Count;

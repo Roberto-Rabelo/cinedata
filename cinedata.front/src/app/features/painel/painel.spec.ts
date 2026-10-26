@@ -46,7 +46,7 @@ describe('Painel', () => {
 
   it('chave que não é da granularidade vira "período não encontrado" sem pedir o painel', () => {
     const { fixture, urls } = abrir({ periodo: 'semana', chave: '2026-t3' });
-    expect(urls).toEqual(['/api/v1/periodos?periodo=semana']);
+    expect(urls).toEqual([]);
     expect((fixture.nativeElement as HTMLElement).querySelector('h1')?.textContent).toContain('Período não encontrado');
   });
 });

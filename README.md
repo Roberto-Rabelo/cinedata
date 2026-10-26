@@ -45,7 +45,7 @@ Comandos da ingestão: `amostra [semanas]`, `bilheteria [semanas]` (sem número 
 Site público estático (sem banco online): `scripts/publicar-semana.sh` roda ingestão → `exportar` → build com
 prerender; o workflow `Publicar site` publica no GitHub Pages ou Cloudflare Pages. Ver [docs/publicacao.md](docs/publicacao.md).
 
-Testes: `dotnet test` em `cinedata.back` (117 testes) e `npx ng test --watch=false` em `cinedata.front` (20 testes).
+Testes: `dotnet test` em `cinedata.back` (121 testes) e `npx ng test --watch=false` em `cinedata.front` (30 testes).
 
 ## Estrutura
 

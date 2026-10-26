@@ -43,8 +43,8 @@ Outras opções: `--sem-ingestao` (só exporta e gera o site com o que já está
 
 | Etapa | Tempo | Volume |
 | --- | --- | --- |
-| `exportar` | 20 s | 2.183 JSON, 15,7 MB (2,4 MB compactado): 727 períodos desde ago/2016, 1.444 obras |
-| `build:estatico` | 8 s | 2.178 páginas pré-renderizadas, 4.378 arquivos, 148 MB |
+| `exportar` | 15–20 s | 2.318 JSON, 19,5 MB: 727 períodos desde ago/2016, 1.444 obras, séries dos 27 estados |
+| `build:estatico` | ~10 s | 2.911 páginas pré-renderizadas (painel e mapa de cada período, obras), 5.248 arquivos, 215 MB |
 | Página típica | — | 40–90 KB de HTML (~15 KB com gzip), com os dados embutidos: o navegador não busca o JSON de novo |
 
 Folga nos limites dos hosts gratuitos: Cloudflare Pages aceita até 20.000 arquivos por site (25 MB cada); GitHub
@@ -64,6 +64,7 @@ completude, estreias e dias parciais seguem as mesmas regras ([ADR 0004](adr/000
 | `{g}/padrao.json` | último período completo (página `/mes`, `/ano`… e a home) | `/api/v1/painel?periodo={g}` |
 | `{g}/{chave}.json` | painel do período: resumo, top 10, origem, áudio, UFs | `/api/v1/painel?periodo={g}&data=…` |
 | `obras/{codigo}.json` | obra e curva diária, para cada obra de um top 10 ou líder de UF | `/api/v1/obras/{codigo}/curva` |
+| `ufs/{UF}/{g}.json` | série do estado: público, parcela do Brasil, posição e filme líder em cada período | `/api/v1/ufs/{UF}/serie?periodo={g}` |
 | `busca.json` | código, título, título original (se diferente), origem e público das obras com página | `/api/v1/obras?busca=` |
 
 Chaves de período (arquivo e URL): semana `2026-10-08` (a quinta de início), mês `2026-09`, trimestre `2025-t3`,
@@ -81,8 +82,9 @@ anterior (com `indice.json`); qualquer outra é recusada.
 - `core/api/rotas-api.ts` tem dois conjuntos de URLs com a mesma interface (`rotasDaApi`, `rotasEstaticas`); os
   componentes não sabem de qual vêm os dados. No estático a busca recebe o índice inteiro e filtra no navegador.
 - URLs por caminho em ambos os modos: `/`, `/semana/2026-10-08`, `/mes`, `/mes/2026-09`, `/trimestre/2025-t3`,
-  `/semestre/2026-s1`, `/ano/2025`, `/obras/{codigo}`, `/sobre`. As antigas (`/?periodo=mes&data=…`) continuam na API.
+  `/semestre/2026-s1`, `/ano/2025`, `/mapa`, `/mapa/mes/2026-09?uf=PE`, `/obras/{codigo}`, `/sobre`. As antigas (`/?periodo=mes&data=…`) continuam na API.
 - `app.routes.server.ts` lista as páginas para o prerender lendo `dados/{g}/periodos.json` e `dados/busca.json`.
+  O estado escolhido no mapa (`?uf=`) não muda o HTML: a página do período é a mesma e o navegador abre o detalhe.
 - Cada página define `<title>`, description, Open Graph, Twitter card e canonical (`shared/seo.ts`). A imagem de
   compartilhamento é `public/og-cinedata.png` (fonte em `docs/marca/og-cinedata.html`, sem imagens de filmes).
 - Hidratação com transfer cache: o HTML já vem com os números e o navegador não refaz as requisições.

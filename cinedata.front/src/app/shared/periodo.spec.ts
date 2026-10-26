@@ -1,6 +1,8 @@
 import { Periodo } from '../core/api/modelos';
 import {
   chavePeriodo,
+  linkGranularidade,
+  linkPeriodo,
   inicioDaChave,
   inicioDoPeriodo,
   lerGranularidade,
@@ -76,6 +78,14 @@ describe('periodo', () => {
     expect(inicioDaChave('semana', '2026-02-30')).toBeNull();
     expect(inicioDaChave('mes', '2026-13')).toBeNull();
     expect(inicioDaChave('trimestre', '2025-3')).toBeNull();
+  });
+
+  it('monta os links do painel e do mapa', () => {
+    expect(linkPeriodo('mes', '2026-09-01')).toEqual(['/', 'mes', '2026-09']);
+    expect(linkPeriodo('trimestre', '2025-07-01', ['mapa'])).toEqual(['/', 'mapa', 'trimestre', '2025-t3']);
+    expect(linkGranularidade('semana')).toEqual(['/']);
+    expect(linkGranularidade('semana', ['mapa'])).toEqual(['/', 'mapa']);
+    expect(linkGranularidade('ano', ['mapa'])).toEqual(['/', 'mapa', 'ano']);
   });
 
   it('anda um período para trás e para frente', () => {

@@ -3,12 +3,22 @@ import { ambiente } from '../environments/ambiente';
 import { granularidades } from './shared/periodo';
 
 const painel = () => import('./features/painel/painel').then(m => m.Painel);
+const mapa = () => import('./features/mapa/mapa').then(m => m.Mapa);
 
 /** /mes (último mês completo) e /mes/2026-09: a granularidade vai para o input `periodo` pelo `data` da rota. */
 const paginasDePeriodo: Route[] = granularidades.flatMap(({ valor }) => [
   { path: valor, data: { periodo: valor }, loadComponent: painel },
   { path: `${valor}/:chave`, data: { periodo: valor }, loadComponent: painel },
 ]);
+
+/** O mesmo para o mapa: /mapa (semana), /mapa/mes, /mapa/mes/2026-09; estado e métrica na query (?uf=SP&ver=dublado). */
+const paginasDoMapa: Route[] = [
+  { path: 'mapa', title: 'Mapa do cinema · CineData', loadComponent: mapa },
+  ...granularidades.flatMap(({ valor }) => [
+    { path: `mapa/${valor}`, data: { periodo: valor }, loadComponent: mapa },
+    { path: `mapa/${valor}/:chave`, data: { periodo: valor }, loadComponent: mapa },
+  ]),
+];
 
 /** Ferramentas internas de conteúdo (posts, identidade visual): só no desenvolvimento, fora do site publicado. */
 const marca: Routes = [
@@ -22,6 +32,7 @@ const marca: Routes = [
 export const routes: Routes = [
   { path: '', title: 'CineData · o cinema brasileiro em números', loadComponent: painel },
   ...paginasDePeriodo,
+  ...paginasDoMapa,
   { path: 'obras/:codigo', title: 'CineData · obra', loadComponent: () => import('./features/obra/obra').then(m => m.Obra) },
   { path: 'sobre', title: 'Como medimos · CineData', loadComponent: () => import('./features/sobre/sobre').then(m => m.Sobre) },
   ...(ambiente.fonte === 'api' ? marca : []),

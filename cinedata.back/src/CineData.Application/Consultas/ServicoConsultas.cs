@@ -50,6 +50,17 @@ public sealed class ServicoConsultas(IConsultasBilheteria consultas)
         return await consultas.ObterPorUfAsync(p, ct);
     }
 
+    /// <summary>Uma UF ao longo do tempo: público, parcela do Brasil, posição entre os estados e filme líder por período.</summary>
+    public async Task<SerieUfDto> ObterSerieUfAsync(string uf, string? periodo, CancellationToken ct)
+    {
+        if (!Uf.TryCriar(uf, out var estado))
+            throw new ValidacaoException($"UF inválida: '{uf}'. Use a sigla, ex.: SP.");
+
+        var granularidade = Granularidades.Ler(periodo);
+        var pontos = await consultas.ObterSerieUfAsync(granularidade, estado, ct);
+        return new SerieUfDto(estado.Sigla, estado.Regiao.ToString(), Granularidades.Nome(granularidade), pontos);
+    }
+
     public async Task<CurvaObraDto> ObterCurvaObraAsync(string codigo, CancellationToken ct)
     {
         if (!CodigoObra.TryCriar(codigo, out var codigoObra))

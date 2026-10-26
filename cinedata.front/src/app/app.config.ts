@@ -14,7 +14,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(withFetch()),
-    provideRouter(routes, withComponentInputBinding(), withInMemoryScrolling({ scrollPositionRestoration: 'top' })),
+    // A rolagem fica com o App (rolagem.ts): trocar só a query (?uf=SP no mapa) não volta ao topo.
+    provideRouter(routes, withComponentInputBinding(), withInMemoryScrolling({ scrollPositionRestoration: 'disabled' })),
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     // Site estático: o navegador reaproveita o HTML pré-renderizado e as respostas embutidas nele (transfer cache),
     // sem buscar de novo os JSON nem redesenhar a página. Na API não há HTML do servidor para hidratar.
