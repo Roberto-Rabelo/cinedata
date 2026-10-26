@@ -1,21 +1,36 @@
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
 <header class="topo">
   <div class="conteudo barra">
     <a routerLink="/" aria-label="CineData, página inicial"><cd-logo /></a>
-    <nav>
-      <a routerLink="/" routerLinkActive="ativo" [routerLinkActiveOptions]="painelAtivo">Painel</a>
-      <a routerLink="/marca" routerLinkActive="ativo">Marca</a>
+    <nav aria-label="Principal">
+      <a routerLink="/" routerLinkActive="ativo" [routerLinkActiveOptions]="inicioAtivo">Semana</a>
+      <a routerLink="/mes" routerLinkActive="ativo">Mês</a>
+      <a routerLink="/ano" routerLinkActive="ativo">Ano</a>
+      <a routerLink="/sobre" routerLinkActive="ativo">Como medimos</a>
+      @if (comMarca) {
+        <a routerLink="/marca" routerLinkActive="ativo">Marca</a>
+      }
     </nav>
     <cd-busca />
   </div>
 </header>
 
-<main>
+<main id="conteudo" tabindex="-1">
   <router-outlet />
 </main>
 
 <footer class="rodape">
   <div class="conteudo">
-    <span>Fonte: <a href="https://www.gov.br/ancine/pt-br/oca/dados-abertos" target="_blank" rel="noopener">ANCINE/OCA — dados abertos</a> (CC-BY).</span>
-    <span>Bilheteria informada pelos exibidores, atualizada semanalmente.</span>
+    <div class="marca-rodape">
+      <cd-logo [tamanho]="18" />
+      <span>O cinema brasileiro em números, toda semana.</span>
+    </div>
+    <div class="links">
+      <span>Fonte: <a href="https://www.gov.br/ancine/pt-br/oca/dados-abertos" target="_blank" rel="noopener">ANCINE (dados abertos)</a>, licença CC-BY.</span>
+      <a routerLink="/sobre">Como medimos</a>
+      <a href="https://www.instagram.com/cinedata.br/" target="_blank" rel="noopener">Instagram @cinedata.br</a>
+    </div>
+    <p class="aviso-legal">Bilheteria informada pelos exibidores. O CineData é independente e não tem vínculo com a ANCINE.</p>
   </div>
 </footer>

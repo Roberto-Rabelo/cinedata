@@ -16,10 +16,10 @@ As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
 | Camada | Responsabilidade | Exemplos |
 | --- | --- | --- |
 | **Domain** | Linguagem do negócio e invariantes | `CodigoObra` (CPB/ROE → origem), `SemanaCinematografica` (quinta a quarta), `Periodo` (semana, mês, trimestre, semestre, ano; anterior equivalente), `DiasConsolidados` (dia e período completos), `Uf` (com região), `Sessao`, `Sala`, `Lancamento`, `ArquivoImportado` (versão por CRC) |
-| **Application** | Casos de uso e portas | `ImportarBilheteria` (incremental por CRC), `ImportarCadastros`, `ServicoConsultas` (período padrão por granularidade, completude, validações), `CoberturaPeriodos`; interfaces `IFonteDadosAncine`, `ILeitorCsvAncine`, `IRepositorio*`, `IConsultasBilheteria` |
-| **Infrastructure** | Adaptadores | `ZipRemoto` (HTTP Range), `LeitorCsvAncine` (CsvHelper), `CineDataDbContext` (EF Core + snake_case), upserts com `unnest`, `COPY` binário, `ConsultasBilheteriaSql` (Dapper) |
+| **Application** | Casos de uso e portas | `ImportarBilheteria` (incremental por CRC), `ImportarCadastros`, `ServicoConsultas` (período padrão por granularidade, completude, validações), `CoberturaPeriodos`, `ExportarSite` (site estático), `ChavePeriodo`; interfaces `IFonteDadosAncine`, `ILeitorCsvAncine`, `IRepositorio*`, `IConsultasBilheteria`, `IGravadorSite` |
+| **Infrastructure** | Adaptadores | `ZipRemoto` (HTTP Range), `LeitorCsvAncine` (CsvHelper), `CineDataDbContext` (EF Core + snake_case), upserts com `unnest`, `COPY` binário, `ConsultasBilheteriaSql` (Dapper), `GravadorSiteArquivos` (JSON do site, troca atômica da pasta) |
 | **Api** | Entrega HTTP | Minimal APIs em `/api/v1` (`periodo=semana\|mes\|trimestre\|semestre\|ano` + `data` em `/painel`, `/ranking`, `/ufs`; lista em `/periodos`), `ProblemDetails` para 400/404, OpenAPI + Scalar em `/scalar` |
-| **Ingestion** | Entrega CLI | `amostra`, `bilheteria`, `cadastros`, `migrar` |
+| **Ingestion** | Entrega CLI | `amostra`, `bilheteria`, `cadastros`, `migrar`, `exportar <pasta> [desde]` (só lê o banco) |
 
 ## Escrita × leitura (CQRS leve)
 
@@ -69,6 +69,18 @@ As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
 Angular 22 standalone, sem zone.js, `httpResource` + signals, rotas com lazy loading e `withComponentInputBinding`.
 Gráficos em SVG/CSS próprios (sem biblioteca), seguindo a paleta validada da [identidade visual](identidade-visual.md).
 Em desenvolvimento o `ng serve` faz proxy de `/api` para `localhost:5232` (`proxy.conf.json`).
-O painel lê granularidade e período da URL (`/?periodo=trimestre&data=2025-07-01`, via `withComponentInputBinding`);
-sem `data`, mostra o último período completo. Rótulos curtos vêm da API ("out/2026", "3º tri 2025", "1º sem 2026");
-títulos e textos por granularidade ficam em `shared/periodo.ts`. Em período parcial o front não mostra variação.
+
+- **Páginas:** `/` ("esta semana no cinema": a última semana completa, com o nº 1 em destaque, Top 10, KPIs,
+  nacional × estrangeiro, dublado × legendado, mapa por UF e o último mês completo), `/{g}` e `/{g}/{chave}` para
+  semana, mês, trimestre, semestre e ano (`/mes/2026-09`, `/trimestre/2025-t3`), `/obras/{codigo}` (curva diária e
+  semana a semana) e `/sobre` (como medimos). A granularidade vem do `data` da rota e a chave do caminho; as URLs
+  antigas (`/?periodo=trimestre&data=2025-07-01`) continuam valendo. Sem chave, o último período completo.
+- **Fonte dos dados por configuração:** `environments/ambiente.ts` (`api`) ou `ambiente.estatico.ts` (`estatico`,
+  via `fileReplacements`); `core/api/rotas-api.ts` escolhe entre `rotasDaApi` e `rotasEstaticas` (JSON do export).
+  Os componentes são os mesmos nos dois modos.
+- **Site estático:** build `estatico` (`outputMode: static`, `server: main.server.ts`), prerender de cada período e
+  obra exportados (`app.routes.server.ts`), hidratação com transfer cache, `<title>`/Open Graph/canonical por página
+  (`shared/seo.ts`). Detalhes e publicação em [publicacao.md](publicacao.md).
+- Rótulos curtos vêm da API ("out/2026", "3º tri 2025"); títulos por extenso, chaves de URL e vizinhos ficam em
+  `shared/periodo.ts`. Em período parcial o front não mostra variação. Títulos da ANCINE (caixa alta) são exibidos em
+  caixa de título (`formatar.titulo`). As páginas `/marca/*` (posts, identidade) só existem no modo `api`.

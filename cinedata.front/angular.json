@@ -54,6 +54,41 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "estatico": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kB",
+                  "maximumError": "10kB"
+                }
+              ],
+              "outputHashing": "all",
+              "outputPath": "dist/site",
+              "server": "src/main.server.ts",
+              "outputMode": "static",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/ambiente.ts",
+                  "with": "src/environments/ambiente.estatico.ts"
+                }
+              ],
+              "assets": [
+                {
+                  "glob": "**/*",
+                  "input": "public"
+                },
+                {
+                  "glob": "**/*.json",
+                  "input": "dados",
+                  "output": "dados"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

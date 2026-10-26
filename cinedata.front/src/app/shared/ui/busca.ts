@@ -4,6 +4,18 @@ import { RouterLink } from '@angular/router';
 import { ObraResumo } from '../../core/api/modelos';
 import { rotasApi } from '../../core/api/rotas-api';
 import { formatar, rotuloOrigem } from '../formatar';
+import { valorDe } from '../recurso';
+
+const normalizar = (texto: string) => texto.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+
+/** Título no Brasil ou original contém o termo, sem diferenciar acento nem caixa; mantém a ordem (por público). */
+export function filtrarObras(obras: ObraResumo[], termo: string, limite = 20): ObraResumo[] {
+  const procurado = normalizar(termo.trim());
+  if (procurado.length < 2) return [];
+  return obras
+    .filter(o => normalizar(o.titulo).includes(procurado) || (o.tituloOriginal && normalizar(o.tituloOriginal).includes(procurado)))
+    .slice(0, limite);
+}
 
 @Component({
   selector: 'cd-busca',
@@ -25,10 +37,10 @@ import { formatar, rotuloOrigem } from '../formatar';
           @if (resultados.isLoading()) {
             <li class="secundario">Buscando…</li>
           } @else {
-            @for (obra of resultados.value() ?? []; track obra.codigo) {
+            @for (obra of encontradas(); track obra.codigo) {
               <li>
                 <a [routerLink]="['/obras', obra.codigo]" (click)="limpar()">
-                  <span class="titulo">{{ obra.titulo }}</span>
+                  <span class="titulo">{{ formatar.titulo(obra.titulo) }}</span>
                   <span class="secundario num">{{ rotuloOrigem[obra.origem] }} · {{ formatar.compacto(obra.publico) }}</span>
                 </a>
               </li>
@@ -57,6 +69,11 @@ export class Busca {
   protected readonly resultados = httpResource<ObraResumo[]>(() =>
     this.termoValido() ? rotasApi.buscarObras(this.termo().trim()) : undefined,
   );
+  /** Na API a busca já vem filtrada; no site estático vem o índice inteiro (busca.json) e o filtro é aqui. */
+  protected readonly encontradas = computed(() => {
+    const obras = valorDe(this.resultados) ?? [];
+    return rotasApi.buscaLocal ? filtrarObras(obras, this.termo()) : obras;
+  });
   protected readonly formatar = formatar;
   protected readonly rotuloOrigem = rotuloOrigem;
 

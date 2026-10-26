@@ -136,6 +136,29 @@ select, input {
   padding: 8px 12px;
 }
 
+/* Some da tela, continua para leitores de tela. */
+.visualmente-oculto {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.pular {
+  position: absolute;
+  left: 16px;
+  top: -48px;
+  z-index: 50;
+  padding: 8px 14px;
+  border-radius: var(--cd-raio-p);
+  background: var(--cd-tela);
+  color: var(--cd-sala);
+  font-weight: 600;
+}
+.pular:focus { top: 8px; }
+
 .conteudo {
   max-width: 1200px;
   margin: 0 auto;

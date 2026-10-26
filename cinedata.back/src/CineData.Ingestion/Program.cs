@@ -1,7 +1,10 @@
+using System.Globalization;
 using CineData.Application;
+using CineData.Application.Exportacao;
 using CineData.Application.Ingestao;
 using CineData.Infrastructure;
 using CineData.Infrastructure.Persistence;
+using CineData.Infrastructure.Site;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 //   dotnet run -- bilheteria [semanas] importa só a bilheteria (sem número = histórico completo)
 //   dotnet run -- cadastros            importa lançamentos e salas
 //   dotnet run -- migrar               só aplica as migrations
+//   dotnet run -- exportar <pasta> [desde AAAA-MM-DD]
+//                                      grava o site estático em JSON (só lê o banco; padrão desde 2016-08-01)
 // Content root na pasta do executável: o appsettings.json é encontrado de qualquer diretório.
 var builder = Host.CreateApplicationBuilder(new HostApplicationBuilderSettings
 {
@@ -30,6 +35,18 @@ int? semanas = args.Length > 1 && int.TryParse(args[1], out var n) ? n : null;
 
 await using var escopo = host.Services.CreateAsyncScope();
 var servicos = escopo.ServiceProvider;
+
+if (comando == "exportar")
+{
+    if (args.Length < 2) return Erro("Uso: exportar <pasta> [desde AAAA-MM-DD]");
+    var desde = args.Length > 2
+        ? DateOnly.ParseExact(args[2], "yyyy-MM-dd", CultureInfo.InvariantCulture)
+        : ExportarSiteComando.InicioRepresentativo;
+    var exportar = ActivatorUtilities.CreateInstance<ExportarSite>(servicos, new GravadorSiteArquivos(args[1]));
+    var exportado = await exportar.ExecutarAsync(new ExportarSiteComando(desde), ct);
+    Console.WriteLine($"Export em {Path.GetFullPath(args[1])}: {exportado}");
+    return 0;
+}
 
 var db = servicos.GetRequiredService<CineDataDbContext>();
 db.Database.SetCommandTimeout(TimeSpan.FromMinutes(30)); // migrations que criam agregados varrem o histórico

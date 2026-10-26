@@ -31,7 +31,16 @@ daltonismo ΔE ≥ 25, contraste ≥ 3:1) sobre a superfície `#16181F`. O âmba
 marcar dados no fundo escuro, por isso existe o âmbar de dado.
 
 Regras: cor nunca é a única pista (legenda ou rótulo direto sempre); texto nunca usa a cor da série; escala sequencial
-(mapa) é um só tom, do apagado ao âmbar; alta/queda sempre com ▲▼ além da cor.
+(mapa) é um só tom, do apagado ao âmbar de dado (`--cd-dado-ambar`); alta/queda sempre com ▲▼ além da cor. O âmbar de
+marca aparece no site só como marca: logo, foco, sobretítulos e o feixe decorativo atrás do título da página.
+
+## Site público
+
+Home "esta semana no cinema": título da semana por extenso em Bricolage 800, manchete com o número do nº 1, cartão do
+nº 1 com público em destaque e barras do público por dia, depois KPIs, Top 10, nacional × estrangeiro, dublado ×
+legendado, mapa e o último mês. Títulos de filmes em caixa de título (a ANCINE manda em caixa alta). Nada de pôster
+ou foto de filme. Imagem de compartilhamento 1200×630: `cinedata.front/public/og-cinedata.png` (fonte em
+`docs/marca/og-cinedata.html`). Rodapé de toda página: "Fonte: ANCINE (dados abertos)".
 
 ## Tipografia
 

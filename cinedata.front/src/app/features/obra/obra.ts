@@ -1,40 +1,83 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-import { CurvaObra } from '../../core/api/modelos';
+import { CurvaObra, IndiceSite, PontoCurva } from '../../core/api/modelos';
 import { rotasApi } from '../../core/api/rotas-api';
 import { CurvaLinha } from '../../shared/charts/curva-linha';
 import { corOrigem, formatar, rotuloOrigem } from '../../shared/formatar';
+import { inicioDoPeriodo, linkPeriodo } from '../../shared/periodo';
+import { valorDe } from '../../shared/recurso';
+import { FONTE, Seo } from '../../shared/seo';
 import { Kpi } from '../../shared/ui/kpi';
+
+/** Semana cinematográfica de um filme: a curva de vida em cartaz resumida, como nos boletins de bilheteria. */
+export interface SemanaEmCartaz {
+  inicio: string;
+  numero: number;
+  publico: number;
+  /** Maior número de salas num dia da semana. */
+  salas: number;
+  variacaoPct: number | null;
+  parcial: boolean;
+}
+
+/** Agrupa a curva diária em semanas de quinta a quarta, numeradas a partir da primeira com sessão. */
+export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
+  const semanas = new Map<string, SemanaEmCartaz>();
+  for (const d of dias) {
+    const inicio = inicioDoPeriodo('semana', d.data);
+    const s = semanas.get(inicio) ?? { inicio, numero: 0, publico: 0, salas: 0, variacaoPct: null, parcial: false };
+    s.publico += d.publico;
+    s.salas = Math.max(s.salas, d.salas);
+    s.parcial ||= d.parcial;
+    semanas.set(inicio, s);
+  }
+  const lista = [...semanas.values()].sort((a, b) => a.inicio.localeCompare(b.inicio));
+  lista.forEach((s, i) => {
+    s.numero = i + 1;
+    const anterior = lista[i - 1];
+    s.variacaoPct = anterior?.publico && !s.parcial ? Math.round((1000 * (s.publico - anterior.publico)) / anterior.publico) / 10 : null;
+  });
+  return lista;
+}
 
 @Component({
   selector: 'cd-obra',
   imports: [RouterLink, Kpi, CurvaLinha],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="conteudo obra">
-      <a routerLink="/" class="voltar secundario">← Painel</a>
+    @if (curva.error()) {
+      <section class="conteudo obra">
+        <div class="cartao aviso" role="alert">
+          <h1>Filme não encontrado</h1>
+          <p class="secundario">Código {{ codigo() }}. O site traz os filmes que entraram num Top 10 ou lideraram um estado.</p>
+          <a class="mais" routerLink="/">Ver esta semana no cinema →</a>
+        </div>
+      </section>
+    } @else if (dados(); as c) {
+      <section class="abertura">
+        <div class="conteudo">
+          <a routerLink="/" class="voltar secundario">← Esta semana no cinema</a>
+          <div class="chips">
+            <span class="chip"><span class="amostra" [style.background]="corOrigem[c.obra.origem]"></span>{{ rotuloOrigem[c.obra.origem] }}</span>
+            @if (c.obra.pais) { <span class="chip">{{ formatar.titulo(c.obra.pais) }}</span> }
+          </div>
+          <h1>{{ formatar.titulo(c.obra.titulo) }}</h1>
+          @if (c.obra.tituloOriginal !== c.obra.titulo) {
+            <p class="original secundario">{{ formatar.titulo(c.obra.tituloOriginal) }}</p>
+          }
+        </div>
+      </section>
 
-      @if (curva.error()) {
-        <div class="cartao" role="alert"><h2>Obra não encontrada</h2><p class="secundario">Código {{ codigo() }}.</p></div>
-      } @else if (curva.value(); as c) {
-        <header>
-          <span class="chip"><span class="amostra" [style.background]="corOrigem[c.obra.origem]"></span>{{ rotuloOrigem[c.obra.origem] }}</span>
-          @if (c.obra.pais) { <span class="chip">{{ c.obra.pais }}</span> }
-          <h1>{{ c.obra.titulo }}</h1>
-          @if (c.obra.tituloOriginal !== c.obra.titulo) { <p class="secundario original">{{ c.obra.tituloOriginal }}</p> }
-          <p class="rotulo codigo">{{ c.obra.codigo }}</p>
-        </header>
-
+      <div class="conteudo obra">
         <div class="kpis">
-          <cd-kpi rotulo="Público no período importado" [valor]="formatar.inteiro(c.publicoNoPeriodo)"
-                  [detalhe]="periodo()" />
+          <cd-kpi rotulo="Público nos cinemas" [valor]="formatar.inteiro(c.publicoNoPeriodo)" [detalhe]="periodo()" />
+          <cd-kpi rotulo="Semanas em cartaz" [valor]="formatar.inteiro(semanas().length)"
+                  [detalhe]="melhorSemana() ? 'melhor: ' + formatar.compacto(melhorSemana()!.publico) + ' na ' + melhorSemana()!.numero + 'ª semana' : ''" />
           @if (c.obra.lancamento; as l) {
-            <cd-kpi rotulo="Público total (lançamento)" [valor]="formatar.inteiro(l.publicoTotal)"
-                    [detalhe]="'estreia em ' + formatar.diaMesAno(l.data)" />
-            <cd-kpi rotulo="Renda total" [valor]="formatar.moedaCompacta(l.rendaTotal)" [detalhe]="l.distribuidora" />
+            <cd-kpi rotulo="Renda total (lançamento)" [valor]="formatar.moedaCompacta(l.rendaTotal)" [detalhe]="formatar.titulo(l.distribuidora)" />
             @if (l.ticketMedio !== null) {
-              <cd-kpi rotulo="Ingresso médio" [valor]="formatar.moeda(l.ticketMedio)" detalhe="renda ÷ público" />
+              <cd-kpi rotulo="Ingresso médio" [valor]="formatar.moeda(l.ticketMedio)" [detalhe]="'estreia em ' + formatar.diaMesAno(l.data)" />
             }
           }
         </div>
@@ -42,41 +85,132 @@ import { Kpi } from '../../shared/ui/kpi';
         <article class="cartao">
           <header class="titulo-cartao">
             <h2>Curva de público</h2>
-            <span class="secundario">espectadores por dia · quintas são dias de estreia</span>
+            <span class="secundario">espectadores por dia · as estreias são às quintas</span>
           </header>
           @if (c.dias.length > 1) {
             <cd-curva-linha [pontos]="c.dias" />
           } @else {
-            <p class="secundario">Poucos dias de exibição no período importado para desenhar a curva.</p>
+            <p class="secundario">Poucos dias de exibição para desenhar a curva.</p>
           }
         </article>
-      } @else {
-        <div class="esqueleto" style="height: 420px; margin-top: 24px"></div>
-      }
-    </section>
+
+        @if (semanas().length > 1) {
+          <article class="cartao">
+            <header class="titulo-cartao">
+              <h2>Semana a semana</h2>
+              <span class="secundario">semana cinematográfica, de quinta a quarta{{ semanas().length > 12 ? ' · as 12 primeiras' : '' }}</span>
+            </header>
+            <div class="tabela-rolagem">
+              <table>
+                <thead>
+                  <tr><th scope="col">Semana</th><th scope="col">Início</th><th scope="col" class="n">Público</th><th scope="col" class="n">Variação</th><th scope="col" class="n">Salas</th></tr>
+                </thead>
+                <tbody>
+                  @for (s of semanas().slice(0, 12); track s.inicio) {
+                    <tr>
+                      <td>{{ s.numero }}ª</td>
+                      <td>
+                        @if (temPagina(s.inicio)) {
+                          <a [routerLink]="linkPeriodo('semana', s.inicio)">{{ formatar.diaMesAno(s.inicio) }}</a>
+                        } @else {
+                          {{ formatar.diaMesAno(s.inicio) }}
+                        }
+                        @if (s.parcial) { <span class="chip">parcial</span> }
+                      </td>
+                      <td class="n num">{{ formatar.inteiro(s.publico) }}</td>
+                      <td class="n num">
+                        @if (s.variacaoPct !== null) {
+                          <span [class.variacao--alta]="s.variacaoPct > 0" [class.variacao--queda]="s.variacaoPct < 0">
+                            {{ s.variacaoPct > 0 ? '▲' : '▼' }} {{ formatar.variacao(s.variacaoPct) }}
+                          </span>
+                        } @else { <span class="secundario">—</span> }
+                      </td>
+                      <td class="n num">{{ formatar.inteiro(s.salas) }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </article>
+        }
+
+        <p class="fonte secundario">{{ fonte }}. Código ANCINE {{ c.obra.codigo }}.</p>
+      </div>
+    } @else {
+      <div class="conteudo obra">
+        <div class="esqueleto" style="height: 160px"></div>
+        <div class="esqueleto" style="height: 420px"></div>
+      </div>
+    }
   `,
   styles: `
-    .obra { display: flex; flex-direction: column; gap: var(--cd-gap); padding-top: 24px; padding-bottom: 48px; }
-    .voltar { font-size: 14px; }
-    header .chip { margin-right: 6px; }
-    h1 { margin-top: 12px; }
-    .original { margin: 4px 0 0; }
-    .codigo { margin: 8px 0 0; }
+    .abertura { border-bottom: 1px solid var(--cd-linha); padding: 28px 0 28px; }
+    .voltar { font-size: 14px; display: inline-block; margin-bottom: 18px; }
+    .voltar:hover { color: var(--cd-tela); }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    h1 { margin-top: 12px; font-size: clamp(34px, 6vw, 60px); font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
+    .original { margin: 8px 0 0; font-size: 17px; }
+    .obra { display: flex; flex-direction: column; gap: var(--cd-gap); padding-top: 24px; padding-bottom: 56px; }
     .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: var(--cd-gap); }
+    @media (max-width: 640px) { .kpis { grid-template-columns: 1fr 1fr; gap: 10px; --cd-kpi-valor: 26px; } }
     .titulo-cartao { display: flex; flex-direction: column; gap: 2px; margin-bottom: 16px; }
     .titulo-cartao .secundario { font-size: 13px; }
+    .tabela-rolagem { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { text-align: left; font-weight: 600; color: var(--cd-tela-3); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; padding: 0 12px 8px 0; }
+    td { padding: 9px 12px 9px 0; border-top: 1px solid var(--cd-linha); white-space: nowrap; }
+    td a { text-decoration: underline; text-decoration-color: var(--cd-linha); text-underline-offset: 3px; }
+    td a:hover { text-decoration-color: var(--cd-tela); }
+    td .chip { margin-left: 6px; }
+    .n { text-align: right; }
+    .fonte { font-size: 13px; margin: 0; }
+    .aviso { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+    .aviso h1 { font-size: 28px; margin: 0; }
+    .mais { font-weight: 600; text-decoration: underline; text-decoration-color: var(--cd-projetor); text-underline-offset: 4px; }
   `,
 })
 export class Obra {
+  private readonly seo = inject(Seo);
+
   /** Vem do parâmetro de rota :codigo (withComponentInputBinding). */
   readonly codigo = input.required<string>();
   protected readonly curva = httpResource<CurvaObra>(() => rotasApi.curvaObra(this.codigo()));
+  protected readonly indice = httpResource<IndiceSite>(() => rotasApi.indice());
   protected readonly formatar = formatar;
   protected readonly rotuloOrigem = rotuloOrigem;
   protected readonly corOrigem = corOrigem;
+  protected readonly linkPeriodo = linkPeriodo;
+  protected readonly fonte = FONTE;
+
+  protected readonly dados = computed(() => valorDe(this.curva));
+  protected readonly semanas = computed(() => semanasEmCartaz(this.dados()?.dias ?? []));
+  protected readonly melhorSemana = computed(() =>
+    this.semanas().reduce<SemanaEmCartaz | null>((a, s) => (!a || s.publico > a.publico ? s : a), null),
+  );
 
   protected readonly periodo = computed(() => {
-    const dias = this.curva.value()?.dias ?? [];
-    return dias.length ? `de ${formatar.diaMes(dias[0].data)} a ${formatar.diaMesAno(dias.at(-1)!.data)}` : '';
+    const dias = this.dados()?.dias ?? [];
+    return dias.length ? `de ${formatar.diaMesAno(dias[0].data)} a ${formatar.diaMesAno(dias[dias.length - 1].data)}` : '';
   });
+
+  constructor() {
+    effect(() => {
+      const c = this.dados();
+      if (!c) return;
+      const titulo = formatar.titulo(c.obra.titulo);
+      this.seo.definir({
+        titulo: `${titulo}: público nos cinemas do Brasil`,
+        descricao:
+          `${titulo} levou ${formatar.inteiro(c.publicoNoPeriodo)} pessoas aos cinemas do Brasil em ${this.semanas().length} ` +
+          `semanas em cartaz (${this.periodo()}). Curva de público dia a dia e semana a semana. ${FONTE}.`,
+        caminho: `/obras/${c.obra.codigo}`,
+      });
+    });
+  }
+
+  /** No site estático só há páginas de semana a partir do início do export. */
+  protected temPagina(inicio: string) {
+    const semana = valorDe(this.indice)?.granularidades.semana;
+    return !semana || (inicio >= semana.primeiro && inicio <= semana.ultimo);
+  }
 }

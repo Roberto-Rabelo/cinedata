@@ -29,7 +29,7 @@ const GRADE: Record<string, [number, number]> = {
             role="listitem"
             class="tile"
             [class.ativa]="foco()?.uf === uf.uf"
-            [class.intensa]="+intensidade(uf) > 0.6"
+            [class.intensa]="+intensidade(uf) > 0.8"
             [style.grid-column]="posicao(uf.uf)[0]"
             [style.grid-row]="posicao(uf.uf)[1]"
             [style.--intensidade]="intensidade(uf)"
@@ -50,7 +50,7 @@ const GRADE: Record<string, [number, number]> = {
           <span class="secundario">espectadores em {{ formatar.inteiro(uf.sessoes) }} sessões</span>
           @if (uf.liderTitulo) {
             <span class="rotulo topo">Filme mais visto</span>
-            <a class="lider" [routerLink]="['/obras', uf.liderCodigo]">{{ uf.liderTitulo }}</a>
+            <a class="lider" [routerLink]="['/obras', uf.liderCodigo]">{{ formatar.titulo(uf.liderTitulo) }}</a>
             <span class="secundario num">{{ formatar.inteiro(uf.liderPublico) }} espectadores</span>
           }
           @if (uf.dubladoPctEstrangeiros !== null) {
@@ -73,7 +73,7 @@ const GRADE: Record<string, [number, number]> = {
       aspect-ratio: 1; border: 0; border-radius: 6px; cursor: pointer; padding: 2px;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
       color: var(--cd-tela); font: inherit; font-size: 10.5px;
-      background: color-mix(in oklab, var(--cd-projetor) calc(var(--intensidade) * 100%), var(--cd-poltrona-2));
+      background: color-mix(in oklab, var(--cd-dado-ambar) calc(var(--intensidade) * 100%), var(--cd-poltrona-2));
     }
     .tile .sigla { font-weight: 700; font-size: 12.5px; }
     .tile.intensa { color: var(--cd-sala); }
@@ -83,7 +83,7 @@ const GRADE: Record<string, [number, number]> = {
     .topo { margin-top: 14px; }
     .lider { font-weight: 600; text-decoration: underline; text-decoration-color: var(--cd-linha); text-underline-offset: 3px; }
     .escala { display: flex; align-items: center; gap: 8px; margin-top: 20px; font-size: 12px; }
-    .gradiente { flex: 0 0 120px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, color-mix(in oklab, var(--cd-projetor) 8%, var(--cd-poltrona-2)), var(--cd-projetor)); }
+    .gradiente { flex: 0 0 120px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, color-mix(in oklab, var(--cd-dado-ambar) 8%, var(--cd-poltrona-2)), var(--cd-dado-ambar)); }
     @media (max-width: 720px) { .mapa { grid-template-columns: 1fr; } }
   `,
 })

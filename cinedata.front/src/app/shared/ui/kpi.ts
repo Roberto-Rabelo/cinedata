@@ -21,7 +21,7 @@ import { formatar } from '../formatar';
   `,
   styles: `
     .kpi { display: flex; flex-direction: column; gap: 6px; min-height: 124px; }
-    .valor { font-family: var(--cd-fonte-display); font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+    .valor { font-family: var(--cd-fonte-display); font-size: var(--cd-kpi-valor, 34px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
     span { font-size: 13px; }
   `,
 })

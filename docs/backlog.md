@@ -43,7 +43,13 @@ O que o POC provou e o que vem a seguir. Cada item vira uma issue no GitHub.
 ## Etapa 4 — Produto
 
 - [ ] Validar 4–6 semanas de posts antes de automatizar tudo (métrica: alcance e salvamentos por formato)
-- [ ] Portal público: páginas de obra e UF indexáveis (SSR) para link na bio
+- [x] Site público estático: export em JSON (`exportar`, 20 s, 15,7 MB), prerender de 2.178 páginas (semana, mês,
+  trimestre, semestre, ano, obra) com Open Graph, script `publicar-semana` e workflow para GitHub/Cloudflare Pages
+  ([publicacao.md](publicacao.md))
+- [ ] Ativar o destino do site (Cloudflare Pages ou GitHub Pages) e o domínio próprio
+- [ ] Imagem Open Graph por página (top 5 da semana em 1200×630), gerada no build
+- [ ] Páginas por UF indexáveis (`/uf/sp`), com ranking e série do estado
+- [ ] Publicação semanal sem a máquina local: Actions agendado com PostgreSQL temporário ou `pg_dump` em cache
 - [ ] Enriquecimento com TMDB (pôster, gênero) — checar termos de uso comercial
 - [ ] Deploy: container (API + worker) + PostgreSQL gerenciado
 - [ ] Verificar marca, @ e domínio "CineData"

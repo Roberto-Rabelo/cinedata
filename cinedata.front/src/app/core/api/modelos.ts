@@ -106,6 +106,8 @@ export interface Obra {
 export interface ObraResumo {
   codigo: string;
   titulo: string;
+  /** Só no índice de busca do site estático, e só quando difere do título no Brasil. */
+  tituloOriginal?: string | null;
   origem: Origem;
   publico: number;
 }
@@ -123,4 +125,26 @@ export interface CurvaObra {
   obra: Obra;
   publicoNoPeriodo: number;
   dias: PontoCurva[];
+}
+
+// Site estático (CLI `exportar`): índice do export, espelho de CineData.Application.Exportacao.
+
+export interface GranularidadeSite {
+  /** Início do período da página padrão: o último completo. */
+  padrao: string;
+  /** Início do período exportado mais antigo e do mais recente (que pode ser parcial). */
+  primeiro: string;
+  ultimo: string;
+  total: number;
+}
+
+export interface IndiceSite {
+  geradoEm: string;
+  desde: string;
+  /** Último dia com sessões publicadas. */
+  dadosAte: string;
+  ultimoDiaConsolidado: string;
+  granularidades: Partial<Record<Granularidade, GranularidadeSite>>;
+  obras: number;
+  fonte: string;
 }

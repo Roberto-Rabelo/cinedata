@@ -16,7 +16,7 @@ import { formatar, rotuloOrigem } from '../formatar';
             <span class="pos num">{{ item.posicao }}</span>
             <span class="corpo">
               <span class="topo">
-                <span class="titulo">{{ item.titulo }}</span>
+                <span class="titulo">{{ formatar.titulo(item.titulo) }}</span>
                 @if (item.estreia) { <span class="chip chip--estreia">Estreia</span> }
                 <span class="chip">{{ rotuloOrigem[item.origem] }}</span>
               </span>
@@ -47,8 +47,8 @@ import { formatar, rotuloOrigem } from '../formatar';
     .linha:hover { background: var(--cd-poltrona-2); }
     .pos { font-family: var(--cd-fonte-display); font-weight: 700; font-size: 18px; color: var(--cd-tela-3); text-align: right; }
     .corpo { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-    .topo { display: flex; align-items: center; gap: 8px; min-width: 0; }
-    .titulo { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .topo { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-width: 0; }
+    .titulo { font-weight: 600; overflow-wrap: anywhere; }
     .barra-trilho { display: flex; align-items: center; gap: 8px; }
     .barra { height: 10px; min-width: 4px; background: var(--cd-dado-ambar); border-radius: 0 4px 4px 0; }
     .valor { font-weight: 600; font-size: 14px; }
@@ -69,6 +69,6 @@ export class RankingBarras {
   }
 
   protected descricao(item: ItemRanking) {
-    return `${item.posicao}º ${item.titulo}: ${formatar.inteiro(item.publico)} espectadores`;
+    return `${item.posicao}º ${formatar.titulo(item.titulo)}: ${formatar.inteiro(item.publico)} espectadores`;
   }
 }

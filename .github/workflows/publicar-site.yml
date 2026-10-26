@@ -1,0 +1,92 @@
+# Publica o site estático (cinedata.front, build "estatico") a partir dos JSON versionados em cinedata.front/dados.
+# Os dados são gerados na máquina local (scripts/publicar-semana.sh); aqui não há banco.
+#
+# Nada é publicado até você escolher o destino em Settings → Secrets and variables → Actions → Variables:
+#   DESTINO_SITE = github-pages | cloudflare      (sem a variável, o workflow só gera e guarda o site como artefato)
+#   URL_SITE     = https://seu-dominio            (og:url, og:image, canonical e sitemap)
+#   BASE_HREF    = /cinedata/                     (só para GitHub Pages sem domínio próprio: usuario.github.io/cinedata)
+#   CLOUDFLARE_PROJETO = cinedata                 (nome do projeto no Cloudflare Pages)
+# Segredos (só Cloudflare): CLOUDFLARE_API_TOKEN e CLOUDFLARE_ACCOUNT_ID. Passo a passo em docs/publicacao.md.
+name: Publicar site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'cinedata.front/**'
+      - '.github/workflows/publicar-site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicar-site
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cinedata.front
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: cinedata.front/package-lock.json
+      - run: npm ci
+      - name: Build estático (prerender de todas as páginas)
+        run: npx ng build --configuration estatico ${BASE_HREF:+--base-href "$BASE_HREF"}
+        env:
+          BASE_HREF: ${{ vars.BASE_HREF }}
+      - name: 404, sitemap, robots e endereço público
+        run: node scripts/pos-build-estatico.mjs
+        env:
+          URL_SITE: ${{ vars.URL_SITE }}
+      - name: Artefato do GitHub Pages
+        if: vars.DESTINO_SITE == 'github-pages'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: cinedata.front/dist/site/browser
+      - name: Artefato do site
+        if: vars.DESTINO_SITE != 'github-pages'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: cinedata.front/dist/site/browser
+          retention-days: 7
+
+  github-pages:
+    needs: build
+    if: vars.DESTINO_SITE == 'github-pages'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.publicar.outputs.page_url }}
+    steps:
+      - id: publicar
+        uses: actions/deploy-pages@v4
+
+  cloudflare-pages:
+    needs: build
+    if: vars.DESTINO_SITE == 'cloudflare'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: site
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=${{ vars.CLOUDFLARE_PROJETO }} --branch=main

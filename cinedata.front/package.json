@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:estatico": "ng build --configuration estatico && node scripts/pos-build-estatico.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -16,7 +17,9 @@
     "@angular/core": "^22.1.0",
     "@angular/forms": "^22.1.0",
     "@angular/platform-browser": "^22.1.0",
+    "@angular/platform-server": "^22.2.3",
     "@angular/router": "^22.1.0",
+    "@angular/ssr": "^22.2.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -24,6 +27,7 @@
     "@angular/build": "^22.1.2",
     "@angular/cli": "^22.1.2",
     "@angular/compiler-cli": "^22.1.0",
+    "@types/node": "^22.20.5",
     "jsdom": "^28.0.0",
     "playwright-core": "^1.56.1",
     "prettier": "^3.8.1",

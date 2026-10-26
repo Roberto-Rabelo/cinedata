@@ -39,7 +39,7 @@ const L = 760, A = 260, M = { esq: 52, dir: 16, topo: 16, base: 28 };
       }
     </div>
     @if (linhaParcial()) {
-      <p class="legenda-parcial secundario"><span class="traco"></span> Tracejado: dias ainda não consolidados pela ANCINE</p>
+      <p class="legenda-parcial secundario"><span class="traco"></span> Tracejado: dias ainda não consolidados pela ANCINE (dados chegando ou salas fechadas)</p>
     }
   `,
   styles: `
@@ -48,7 +48,7 @@ const L = 760, A = 260, M = { esq: 52, dir: 16, topo: 16, base: 28 };
     .grade { stroke: var(--cd-linha); stroke-width: 1; }
     .eixo { fill: var(--cd-tela-3); font-size: 11px; font-family: var(--cd-fonte-texto); }
     .linha { fill: none; stroke: var(--cd-dado-ambar); stroke-width: 2; stroke-linejoin: round; }
-    .area { fill: var(--cd-dado-ambar); opacity: .12; }
+    .area { fill: var(--cd-dado-ambar); opacity: .1; }
     .linha--parcial { stroke-dasharray: 5 5; opacity: .7; }
     .aviso-parcial { color: var(--cd-projetor); font-size: 12px; }
     .legenda-parcial { font-size: 12px; margin: 8px 0 0; display: flex; align-items: center; gap: 8px; }
@@ -80,11 +80,20 @@ export class CurvaLinha {
     return this.pontos().map((p, i) => ({ data: p.data, i })).filter(p => p.i % passo === 0);
   });
 
-  /** Último índice consolidado: dali em diante a linha é tracejada (dados ainda chegando). */
-  private readonly ultimoConsolidado = computed(() => {
+  /**
+   * Trechos da linha: um segmento é parcial se um dos dois dias ainda não foi consolidado. Dias parciais aparecem na
+   * cauda (dados chegando) e também no meio do histórico (fechamentos da pandemia, ADR 0004).
+   */
+  private readonly trechos = computed(() => {
     const pontos = this.pontos();
-    const primeiroParcial = pontos.findIndex(p => p.parcial);
-    return primeiroParcial === -1 ? pontos.length - 1 : primeiroParcial - 1;
+    const trechos: { de: number; ate: number; parcial: boolean }[] = [];
+    for (let i = 1; i < pontos.length; i++) {
+      const parcial = pontos[i - 1].parcial || pontos[i].parcial;
+      const ultimo = trechos[trechos.length - 1];
+      if (ultimo?.parcial === parcial) ultimo.ate = i;
+      else trechos.push({ de: i - 1, ate: i, parcial });
+    }
+    return trechos;
   });
 
   private caminho(de: number, ate: number) {
@@ -94,18 +103,20 @@ export class CurvaLinha {
       .join('');
   }
 
-  protected readonly linha = computed(() => this.caminho(0, this.ultimoConsolidado()));
+  private juntar(parcial: boolean) {
+    return this.trechos()
+      .filter(t => t.parcial === parcial)
+      .map(t => this.caminho(t.de, t.ate))
+      .join('');
+  }
 
-  protected readonly linhaParcial = computed(() => {
-    const fim = this.pontos().length - 1;
-    const de = Math.max(0, this.ultimoConsolidado());
-    return de < fim ? this.caminho(de, fim) : '';
-  });
+  protected readonly linha = computed(() => this.juntar(false));
+  protected readonly linhaParcial = computed(() => this.juntar(true));
 
   protected readonly area = computed(() => {
-    const ultimo = this.ultimoConsolidado();
-    if (ultimo < 1) return '';
-    return `${this.linha()}L${this.x(ultimo)},${this.y(0)}L${this.x(0)},${this.y(0)}Z`;
+    const n = this.pontos().length;
+    if (n < 2) return '';
+    return `${this.caminho(0, n - 1)}L${this.x(n - 1)},${this.y(0)}L${this.x(0)},${this.y(0)}Z`;
   });
 
   protected readonly pontoAtivo = computed(() => {

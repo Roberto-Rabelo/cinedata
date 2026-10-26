@@ -40,9 +40,12 @@ cd ../cinedata.front && npm install && npx ng serve --port 4300   # http://local
 ```
 
 Comandos da ingestão: `amostra [semanas]`, `bilheteria [semanas]` (sem número = histórico desde 2014: ~20 min, 38 milhões de sessões, 5 GB),
-`cadastros`, `migrar`.
+`cadastros`, `migrar`, `exportar <pasta> [desde]` (JSON do site estático).
 
-Testes: `dotnet test` em `cinedata.back` (57 testes) e `npx ng test --watch=false` em `cinedata.front`.
+Site público estático (sem banco online): `scripts/publicar-semana.sh` roda ingestão → `exportar` → build com
+prerender; o workflow `Publicar site` publica no GitHub Pages ou Cloudflare Pages. Ver [docs/publicacao.md](docs/publicacao.md).
+
+Testes: `dotnet test` em `cinedata.back` (117 testes) e `npx ng test --watch=false` em `cinedata.front` (20 testes).
 
 ## Estrutura
 
