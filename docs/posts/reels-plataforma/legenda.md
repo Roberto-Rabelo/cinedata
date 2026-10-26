@@ -21,13 +21,15 @@ Os números ficam em `NUMEROS` no topo de `scripts/gerar-reels.mjs`; com dados n
 | 8,7–14,7 s | Mapa | mapa com São Paulo aberto ("32% do público do Brasil"); depois "quem venceu" em setembro: "27 de 27 estados" |
 | 14,7–19,6 s | Filme | Ainda Estou Aqui: curva diária; "5,7 milhões de espectadores" |
 | 19,6–23,6 s | Números | contagem até 1,23 bilhão de ingressos desde 2016, 38,5 milhões de sessões, 27 estados |
-| 23,6–28 s | Chamada | cinedatabr.tech, "Grátis, aberto e atualizado toda semana", "Link na bio", fonte |
+| 23,6–28 s | Chamada | cinedatabr.tech, "Todos os cinemas do Brasil, atualizado toda semana", "Link na bio", fonte |
 
 Conferência: 1.229.560.044 ingressos de ago/2016 a 22/10/2026 (soma de `dados/mes/2016-08..12` e `dados/ano/2017..2026`);
 38.458.225 sessões no banco; SP com 748.727 de 2.331.061 na semana de 08/10 (32,1%); Minha Melhor Amiga líder nas 27
 UFs em `dados/mes/2026-09.json`; Ainda Estou Aqui 5.731.852 em `dados/obras/B2400324700000.json`.
 
 ## Ao publicar
+
+Não prometer "grátis" nem "aberto" nos textos: o acesso hoje é livre, mas pode passar a ser pago (ver backlog).
 
 - Música: escolha um áudio instrumental da biblioteca do Instagram (o vídeo vai sem som para isso).
 - Capa: `capa.png` (Editar capa → Adicionar da galeria).
@@ -37,7 +39,7 @@ UFs em `dados/mes/2026-09.json`; Ainda Estou Aqui 5.731.852 em `dados/obras/B240
 
 ## Legenda
 
-Contagem: ~880 caracteres (limite do Instagram: 2.200).
+Contagem: ~870 caracteres (limite do Instagram: 2.200).
 
 ```text
 O cinema brasileiro em números, agora num site. 🎬
@@ -50,7 +52,7 @@ cinedatabr.tech reúne a bilheteria de todos os cinemas do país, atualizada tod
 
 Um dado do mapa: em setembro, Minha Melhor Amiga foi o filme mais visto em todos os 27 estados.
 
-É grátis e aberto. Link na bio. 🔗
+Acesse pelo link na bio. 🔗
 
 E você: qual estado vai mais ao cinema, na sua opinião? Responde aqui e confere no mapa.
 

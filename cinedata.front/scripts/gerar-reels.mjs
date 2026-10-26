@@ -122,7 +122,7 @@ const composicao = (telas, simbolo) => `<!doctype html><html><head><meta charset
   <div id="n3" class="camada numero" style="top: 1180px"><b>27 estados</b><span>atualizado toda semana</span></div>
 
   <div id="final" class="camada"><span class="logo">${simbolo}<span>cine<b>data</b></span></span>
-    <h2>cinedatabr.tech</h2><p>Grátis, aberto e atualizado<br>toda semana</p><span class="bio">Link na bio</span></div>
+    <h2>cinedatabr.tech</h2><p>Todos os cinemas do Brasil,<br>atualizado toda semana</p><span class="bio">Link na bio</span></div>
   <div id="fonte" class="camada">Fonte: ANCINE (dados abertos) · projeto independente</div>
 </div>
 <script>

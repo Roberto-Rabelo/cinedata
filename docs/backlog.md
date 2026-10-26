@@ -49,6 +49,9 @@ O que o POC provou e o que vem a seguir. Cada item vira uma issue no GitHub.
 - [x] Site publicado no GitHub Pages em cinedatabr.tech
 - [x] Contagem de acessos (Umami, sem cookies) com eventos do mapa, busca e filmes — falta criar a conta e o `UMAMI_ID`
 - [ ] Captura de e-mail ("receba o Top 10 toda semana") para medir interesse antes da assinatura
+- [ ] Modelo de monetização (o acesso hoje é livre; os textos não prometem "grátis"): candidatos a validar com os
+  dados do Umami — plano pago com histórico completo e exportação (CSV), relatórios sob encomenda para
+  distribuidoras e exibidores, newsletter com parte paga, patrocínio de formatos fixos do Instagram
 - [ ] Imagem Open Graph por página (top 5 da semana em 1200×630), gerada no build
 - [x] Mapa interativo (`/mapa`): métricas por estado, detalhe com série navegável, quem venceu em cada estado
 - [ ] Top 5 por estado no detalhe do mapa (precisa de um agregado período × UF × obra)
