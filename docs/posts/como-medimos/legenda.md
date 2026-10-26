@@ -1,11 +1,15 @@
 # Como medimos (post fixado)
 
-5 slides 1080×1350 (`slide-01.png` … `slide-05.png`), da rota `/marca/como-medimos` do front
+6 slides 1080×1350 (`slide-01.png` … `slide-06.png`), da rota `/marca/como-medimos` do front
 (`cinedata.front/src/app/features/marca/slides-como-medimos.ts`). Publicação combinada: segunda, 26/10/2026.
 
 ```bash
 cd cinedata.front && node scripts/exportar-slides.mjs /marca/como-medimos ../docs/posts/como-medimos
 ```
+
+O slide 1 é a capa da marca: logo grande com o feixe do projetor atravessando o quadro, o lema e o assunto ("De onde
+vem cada número que a gente posta"). Do 2 ao 6, o conteúdo de antes (38,5 milhões de sessões, fonte, semana, últimos
+dias, limites).
 
 ## Legenda
 

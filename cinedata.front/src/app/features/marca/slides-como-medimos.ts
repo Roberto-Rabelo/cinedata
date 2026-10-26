@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Logo } from '../../shared/ui/logo';
 import { Slide } from './slide';
 
 /**
@@ -14,10 +15,10 @@ const cobertura = [
 const limite = 90;
 const escala = 105;
 
-/** Carrossel "Como medimos" (5 slides 1080×1350): fonte, semana, atraso dos dados e limites. */
+/** Carrossel "Como medimos" (6 slides 1080×1350): capa da marca, fonte, semana, atraso dos dados e limites. */
 @Component({
   selector: 'cd-slides-como-medimos',
-  imports: [Slide, RouterLink],
+  imports: [Slide, RouterLink, Logo],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './slides-comum.css',
   host: { '[class.exportar]': 'exportar() !== undefined' },
@@ -26,23 +27,38 @@ const escala = 105;
       <header class="conteudo cabecalho">
         <a routerLink="/marca" class="secundario">← Marca</a>
         <h1>Como medimos</h1>
-        <p class="secundario">5 slides 1080×1350. PNGs em docs/posts/como-medimos.</p>
+        <p class="secundario">6 slides 1080×1350. PNGs em docs/posts/como-medimos.</p>
       </header>
     }
     <div class="slides">
-      <!-- 1. Capa -->
-      <cd-slide [numero]="1" [total]="5">
+      <!-- 1. Capa da marca -->
+      <cd-slide [numero]="1" [total]="6" [semLogo]="true" class="slide-marca">
+        <div class="marca-capa">
+          <div class="logo-grande">
+            <span class="feixe-capa" aria-hidden="true"></span>
+            <cd-logo [tamanho]="null" />
+          </div>
+          <p class="lema">O cinema brasileiro em números</p>
+        </div>
+        <div class="assunto">
+          <span class="rotulo">Como medimos</span>
+          <p class="manchete grande">De onde vem cada número que a gente posta</p>
+        </div>
+        <p class="arraste">Arraste →</p>
+      </cd-slide>
+
+      <!-- 2. Capa -->
+      <cd-slide [numero]="2" [total]="6">
         <span class="rotulo">Como medimos</span>
         <div class="capa">
           <p class="numero">38,5 milhões</p>
           <p class="manchete">de sessões de cinema. É daí que sai cada número que a gente posta.</p>
           <p class="texto">Como a gente mede, em 4 pontos.</p>
         </div>
-        <p class="arraste">Arraste →</p>
       </cd-slide>
 
-      <!-- 2. A fonte -->
-      <cd-slide [numero]="2" [total]="5">
+      <!-- 3. A fonte -->
+      <cd-slide [numero]="3" [total]="6">
         <span class="rotulo">1 · A fonte</span>
         <p class="manchete grande">Dados abertos da ANCINE</p>
         <p class="texto">Os cinemas informam cada sessão à ANCINE, que publica tudo como “bilheteria diária por exibidoras”. Cada sessão traz:</p>
@@ -56,8 +72,8 @@ const escala = 105;
         <p class="nota">Projeto independente: não somos a ANCINE.</p>
       </cd-slide>
 
-      <!-- 3. A semana -->
-      <cd-slide [numero]="3" [total]="5">
+      <!-- 4. A semana -->
+      <cd-slide [numero]="4" [total]="6">
         <span class="rotulo">2 · A semana</span>
         <p class="manchete grande">De quinta a quarta</p>
         <ol class="dias">
@@ -70,8 +86,8 @@ const escala = 105;
         <p class="nota">Exemplo: a semana de 08/10/2026 vai da quinta, dia 08, à quarta, dia 14.</p>
       </cd-slide>
 
-      <!-- 4. Os últimos dias -->
-      <cd-slide [numero]="4" [total]="5">
+      <!-- 5. Os últimos dias -->
+      <cd-slide [numero]="5" [total]="6">
         <span class="rotulo">3 · Os últimos dias</span>
         <p class="manchete grande uma-linha">Os dados chegam aos poucos</p>
         <p class="texto">Um dia só entra na conta quando 90% das salas já informaram. Por isso o Top 5 sai só de semana completa.</p>
@@ -95,8 +111,8 @@ const escala = 105;
         <p class="nota">Salas que informaram cada dia de outubro, em % do normal (situação em 23/10).</p>
       </cd-slide>
 
-      <!-- 5. Os limites -->
-      <cd-slide [numero]="5" [total]="5">
+      <!-- 6. Os limites -->
+      <cd-slide [numero]="6" [total]="6">
         <span class="rotulo">4 · Os limites</span>
         <ul class="limites">
           <li><strong>Confiável desde ago/2016</strong><span>Antes disso a base quase não tem sessões. Nossos históricos começam aí.</span></li>
@@ -107,14 +123,31 @@ const escala = 105;
     </div>
   `,
   styles: `
-    /* 1 */
+    /* 1: capa da marca. O feixe do projetor do logo cruza o quadro; o logo grande é o centro da capa. */
+    .marca-capa { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4cqw; }
+    .logo-grande { position: relative; font-size: 15.5cqw; }
+    .logo-grande cd-logo { position: relative; z-index: 1; }
+    /* Continua o feixe do símbolo: nasce na lente (x = 9,5 de 32 no SVG de 1,35em) com a mesma abertura e se abre até
+       a borda do quadro, passando por trás do nome. */
+    .feixe-capa {
+      position: absolute; left: calc(1.35em * 9.5 / 32); top: 50%; width: 100cqw; height: 72cqw; pointer-events: none;
+      transform: translateY(-50%);
+      background: linear-gradient(90deg, color-mix(in oklab, var(--cd-projetor) 30%, transparent), transparent 90%);
+      clip-path: polygon(0 48.7%, 100% 0, 100% 100%, 0 51.3%);
+    }
+    .lema { font-family: var(--cd-fonte-display); font-weight: 600; font-size: 5.2cqw; letter-spacing: -0.02em; color: var(--cd-tela-2); }
+    .assunto { position: relative; padding-top: 5cqw; border-top: .3cqw solid var(--cd-linha); }
+    .assunto .rotulo { display: block; }
+    .assunto + .arraste { margin-top: 4cqw; }
+
+    /* 2 */
     .capa .manchete { font-size: 7cqw; }
     .capa .texto { margin-top: 5cqw; font-size: 4.2cqw; }
 
-    /* 2 */
+    /* 3 */
     .manchete.grande + .texto { margin-top: 4cqw; }
 
-    /* 3 */
+    /* 4 */
     .dias { list-style: none; padding: 0; margin: 8cqw 0 0; display: grid; grid-template-columns: repeat(7, 1fr); gap: 1.6cqw; }
     .dias li {
       aspect-ratio: 3 / 4; display: grid; place-items: center; border-radius: 2.4cqw;
@@ -125,7 +158,7 @@ const escala = 105;
     .estreias { font-size: 3.4cqw; font-weight: 600; color: var(--cd-projetor); margin: 1.6cqw 0 0 1.4cqw; }
     .estreias + .texto { margin-top: 6cqw; }
 
-    /* 4 */
+    /* 5 */
     .manchete.uma-linha { font-size: 7.4cqw; }
     .cobertura { position: relative; flex: 1; display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)); gap: .8cqw; margin-top: 5cqw; min-height: 0; border-bottom: .2cqw solid var(--cd-linha); }
     .dia { display: flex; align-items: flex-end; min-height: 0; }
@@ -140,7 +173,7 @@ const escala = 105;
     .semanas .chegando { border-color: var(--cd-dado-ambar); }
     .semanas + .nota { margin-top: 3cqw; }
 
-    /* 5 */
+    /* 6 */
     .limites { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 3cqw; }
     .limites li { display: flex; flex-direction: column; gap: 1.4cqw; padding: 3.4cqw 4cqw; border-radius: 3cqw; background: var(--cd-poltrona); border: .3cqw solid var(--cd-linha); }
     .limites strong { font-family: var(--cd-fonte-display); font-weight: 700; font-size: 5.6cqw; line-height: 1.1; letter-spacing: -0.02em; }

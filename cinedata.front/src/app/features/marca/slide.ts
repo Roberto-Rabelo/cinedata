@@ -17,7 +17,7 @@ import { Logo } from '../../shared/ui/logo';
         <img class="fundo" [src]="url" [style.object-position]="posicaoFundo()" alt="" />
       }
       <header class="topo">
-        <cd-logo [tamanho]="null" />
+        <cd-logo [tamanho]="null" [style.visibility]="semLogo() ? 'hidden' : null" />
         <span class="contador">
           {{ numero() }}/{{ total() }}
           @if (credito(); as c) { <small>{{ c }}</small> }
@@ -63,4 +63,6 @@ export class Slide {
   readonly posicaoFundo = input('50% 50%');
   /** Crédito da foto, embaixo do contador (ex.: "Imagem: divulgação"). */
   readonly credito = input<string>();
+  /** Capa com o logo grande no corpo: o logo pequeno do topo sairia repetido. */
+  readonly semLogo = input(false);
 }
