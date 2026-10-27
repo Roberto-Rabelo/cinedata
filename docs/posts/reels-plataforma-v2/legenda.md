@@ -1,6 +1,6 @@
 # Reels de apresentação, versão 2 (@cinedata.br)
 
-`reels.mp4`: 1080×1920 (9:16), 30 fps, 36 s, H.264 sem áudio. `capa.png`: capa do Reels (o mural de pôsteres com
+`reels.mp4`: 1080×1920 (9:16), 30 fps, 38 s, H.264 sem áudio. `capa.png`: capa do Reels (o mural de pôsteres com
 "1.443 filmes que passaram nos cinemas do Brasil"). Imagens reais de cinedatabr.tech no celular, já com os pôsteres,
 e dados até 23/10/2026.
 
@@ -21,16 +21,17 @@ Os números ficam em `NUMEROS` no topo de `scripts/gerar-reels-v2.mjs`; com dado
 
 | Tempo | Cena | Na tela |
 | --- | --- | --- |
-| 0–2,2 s | Abertura no escuro | a câmera anda para a esquerda, da palavra "cinedata" apagada até o projetor, com poeira no ar e bokeh em primeiro plano |
-| 2,2–3 s | O projetor acorda | duas piscadas, acende; brilho da lente e risco de luz anamórfico |
-| 3–4,8 s | A luz | o feixe atravessa o símbolo e cada barra pula ao ser iluminada (achata, estica e assenta, a homenagem ao abajur da Pixar); a câmera recua acompanhando a luz, que acende o nome da esquerda para a direita |
-| 4,8–6,9 s | Logo | "O cinema brasileiro em números / Todos os cinemas do país, semana a semana"; o logo encolhe e pousa no canto, onde vira o cabeçalho |
-| 6,9–10,8 s | Mural | os pôsteres dos 84 filmes mais vistos desde 2016, inclinados, com uma faixa de luz passando; "1.443 filmes que passaram nos cinemas do Brasil"; crédito "Pôsteres: TMDB" |
-| 10,8–16,5 s | Top 10 | home no celular com o pôster do nº 1; "Street Fighter, nº 1 da semana de 15 a 21 de outubro: 320.927 pessoas" e "1,5 milhão de ingressos em 7 dias" |
-| 16,5–22,5 s | Mapa | São Paulo aberto ("33% do público do Brasil"); "quem venceu" em setembro: "27 de 27 estados" |
-| 22,5–27,4 s | Filme | Ainda Estou Aqui com pôster, público e tempo em cartaz; "5,7 milhões de espectadores, em 35 semanas em cartaz" |
-| 27,4–31,4 s | Números | contagem até 1,23 bilhão de ingressos desde 2016, 38,5 milhões de sessões, 27 estados |
-| 31,4–36 s | Chamada | cinedatabr.tech, "Todos os cinemas do Brasil, atualizado toda semana", "Link na bio", fonte |
+| 0–1,4 s | Entrada | o projetor do logo, como personagem (rolos de filme nas "orelhas", a lente como olho), entra pulando da direita, sob uma luz de palco |
+| 1,4–3,3 s | O salto | para, olha as barras com a cabeça inclinada, agacha e pula por cima delas até o lugar do logo |
+| 3,3–4,5 s | Para a câmera | vira para a direita, olha para a câmera, pisca e, num último pulo, para no lugar do projetor no logo; os rolos recolhem |
+| 4,5–6,6 s | Acende | o olho vai para a borda e vira a lente; pisca duas vezes e liga; o feixe atravessa o símbolo, cada barra pula ao ser iluminada e a luz acende o nome |
+| 6,4–8,5 s | Logo | "O cinema brasileiro em números / Entenda como o seu filme favorito está indo nos cinemas"; o logo encolhe e pousa no canto, onde vira o cabeçalho |
+| 8,5–12,4 s | Mural | os pôsteres dos 84 filmes mais vistos desde 2016, inclinados, com uma faixa de luz passando; "1.443 filmes que passaram nos cinemas do Brasil"; crédito "Pôsteres: TMDB" |
+| 12,4–18,1 s | Top 10 | home no celular com o pôster do nº 1; "Street Fighter, nº 1 da semana de 15 a 21 de outubro: 320.927 pessoas" e "1,5 milhão de ingressos em 7 dias" |
+| 18,1–24,1 s | Mapa | São Paulo aberto ("33% do público do Brasil"); "quem venceu" em setembro: "27 de 27 estados" |
+| 24,1–29 s | Filme | Ainda Estou Aqui com pôster, público e tempo em cartaz; "5,7 milhões de espectadores, em 35 semanas em cartaz" |
+| 29–33 s | Números | contagem até 1,23 bilhão de ingressos desde 2016, 38,5 milhões de sessões, 27 estados |
+| 33–38 s | Chamada | cinedatabr.tech, "Todos os cinemas do Brasil, atualizado toda semana", "Link na bio", fonte |
 
 Conferência: 1.229.691.177 ingressos de ago/2016 a 23/10/2026 (soma de `dados/mes/2016-08..12` e `dados/ano/2017..2026`);
 38.471.082 sessões no banco; semana de 15/10: 1.493.026 pessoas, Street Fighter 320.927, SP 490.801 (32,9%); Minha
@@ -41,8 +42,8 @@ Melhor Amiga líder nas 27 UFs em `dados/mes/2026-09.json`; Ainda Estou Aqui 5.7
 
 Não prometer "grátis" nem "aberto" nos textos: o acesso hoje é livre, mas pode passar a ser pago (ver backlog).
 
-- Música: um instrumental com uma "subida" nos primeiros 3 s combina com a abertura (o projetor acende em 2,3 s e a
-  luz cruza o logo até 4,8 s). O vídeo vai sem som para escolher na biblioteca do Instagram.
+- Música: um instrumental leve e brincalhão na abertura, com uma "subida" quando o projetor acende, combina com o personagem (o personagem acende em 4,6 s e a
+  luz cruza o logo até 6,6 s). O vídeo vai sem som para escolher na biblioteca do Instagram.
 - Capa: `capa.png` (Editar capa → Adicionar da galeria).
 - Bio: `https://cinedatabr.tech/?utm_source=instagram&utm_medium=bio&utm_campaign=lancamento`.
 - Os pôsteres são do TMDB (crédito no vídeo e no site). Antes de impulsionar o post como anúncio pago ou de cobrar pelo

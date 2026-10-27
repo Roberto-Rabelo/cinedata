@@ -1,10 +1,11 @@
-// Reels de apresentação da plataforma, versão 2 (1080×1920, 9:16, 30 fps, 36 s), com os pôsteres do site. A versão 1
+// Reels de apresentação da plataforma, versão 2 (1080×1920, 9:16, 30 fps, 38 s), com os pôsteres do site. A versão 1
 // (gerar-reels.mjs, docs/posts/reels-plataforma) continua como está, para o caso de voltar a ela.
 //
-// Abertura no estilo das vinhetas de estúdio: a câmera anda no escuro, da palavra "cinedata" para a esquerda, até o
-// projetor; ele pisca e acende, o feixe atravessa o símbolo e cada barra pula ao ser iluminada; a câmera recua
-// acompanhando a luz, que acende o nome. Depois o logo encolhe até o canto (vira o cabeçalho) e entra um mural com os
-// pôsteres dos filmes mais vistos, e então as telas do site no celular, os números e a chamada final.
+// Abertura animada, inspirada na vinheta da Pixar: o projetor do logo é um personagem. Ele entra pulando (os rolos de
+// filme são as orelhas e a lente é o olho), olha as barras, pula por cima delas, vira, olha para a câmera e pisca, e
+// num último pulo para no lugar do logo: os rolos recolhem, o olho vira a lente e acende; o feixe atravessa o símbolo,
+// cada barra pula ao ser iluminada e a luz acende o nome. Depois o logo encolhe até o canto (vira o cabeçalho), entra
+// um mural com os pôsteres dos filmes mais vistos e então as telas do site no celular, os números e a chamada final.
 //
 //   node scripts/servir-estatico.mjs &                         (o site estático, com posteres/, em http://localhost:4320)
 //   node scripts/gerar-reels-v2.mjs <pasta-saida> [url-do-site]
@@ -21,9 +22,11 @@ const [saidaArg, site = 'http://localhost:4320'] = process.argv.slice(2);
 if (!saidaArg) throw new Error('uso: node scripts/gerar-reels-v2.mjs <pasta-saida> [url-do-site]');
 const saida = resolve(saidaArg);
 const FPS = 30;
-const DURACAO = 36;
+const DURACAO = 38;
+/** Quando o logo da abertura pousa no cabeçalho. */
+const POUSO = 8.5;
 /** Quando o celular entra (o corpo, igual ao da versão 1 a partir dos 3 s dela); antes, a abertura e o mural. */
-const CORPO = 10.8;
+const CORPO = 12.4;
 
 // Números do vídeo (export de 27/10/2026, dados até 23/10). Conferir antes de regerar com dados novos.
 const NUMEROS = {
@@ -85,7 +88,16 @@ async function posteresDoMural() {
   return lista;
 }
 
-/** O símbolo do logo em partes (projetor, feixe e barras), para acender cada uma; mesmas medidas do favicon.svg. */
+/** Furos de um rolo de filme (girados a cada quadro). */
+const furos = (cx, cy, r) => [0, 90, 180, 270].map(a => {
+  const rad = (a * Math.PI) / 180;
+  return `<circle cx="${(cx + Math.cos(rad) * r * .52).toFixed(3)}" cy="${(cy + Math.sin(rad) * r * .52).toFixed(3)}" r="${(r * .22).toFixed(3)}"/>`;
+}).join('') + `<circle cx="${cx}" cy="${cy}" r="${(r * .16).toFixed(3)}"/>`;
+
+/**
+ * O símbolo do logo em partes, mesmas medidas do favicon.svg. O projetor é o personagem (#bicho): corpo, dois rolos e
+ * o olho, desenhados com a origem no meio da base, para pular, achatar e esticar a partir do chão.
+ */
 const simboloAnimado = `<svg id="simbolo" viewBox="0 0 32 32" aria-hidden="true" overflow="visible">
   <defs>
     <linearGradient id="g-feixe" x1="9.5" y1="0" x2="29" y2="0" gradientUnits="userSpaceOnUse">
@@ -93,11 +105,23 @@ const simboloAnimado = `<svg id="simbolo" viewBox="0 0 32 32" aria-hidden="true"
     </linearGradient>
     <clipPath id="corte-feixe"><rect id="feixe-corte" x="9.5" y="0" width="0" height="32"/></clipPath>
   </defs>
+  <ellipse id="sombra" cx="0" cy="23" rx="3.4" ry=".6" fill="#000"/>
   <polygon id="feixe-logo" points="9.5,14.6 29,6.5 29,25.5 9.5,17.4" fill="url(#g-feixe)" clip-path="url(#corte-feixe)"/>
-  <rect id="projetor" x="3" y="12.5" width="6.5" height="7" rx="1.4"/>
   <rect class="barra" id="b1" x="15.5" y="18" width="2.6" height="5" rx=".8"/>
   <rect class="barra" id="b2" x="20" y="14.5" width="2.6" height="8.5" rx=".8"/>
   <rect class="barra" id="b3" x="24.5" y="10" width="2.6" height="13" rx=".8"/>
+  <g id="bicho">
+    <g id="rolos">
+      <circle class="pele" cx="-1.6" cy="-8.4" r="1.6"/><g class="furos" id="furos1" fill="#0D0E12">${furos(-1.6, -8.4, 1.6)}</g>
+      <circle class="pele" cx="1.75" cy="-8.85" r="1.95"/><g class="furos" id="furos2" fill="#0D0E12">${furos(1.75, -8.85, 1.95)}</g>
+    </g>
+    <rect class="pele" id="corpo" x="-3.25" y="-7" width="6.5" height="7" rx="1.4"/>
+    <g id="olho">
+      <circle r="1.35" fill="#0D0E12"/>
+      <circle id="iris" r=".74" fill="#3A3D48"/>
+      <circle id="reflexo" cx="-.42" cy="-.46" r=".34" fill="#FFFFFF"/>
+    </g>
+  </g>
 </svg>`;
 
 const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><meta charset="utf-8">
@@ -111,16 +135,21 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
   .logo svg { width: 1.3em; height: 1.3em; }
   .logo b { font-weight: 800; }
 
-  /* Abertura: palco com perspectiva; o "mundo" é o logo grande, a câmera é a transformação dele. */
-  #palco { inset: 0; perspective: 1500px; perspective-origin: 540px 860px; overflow: hidden; }
+  /* Abertura: palco; o "mundo" é o logo grande e a câmera é a transformação dele. */
+  #palco { inset: 0; overflow: hidden; }
   #mundo { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
-  #marca { font-size: 277px; white-space: nowrap; }
+  #marca { position: relative; font-size: 277px; white-space: nowrap; }
   #marca svg { width: 360px; height: 360px; }
-  #projetor, .barra { transform-box: fill-box; transform-origin: 50% 100%; }
+  .barra { transform-box: fill-box; transform-origin: 50% 100%; }
   #nome { position: relative; }
-  #nome .escuro { color: #1A1C23; -webkit-text-stroke: 2px #2A2D38; }
+  #nome .escuro { color: transparent; }
   #nome .aceso { position: absolute; left: 0; top: 0; color: #F3EFE6; text-shadow: 0 0 60px #FFB54733; }
-  #luz { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+  #chao { position: absolute; left: -3000px; width: 9000px; height: 2400px; border-top: 1px solid #2A2D38;
+          background: linear-gradient(#191B22, #0D0E12 260px); }
+  #spot { position: absolute; width: 200px; height: 44px; margin: -22px 0 0 -100px; border-radius: 50%;
+          background: radial-gradient(closest-side, #FFE9C42E, #FFE9C40A 60%, transparent); }
+  #cone { position: absolute; width: 150px; height: 420px; margin: -420px 0 0 -75px;
+          background: linear-gradient(#FFE9C400, #FFE9C412); clip-path: polygon(38% 0, 62% 0, 100% 100%, 0 100%); }
   #brilho { position: absolute; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%;
             background: radial-gradient(circle, #FFF3DCEE 0 4%, #FFB54788 12%, #FFB54722 35%, transparent 68%); mix-blend-mode: screen; }
   #risco { position: absolute; width: 2600px; height: 26px; margin: -13px 0 0 -1300px;
@@ -129,9 +158,11 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
   #bokeh { inset: 0; pointer-events: none; }
   #bokeh i { position: absolute; border-radius: 50%; background: radial-gradient(circle, #FFB54730, transparent 70%); }
   #vinheta { inset: 0; background: radial-gradient(75% 55% at 50% 45%, transparent 40%, #000000B0 100%); pointer-events: none; }
-  #slogan { left: 80px; right: 80px; top: 1010px; text-align: center; font-family: 'Bricolage Grotesque', sans-serif;
+  #slogan { left: 70px; right: 70px; top: 1000px; text-align: center; font-family: 'Bricolage Grotesque', sans-serif;
             font-size: 64px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
-  #slogan small { display: block; margin-top: 26px; font-family: Inter, sans-serif; font-size: 34px; font-weight: 500; letter-spacing: 0; color: #A3A7B3; }
+  #slogan small { display: block; margin-top: 30px; font-family: Inter, sans-serif; font-size: 38px; font-weight: 500; letter-spacing: 0;
+                  line-height: 1.35; color: #C9CCD4; }
+  #slogan small b { color: #FFB547; font-weight: 600; }
 
   /* Mural de pôsteres. */
   #mural { inset: 0; overflow: hidden; }
@@ -207,6 +238,7 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
 
   <div id="palco" class="camada">
     <div id="mundo">
+      <div id="chao"></div><div id="cone"></div><div id="spot"></div>
       <span id="marca" class="logo">${simboloAnimado}<span id="nome"><span class="escuro">cine<b>data</b></span><span class="aceso">cine<b>data</b></span></span></span>
       <div id="poeiras"></div>
       <div id="brilho"></div><div id="risco"></div>
@@ -214,12 +246,13 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
   </div>
   <div id="bokeh" class="camada"></div>
   <div id="vinheta" class="camada"></div>
-  <div id="slogan" class="camada">O cinema brasileiro em números<small>Todos os cinemas do país, semana a semana</small></div>
+  <div id="slogan" class="camada">O cinema brasileiro em números<small>Entenda como o seu <b>filme favorito</b><br>está indo nos cinemas</small></div>
 </div>
 <script>
   const telas = ${JSON.stringify(Object.fromEntries(Object.entries(telas).map(([n, t]) => [n, t.ancoras])))};
   const ESCALA_TELA = 616 / (390 * ${ESCALA});
   const CORPO = ${CORPO};
+  const POUSO = ${POUSO};
   const lim = (x) => Math.min(1, Math.max(0, x));
   const suave = (x) => { x = lim(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
   const saida = (x) => 1 - Math.pow(1 - lim(x), 3);
@@ -250,85 +283,163 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
   }
 
   // ---------- Abertura ----------
-  // Medidas do mundo (px do logo grande): o símbolo tem 360 px; 1 unidade do viewBox = 11,25 px.
+  // Unidades do viewBox do símbolo (32 × 32); no mundo, o símbolo tem 360 px: 1 unidade = 11,25 px.
   const U = 360 / 32;
-  const LENTE = { x: 9.5 * U, y: 16 * U };
-  const FIM_FEIXE = 29 * U;
+  const CHAO = 23;     // base das barras: o chão onde o personagem pula
+  const NO_LOGO = { x: 6.25, y: 19.5 }; // meio da base do projetor no logo
+  const LENTE_U = { x: 9.5, y: 16 };
+  const FIM_FEIXE_U = 29;
   const nome = el('nome');
   // Medidas que dependem das fontes: calculadas no primeiro quadro (depois de document.fonts.ready).
-  let INICIO_NOME, LARGURA, ALTURA, CAMERA;
+  let INICIO_NOME, LARGURA, Y0, CAMERA;
   const poeiras = [];
   const bokehs = [];
+  /** Ponto do viewBox do símbolo → px do mundo. */
+  const mundoX = (u) => u * U;
+  const mundoY = (u) => Y0 + u * U;
 
   function iniciar() {
     const marca = el('marca');
     INICIO_NOME = nome.offsetLeft;
     LARGURA = marca.offsetWidth;
-    ALTURA = marca.offsetHeight;
-    const centroY = ALTURA / 2;
+    Y0 = (marca.offsetHeight - 360) / 2; // o svg fica centrado na linha do logo
+    const centroY = mundoY(16);
     const zFinal = 940 / LARGURA;
     // Onde o logo pousa: o símbolo do cabeçalho (#topo), o mesmo desenho em 38 px.
     const topo = el('topo').querySelector('svg').getBoundingClientRect();
     const zTopo = topo.width / 360;
-    const simboloY = (ALTURA - 360) / 2; // o svg fica centrado na linha do logo
-    /** Pontos da câmera: [t, cx, cy, z, guinada em graus]; cx/cy é o ponto do mundo no centro da tela (540, 860). */
+    el('chao').style.top = mundoY(CHAO) + 'px';
+    /** Pontos da câmera: [t, cx, cy, z]; cx/cy é o ponto do mundo que fica em (540, 860) na tela. */
     CAMERA = [
-      [0, LARGURA - 260, centroY, 1.9, -18],
-      [2.15, 115, centroY, 2.4, -5],
-      [2.95, 125, centroY, 2.45, -4],
-      [4.75, LARGURA / 2, centroY + 30 / zFinal, zFinal, 0],
-      [6.05, LARGURA / 2, centroY + 30 / (zFinal * 1.03), zFinal * 1.03, 0],
-      [6.85, (540 - topo.left) / zTopo, simboloY + (860 - topo.top) / zTopo, zTopo, 0],
+      [0, mundoX(21), mundoY(14.5), 2.45],
+      [1.5, mundoX(23), mundoY(14.5), 2.5],
+      [2.25, mundoX(23), mundoY(14.5), 2.5],
+      [3.1, mundoX(14), mundoY(14.5), 2.6],
+      [4.8, mundoX(13), mundoY(15), 2.75],
+      [6.4, LARGURA / 2, centroY + 30 / zFinal, zFinal],
+      [POUSO - .75, LARGURA / 2, centroY + 30 / (zFinal * 1.03), zFinal * 1.03],
+      [POUSO, (540 - topo.left) / zTopo, Y0 + (860 - topo.top) / zTopo, zTopo],
     ];
 
-    // Poeira no ar: aparece fraca no escuro e brilha dentro do feixe.
+    // Poeira no ar: quase invisível no escuro, brilha dentro do feixe.
     for (let i = 0; i < 90; i++) {
       const d = document.createElement('i');
       d.className = 'poeira';
       const tamanho = 2 + aleatorio() * 5;
       Object.assign(d.style, { width: tamanho + 'px', height: tamanho + 'px' });
       el('poeiras').appendChild(d);
-      poeiras.push({ d, x: mix(60, LARGURA + 200, aleatorio()), y: mix(-260, ALTURA + 260, aleatorio()), f: aleatorio() * 6.28, tamanho });
+      poeiras.push({ d, x: mix(60, LARGURA + 200, aleatorio()), y: Y0 + mix(-260, 620, aleatorio()), f: aleatorio() * 6.28, tamanho });
     }
     // Bokeh em primeiro plano: anda mais rápido que o mundo (paralaxe).
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 12; i++) {
       const b = document.createElement('i');
       const tamanho = 60 + aleatorio() * 180;
       Object.assign(b.style, { width: tamanho + 'px', height: tamanho + 'px' });
       el('bokeh').appendChild(b);
-      bokehs.push({ b, x: aleatorio() * 2600, y: mix(300, 1700, aleatorio()), tamanho });
+      bokehs.push({ b, x: aleatorio() * 2600, y: mix(200, 1000, aleatorio()), tamanho });
     }
   }
 
   function camera(t) {
-    let [, cx, cy, z, g] = CAMERA[0];
+    let [, cx, cy, z] = CAMERA[0];
     for (let i = 1; i < CAMERA.length; i++) {
       const a = CAMERA[i - 1], b = CAMERA[i];
       if (t < a[0]) break;
       const p = suave(entre(t, a[0], b[0]));
       // O zoom interpola em escala logarítmica (o movimento parece constante).
       z = Math.exp(mix(Math.log(a[3]), Math.log(b[3]), p));
-      cx = mix(a[1], b[1], p); cy = mix(a[2], b[2], p); g = mix(a[4], b[4], p);
+      cx = mix(a[1], b[1], p); cy = mix(a[2], b[2], p);
     }
-    return { cx, cy, z, g };
+    return { cx, cy, z };
+  }
+
+  // ----- O personagem -----
+  /** Saltos: [início, fim, x de saída, x de chegada, altura], em unidades do símbolo. */
+  const SALTOS = [
+    [.35, .85, 50, 41.5, 5],
+    [.92, 1.42, 41.5, 33, 4],
+    [2.3, 3.05, 33, NO_LOGO.x, 17],
+  ];
+  /** Antecipação (agacha antes de pular): [início, fim]. */
+  const AGACHA = [[2.06, 2.3], [3.98, 4.15]];
+  const voltaComSobra = (p) => 1 + 2.70158 * Math.pow(p - 1, 3) + 1.70158 * Math.pow(p - 1, 2);
+
+  /** Posição (meio da base), escala e inclinação do personagem no instante t. */
+  function bicho(t) {
+    let x = SALTOS[0][2], y = CHAO, sx = 1, sy = 1, r = 0, noAr = false;
+    for (const [a, b, x0, x1, h] of SALTOS) {
+      if (t >= b) { x = x1; continue; }
+      if (t >= a) {
+        const p = (t - a) / (b - a);
+        x = mix(x0, x1, p); // velocidade horizontal constante, como num salto de verdade
+        y = CHAO - h * 4 * p * (1 - p);
+        const v = Math.abs(1 - 2 * p); // estica na subida e na descida, arredonda no alto
+        sy = 1 + .2 * v * v; sx = 1 / Math.sqrt(sy);
+        r = -(h > 10 ? 15 : 9) * Math.sin(Math.PI * p); // inclina para a frente (para a esquerda)
+        noAr = true;
+      }
+      break;
+    }
+    if (!noAr) {
+      // Aterrissagem: achata e volta, com mola.
+      for (const [, b] of SALTOS) {
+        const k = t - b;
+        if (k >= 0 && k < .5) { const q = .3 * Math.exp(-k * 10) * Math.cos(k * 18); sy = 1 - q; sx = 1 + .7 * q; }
+      }
+      for (const [a, b] of AGACHA) {
+        if (t >= a && t < b) { const p = suave(entre(t, a, b)); sy = 1 - .2 * p; sx = 1 + .14 * p; }
+      }
+      // Parado olhando as barras: respira e inclina a cabeça, curioso.
+      if (t >= 1.42 && t < 2.06) { r = -7 * suave(entre(t, 1.6, 1.8)); sy *= 1 + .02 * Math.sin((t - 1.42) * 9); }
+      // Vira para a direita: um tremidinho.
+      if (t >= 3.3 && t < 3.55) { const p = Math.sin(Math.PI * entre(t, 3.3, 3.55)); sy *= 1 - .07 * p; sx *= 1 + .05 * p; }
+    }
+    // Último pulo: sobe até o lugar do projetor no logo e fica lá, flutuando.
+    if (t >= 4.15) {
+      const p = entre(t, 4.15, 4.45);
+      y = CHAO - (CHAO - NO_LOGO.y) * (p < 1 ? voltaComSobra(p) : 1);
+      const k = t - 4.15;
+      sy = t < 5 ? 1 + .14 * Math.exp(-k * 7) * Math.cos(k * 14) : 1;
+      sx = 1 / Math.sqrt(sy);
+      x = NO_LOGO.x; r = 0;
+    }
+    return { x, y, sx, sy, r };
+  }
+
+  /** O projetor acendendo: duas piscadas e liga. */
+  function ligado(t) {
+    if (t < 4.55) return 0;
+    if (t < 4.62) return .9;
+    if (t < 4.7) return .1;
+    if (t < 4.75) return .7;
+    if (t < 4.82) return .15;
+    return saida(entre(t, 4.82, 4.95));
+  }
+
+  /** O olho: para onde olha, piscada, e no fim vira a lente (vai para a borda direita e acende). */
+  function olho(t) {
+    let ex = -1.35, ey = -3.6;
+    // Olha para o alto das barras.
+    ey -= .55 * suave(entre(t, 1.5, 1.7)) * (1 - entre(t, 1.95, 2.1));
+    ex = mix(ex, 1.35, suave(entre(t, 3.3, 3.55)));
+    const paraCamera = suave(entre(t, 3.62, 3.8));
+    ex = mix(ex, 0, paraCamera);
+    let es = 1 + .2 * paraCamera;
+    const pisca = t >= 3.86 && t < 3.98 ? .1 + .9 * Math.abs(1 - 2 * entre(t, 3.86, 3.98)) : 1;
+    const borda = suave(entre(t, 4.45, 4.7));
+    ex = mix(ex, LENTE_U.x - NO_LOGO.x, borda);
+    ey = mix(ey, LENTE_U.y - NO_LOGO.y, borda);
+    es = mix(es, .75, borda);
+    return { ex, ey, es, pisca, borda };
   }
 
   /** Frente da luz (x no mundo): cruza o símbolo devagar (as barras acendem uma a uma) e depois corre pelo nome. */
-  const frente = (t) => t < 3.75
-    ? mix(LENTE.x, FIM_FEIXE + 4, suave(entre(t, 2.95, 3.75)))
-    : mix(FIM_FEIXE + 4, LARGURA + 300, saida(entre(t, 3.75, 4.8)));
+  const LIGA_FEIXE = 4.95;
+  const frente = (t) => t < 5.75
+    ? mix(mundoX(LENTE_U.x), mundoX(FIM_FEIXE_U) + 4, suave(entre(t, LIGA_FEIXE, 5.75)))
+    : mix(mundoX(FIM_FEIXE_U) + 4, LARGURA + 300, saida(entre(t, 5.75, 6.6)));
 
-  /** Projetor acordando: duas piscadas e acende. */
-  function projetorLigado(t) {
-    if (t < 2.3) return 0;
-    if (t < 2.38) return .9;
-    if (t < 2.5) return .08;
-    if (t < 2.56) return .6;
-    if (t < 2.72) return .12;
-    return saida(entre(t, 2.72, 2.85));
-  }
-
-  /** Pulo da barra ao ser iluminada (homenagem ao abajur que pula): achata, estica e assenta. */
+  /** Pulo da barra ao ser iluminada: achata, estica e assenta. */
   function pulo(s) {
     if (s <= 0) return [1, 1];
     if (s < .12) { const p = s / .12; return [mix(1, 1.14, p), mix(1, .74, p)]; }
@@ -341,92 +452,120 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
   /** Inclinação do feixe do logo, continuada além do símbolo (o cone de luz que acende o nome). */
   const INCLINACAO = (16 - 6.5) / (29 - 9.5);
   const dentroDoFeixe = (x, y) => {
-    if (x < LENTE.x) return 0;
-    const meia = 1.4 * U + (x - LENTE.x) * INCLINACAO;
-    return lim(1 - Math.abs(y - LENTE.y) / meia) ** .6;
+    const lx = mundoX(LENTE_U.x), ly = mundoY(LENTE_U.y);
+    if (x < lx) return 0;
+    const meia = 1.4 * U + (x - lx) * INCLINACAO;
+    return lim(1 - Math.abs(y - ly) / meia) ** .6;
   };
 
   function abertura(t) {
     // Ao pousar, troca seca pelo logo do cabeçalho (mesmo desenho e lugar; um fade mostraria os dois desalinhados).
-    const visivel = t < 6.86 ? 1 : 0;
-    el('vinheta').style.opacity = (1 - entre(t, 6.3, 6.9)) * entre(t, 0, .4);
-    el('bokeh').style.opacity = (1 - entre(t, 4.6, 5.6)) * entre(t, 0, .8);
-    el('palco').style.opacity = visivel * entre(t, 0, .5);
+    const visivel = t < POUSO ? 1 : 0;
+    el('vinheta').style.opacity = (1 - entre(t, POUSO - .6, POUSO)) * entre(t, 0, .4);
+    el('bokeh').style.opacity = (1 - entre(t, 5.5, 6.5)) * entre(t, 0, .8);
+    el('palco').style.opacity = visivel * entre(t, 0, .45);
     if (!visivel) return;
 
-    const { cx, cy, z, g } = camera(t);
-    el('mundo').style.transform = 'translate(540px, 860px) rotateY(' + g + 'deg) scale(' + z + ') translate(' + (-cx) + 'px, ' + (-cy) + 'px)';
+    const { cx, cy, z } = camera(t);
+    el('mundo').style.transform = 'translate(540px, 860px) scale(' + z + ') translate(' + (-cx) + 'px, ' + (-cy) + 'px)';
 
-    const ligado = projetorLigado(t);
+    // Personagem.
+    const b = bicho(t);
+    const o = olho(t);
+    const luz = ligado(t);
+    const pele = cor('#BDB8AC', '#F3EFE6', luz);
+    el('bicho').setAttribute('transform', 'translate(' + b.x + ' ' + b.y + ') rotate(' + b.r + ') scale(' + b.sx + ' ' + b.sy + ')');
+    document.querySelectorAll('#bicho .pele').forEach(e => e.setAttribute('fill', pele));
+    const rolos = 1 - suave(entre(t, 4.3, 4.6));
+    el('rolos').setAttribute('transform', 'translate(0 -7) scale(' + rolos + ') translate(0 7)');
+    el('rolos').style.opacity = rolos > .02 ? 1 : 0;
+    el('furos1').setAttribute('transform', 'rotate(' + (t * 170) + ' -1.6 -8.4)');
+    el('furos2').setAttribute('transform', 'rotate(' + (t * 140) + ' 1.75 -8.85)');
+    el('olho').setAttribute('transform', 'translate(' + o.ex + ' ' + o.ey + ') scale(' + o.es + ' ' + (o.es * o.pisca) + ')');
+    el('olho').style.opacity = 1 - entre(t, LIGA_FEIXE, LIGA_FEIXE + .3);
+    el('iris').setAttribute('fill', cor('#3A3D48', '#FFB547', Math.max(o.borda * .6, luz)));
+    el('reflexo').style.opacity = 1 - o.borda;
+
+    // Chão, luz de palco e sombra (somem quando a câmera recua para o logo).
+    const palco = 1 - entre(t, 5.2, 6.2);
+    const alturaU = CHAO - b.y;
+    const sombra = el('sombra');
+    sombra.setAttribute('cx', b.x);
+    sombra.setAttribute('rx', 3.4 * (1 - .45 * Math.min(1, alturaU / 17)));
+    sombra.style.opacity = .55 * (1 - .65 * Math.min(1, alturaU / 17)) * palco;
+    el('chao').style.opacity = palco;
+    Object.assign(el('spot').style, { left: mundoX(b.x) + 'px', top: mundoY(CHAO) + 'px', opacity: palco });
+    Object.assign(el('cone').style, { left: mundoX(b.x) + 'px', top: mundoY(CHAO) + 'px', opacity: palco * (1 - .7 * luz) });
+
+    // Feixe e barras.
     const x = frente(t);
-    const acesa = t >= 2.95 ? 1 : 0;
-    el('projetor').setAttribute('fill', cor('#2A2D36', '#F3EFE6', ligado));
-    el('feixe-corte').setAttribute('width', acesa * Math.max(0, Math.min(x, FIM_FEIXE) - LENTE.x) / U);
-    el('feixe-logo').style.opacity = 1;
-
+    const acesa = t >= LIGA_FEIXE ? 1 : 0;
+    el('feixe-corte').setAttribute('width', acesa * Math.max(0, Math.min(x, mundoX(FIM_FEIXE_U)) - mundoX(LENTE_U.x)) / U);
     [['b1', 15.5, '#F3EFE6'], ['b2', 20, '#F3EFE6'], ['b3', 24.5, '#FFB547']].forEach(([id, xb, acende]) => {
       // Momento em que a luz chega à barra.
       let tb = 99;
-      for (let s = 2.95; s < 3.8; s += 1 / 120) if (frente(s) >= (xb + 1.3) * U) { tb = s; break; }
+      for (let s = LIGA_FEIXE; s < 5.8; s += 1 / 120) if (frente(s) >= mundoX(xb + 1.3)) { tb = s; break; }
       const p = entre(t, tb, tb + .12);
       const [sx, sy] = pulo(t - tb);
       const barra = el(id);
-      barra.setAttribute('fill', cor(id === 'b3' ? '#3A2E1C' : '#23262E', acende, p));
+      barra.setAttribute('fill', cor(id === 'b3' ? '#4A3A22' : '#2E3139', acende, p));
       barra.style.transform = 'scale(' + sx + ', ' + sy + ')';
       barra.style.filter = id === 'b3' && p > 0 ? 'drop-shadow(0 0 ' + (1.2 * p) + 'px #FFB547AA)' : 'none';
     });
 
-    // Nome: a luz passa da esquerda para a direita (máscara acompanha a frente do feixe).
+    // Nome: a luz passa da esquerda para a direita (a máscara acompanha a frente do feixe).
     const xNome = x - INICIO_NOME;
     const aceso = nome.querySelector('.aceso');
     aceso.style.webkitMaskImage = aceso.style.maskImage =
       'linear-gradient(90deg, #000 ' + (xNome - 220) + 'px, transparent ' + (xNome + 40) + 'px)';
     aceso.style.opacity = acesa;
 
-    // Brilho da lente e o risco anamórfico.
-    const pulso = t > 2.85 ? .85 + .15 * Math.sin(t * 9) * (1 - entre(t, 3, 5)) : 1;
-    const brilho = ligado * pulso * (1 - .45 * entre(t, 4.4, 6));
-    Object.assign(el('brilho').style, { left: LENTE.x + 'px', top: LENTE.y + 'px', opacity: brilho, transform: 'scale(' + (.7 + .5 * ligado) + ')' });
-    Object.assign(el('risco').style, { left: LENTE.x + 'px', top: LENTE.y + 'px', opacity: brilho * .8 * (1 - entre(t, 5, 6.4)) });
+    // Brilho do olho que vira lente e o risco de luz anamórfico.
+    const olhoX = mundoX(b.x + o.ex * b.sx), olhoY = mundoY(b.y + o.ey * b.sy);
+    const pulso = t > 4.95 ? .85 + .15 * Math.sin(t * 9) * (1 - entre(t, 5, 7)) : 1;
+    const brilho = luz * pulso * (1 - .45 * entre(t, 6.2, 8));
+    Object.assign(el('brilho').style, { left: olhoX + 'px', top: olhoY + 'px', opacity: brilho, transform: 'scale(' + (.6 + .5 * luz) + ')' });
+    Object.assign(el('risco').style, { left: olhoX + 'px', top: olhoY + 'px', opacity: brilho * .8 * (1 - entre(t, 6.2, 7.4)) });
 
     for (const p of poeiras) {
       const px = p.x + 14 * Math.sin(t * .55 + p.f);
       const py = p.y + 12 * Math.sin(t * .4 + p.f * 1.3) - t * 9;
-      const luz = acesa && px < x ? dentroDoFeixe(px, py) : 0;
+      const naLuz = acesa && px < x ? dentroDoFeixe(px, py) : 0;
       Object.assign(p.d.style, {
         transform: 'translate(' + px + 'px, ' + py + 'px)',
-        opacity: (.07 + .8 * luz) * (1 - entre(t, 5.2, 6.4)),
-        boxShadow: luz > .2 ? '0 0 ' + (p.tamanho * 2) + 'px #FFB547' : 'none',
+        opacity: (.05 + .8 * naLuz) * (1 - entre(t, 6.2, 7.4)),
+        boxShadow: naLuz > .2 ? '0 0 ' + (p.tamanho * 2) + 'px #FFB547' : 'none',
       });
     }
-    for (const b of bokehs) {
-      const bx = ((b.x - cx * z * .55) % 2600 + 2600) % 2600 - 760;
-      b.b.style.transform = 'translate(' + bx + 'px, ' + b.y + 'px)';
+    for (const k of bokehs) {
+      const bx = ((k.x - cx * z * .55) % 2600 + 2600) % 2600 - 760;
+      k.b.style.transform = 'translate(' + bx + 'px, ' + k.y + 'px)';
     }
 
-    const s = janela(t, 4.85, 6.5, .45);
-    mostrar('slogan', s, t < 5.3 ? 30 * (1 - saida(entre(t, 4.85, 5.3))) : -40 * entre(t, 6.05, 6.5));
+    const s = janela(t, 6.45, POUSO - .35, .45);
+    mostrar('slogan', s, t < 6.9 ? 30 * (1 - saida(entre(t, 6.45, 6.9))) : -40 * entre(t, POUSO - .8, POUSO - .35));
   }
 
   // ---------- Mural de pôsteres ----------
   const imagensMural = [...el('parede').children];
   function mural(t) {
-    const o = Math.min(entre(t, 6.5, 7.1), 1 - entre(t, CORPO - .4, CORPO + .2));
+    const m = POUSO - .36;
+    const o = Math.min(entre(t, m, m + .6), 1 - entre(t, CORPO - .4, CORPO + .2));
     el('mural').style.opacity = o;
     if (!o) return;
-    const andar = saida(entre(t, 6.5, CORPO + .2));
+    const andar = saida(entre(t, m, CORPO + .2));
     el('parede').style.transform =
       'translate(-50%, 0) perspective(1600px) rotateX(30deg) rotateZ(-9deg) translateY(' + (-120 - 760 * andar) + 'px) scale(' + (1.05 + .1 * andar) + ')';
     imagensMural.forEach((img, i) => {
       const coluna = i % 7, linha = Math.floor(i / 7);
       const atraso = .035 * (Math.abs(coluna - 3) + linha * .7);
-      const p = saida(entre(t, 6.6 + atraso, 7.1 + atraso));
+      const p = saida(entre(t, m + .1 + atraso, m + .6 + atraso));
       img.style.opacity = p;
       img.style.transform = 'translateY(' + (60 * (1 - p)) + 'px) scale(' + mix(.85, 1, p) + ')';
     });
-    el('varredura').style.transform = 'translateX(' + mix(-900, 900, entre(t, 7.2, 9.6)) + 'px)';
-    texto('tm', t, 7.0, CORPO);
-    texto('credito', t, 7.4, CORPO);
+    el('varredura').style.transform = 'translateX(' + mix(-900, 900, entre(t, m + .7, m + 3.1)) + 'px)';
+    texto('tm', t, m + .5, CORPO);
+    texto('credito', t, m + .9, CORPO);
   }
 
   // ---------- Corpo: o mesmo roteiro da versão 1, a partir de CORPO ----------
@@ -449,7 +588,7 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
   /** t no relógio da versão 1 (o celular entra em t = 3); tGlobal só para o cabeçalho, que aparece quando o logo pousa. */
   function corpo(t, tGlobal) {
     el('feixe').style.opacity = .45 * entre(t, 2.6, 3.4) * (1 - entre(t, 27, 28));
-    mostrar('topo', Math.min(tGlobal >= 6.86 ? 1 : 0, 1 - entre(t, 23.4, 23.8)));
+    mostrar('topo', Math.min(tGlobal >= POUSO ? 1 : 0, 1 - entre(t, 23.4, 23.8)));
 
     const celular = janela(t, 3, 19.8, .6);
     const dyCelular = t < 4 ? 500 * (1 - saida(entre(t, 3, 3.7))) : 400 * suave(entre(t, 19.2, 19.8));
@@ -500,7 +639,7 @@ try {
   await pagina.setContent(composicao(telas, simbolo, await posteresDoMural()), { waitUntil: 'networkidle' });
   await pagina.evaluate(() => document.fonts.ready);
   // Capa: o mural de pôsteres com o título.
-  await gravarVideo(pagina, { fps: FPS, duracao: DURACAO, saida, nome: 'reels.mp4', capa: 9.4, previa: process.env.REELS_PREVIA?.split(',').map(Number) });
+  await gravarVideo(pagina, { fps: FPS, duracao: DURACAO, saida, nome: 'reels.mp4', capa: POUSO + 2.6, previa: process.env.REELS_PREVIA?.split(',').map(Number) });
 } finally {
   await navegador.close();
 }
