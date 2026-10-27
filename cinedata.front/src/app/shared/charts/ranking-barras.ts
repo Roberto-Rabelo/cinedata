@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { RouterLink } from '@angular/router';
 import { Granularidade, ItemRanking } from '../../core/api/modelos';
 import { rotuloEmCartaz } from '../periodo';
+import { Cartaz } from '../ui/cartaz';
 import { formatar, rotuloOrigem } from '../formatar';
 
 /** Ranking do período: barras horizontais (uma série, uma cor), valor rotulado na ponta. */
 @Component({
   selector: 'cd-ranking-barras',
-  imports: [RouterLink],
+  imports: [RouterLink, Cartaz],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <ol class="ranking">
@@ -16,6 +17,7 @@ import { formatar, rotuloOrigem } from '../formatar';
           <a class="linha" [routerLink]="['/obras', item.codigoObra]" [attr.aria-label]="descricao(item)"
              data-umami-event="filme-aberto" data-umami-event-origem="top10" [attr.data-umami-event-filme]="item.codigoObra">
             <span class="pos num">{{ item.posicao }}</span>
+            <cd-cartaz [poster]="item.poster" [titulo]="formatar.titulo(item.titulo)" [origem]="item.origem" />
             <span class="corpo">
               <span class="topo">
                 <span class="titulo">{{ formatar.titulo(item.titulo) }}</span>
@@ -46,7 +48,7 @@ import { formatar, rotuloOrigem } from '../formatar';
   `,
   styles: `
     .ranking { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
-    .linha { display: grid; grid-template-columns: 28px 1fr; gap: 12px; padding: 10px 8px; border-radius: var(--cd-raio-p); }
+    .linha { display: grid; grid-template-columns: 28px 40px 1fr; align-items: start; gap: 12px; padding: 10px 8px; border-radius: var(--cd-raio-p); }
     .linha:hover { background: var(--cd-poltrona-2); }
     .pos { font-family: var(--cd-fonte-display); font-weight: 700; font-size: 18px; color: var(--cd-tela-3); text-align: right; }
     .corpo { display: flex; flex-direction: column; gap: 6px; min-width: 0; }

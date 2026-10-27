@@ -18,9 +18,10 @@
 .escala { display: inline-flex; align-items: center; gap: 8px; color: var(--cd-tela-3); }
 .gradiente { width: 120px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, color-mix(in oklab, var(--cd-dado-ambar) 8%, var(--cd-poltrona-2)), var(--cd-dado-ambar)); }
 .vencedores { list-style: none; margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 2px; }
-.vencedores a { display: grid; grid-template-columns: 10px 1fr auto; align-items: center; gap: 10px; padding: 6px 8px; border-radius: var(--cd-raio-p); font-size: 14px; }
+.vencedores a { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 10px; padding: 6px 8px; border-radius: var(--cd-raio-p); font-size: 14px; }
 .vencedores a:hover, .vencedores a.ativo { background: var(--cd-poltrona-2); }
-.vencedor { font-weight: 600; }
+.vencedor { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.vencedores cd-cartaz { width: 32px; }
 .instrucao { margin: -8px 0 0; font-size: 12.5px; }
 
 .detalhe { position: sticky; top: 84px; display: flex; flex-direction: column; gap: 18px; padding: 24px; scroll-margin-top: 80px; }
@@ -42,7 +43,8 @@
 dt { font-size: 12px; color: var(--cd-tela-3); }
 dd { margin: 4px 0 0; font-size: 18px; font-weight: 600; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; }
 dd small { font-size: 12px; font-weight: 400; }
-.lider { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; font-size: 13.5px; }
+.lider { display: flex; gap: 16px; align-items: flex-start; }
+.lider-texto { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; font-size: 13.5px; }
 .lider-titulo { font-family: var(--cd-fonte-display); font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
 .lider-titulo:hover { text-decoration: underline; text-underline-offset: 4px; }
 

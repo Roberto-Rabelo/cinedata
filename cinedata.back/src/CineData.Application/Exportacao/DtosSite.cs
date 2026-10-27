@@ -24,7 +24,7 @@ public sealed record GranularidadeSiteDto(DateOnly Padrao, DateOnly Primeiro, Da
 /// <summary>Linha de <c>busca.json</c>: só as obras que têm página no site.</summary>
 /// <param name="TituloOriginal">Nulo quando igual ao título no Brasil (índice enxuto).</param>
 /// <param name="Publico">Público de todo o histórico importado.</param>
-public sealed record ObraBuscaDto(string Codigo, string Titulo, string? TituloOriginal, string Origem, long Publico);
+public sealed record ObraBuscaDto(string Codigo, string Titulo, string? TituloOriginal, string Origem, long Publico, string? Poster = null);
 
 public sealed record ResultadoExportacao(int Periodos, int Obras, int Arquivos, long Bytes, TimeSpan Duracao)
 {

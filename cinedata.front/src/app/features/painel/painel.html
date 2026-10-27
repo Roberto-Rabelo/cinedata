@@ -53,6 +53,9 @@
     <div class="conteudo corpo">
       @if (lider(); as l) {
         <article class="cartao numero-um" aria-labelledby="titulo-n1">
+          <a class="n1-cartaz" [routerLink]="['/obras', l.codigoObra]" tabindex="-1" aria-hidden="true">
+            <cd-cartaz [poster]="l.poster" [titulo]="formatar.titulo(l.titulo)" [origem]="l.origem" tamanho="grande" />
+          </a>
           <div class="n1-texto">
             <span class="rotulo">Nº 1 {{ doPeriodo[p.periodo.granularidade] }}</span>
             <h2 id="titulo-n1" class="n1-titulo"><a [routerLink]="['/obras', l.codigoObra]" data-umami-event="filme-aberto" data-umami-event-origem="numero-1" [attr.data-umami-event-filme]="l.codigoObra">{{ formatar.titulo(l.titulo) }}</a></h2>
@@ -162,6 +165,7 @@
               @for (item of m.ranking.slice(0, 5); track item.codigoObra) {
                 <li>
                   <span class="pos num">{{ item.posicao }}</span>
+                  <cd-cartaz [poster]="item.poster" [titulo]="formatar.titulo(item.titulo)" [origem]="item.origem" />
                   <a [routerLink]="['/obras', item.codigoObra]" data-umami-event="filme-aberto" data-umami-event-origem="mes" [attr.data-umami-event-filme]="item.codigoObra">{{ formatar.titulo(item.titulo) }}</a>
                   <span class="num secundario">{{ formatar.compacto(item.publico) }}</span>
                 </li>

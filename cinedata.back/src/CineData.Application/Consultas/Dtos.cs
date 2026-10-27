@@ -39,6 +39,7 @@ public sealed record ResumoDto(
 
 /// <param name="EmCartazDesde">Quinta da semana de estreia da temporada (sem pré-estreias; ver TempoEmCartaz).</param>
 /// <param name="SemanasEmCartaz">Semanas da estreia até o período: na semana, a "3ª semana" dos boletins.</param>
+/// <param name="Poster">Caminho do pôster no TMDB ("/abc.jpg"); a imagem vem de image.tmdb.org.</param>
 public sealed record ItemRankingDto(
     int Posicao,
     string CodigoObra,
@@ -55,7 +56,8 @@ public sealed record ItemRankingDto(
     double? VariacaoPct,
     bool Estreia,
     DateOnly? EmCartazDesde = null,
-    int? SemanasEmCartaz = null);
+    int? SemanasEmCartaz = null,
+    string? Poster = null);
 
 public sealed record UfDto(
     string Uf,
@@ -66,7 +68,8 @@ public sealed record UfDto(
     string? LiderCodigo,
     string? LiderTitulo,
     long LiderPublico,
-    double? DubladoPctEstrangeiros);
+    double? DubladoPctEstrangeiros,
+    string? LiderPoster = null);
 
 /// <summary>Uma UF em cada período de uma granularidade, do mais antigo ao mais recente: a série do mapa.</summary>
 /// <param name="Regiao">Norte, Nordeste, CentroOeste, Sudeste ou Sul (como em <see cref="UfDto"/>).</param>
@@ -102,9 +105,9 @@ public sealed record LancamentoDto(
     DateOnly Data, string Distribuidora, string TipoObra, long PublicoTotal, decimal RendaTotal, decimal? TicketMedio);
 
 public sealed record ObraDto(
-    string Codigo, string Titulo, string TituloOriginal, string? Pais, string Origem, LancamentoDto? Lancamento);
+    string Codigo, string Titulo, string TituloOriginal, string? Pais, string Origem, LancamentoDto? Lancamento, string? Poster = null);
 
-public sealed record ObraResumoDto(string Codigo, string Titulo, string Origem, long Publico);
+public sealed record ObraResumoDto(string Codigo, string Titulo, string Origem, long Publico, string? Poster = null);
 
 /// <param name="Parcial">O dia ainda não está consolidado na ANCINE: exibidores continuam enviando dados.</param>
 public sealed record PontoCurvaDto(DateOnly Data, long Publico, int Sessoes, int Salas, bool Parcial);

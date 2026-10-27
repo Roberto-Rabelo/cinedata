@@ -4,7 +4,9 @@ using CineData.Infrastructure.Ancine;
 using CineData.Infrastructure.Csv;
 using CineData.Infrastructure.Persistence;
 using CineData.Infrastructure.Persistence.Leitura;
+using CineData.Application.Posteres;
 using CineData.Infrastructure.Persistence.Repositorios;
+using CineData.Infrastructure.Tmdb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,11 @@ public static class DependencyInjection
         services.AddScoped<IRepositorioCadastros, RepositorioCadastros>();
         services.AddScoped<IConsultasBilheteria, ConsultasBilheteriaSql>();
         services.AddSingleton<ILeitorCsvAncine, LeitorCsvAncine>();
+        services.AddScoped<IRepositorioPosteres, RepositorioPosteres>();
+
+        services.Configure<TmdbOptions>(configuration.GetSection(TmdbOptions.Secao));
+        services.AddHttpClient<ICatalogoTmdb, CatalogoTmdbHttp>()
+            .AddStandardResilienceHandler(); // o TMDB limita requisições por segundo: 429 entra no retry
 
         services.Configure<AncineOptions>(configuration.GetSection(AncineOptions.Secao));
         services.AddHttpClient<IFonteDadosAncine, FonteDadosAncineHttp>(http =>

@@ -25,9 +25,11 @@ O script faz, em ordem:
 1. `docker compose -p cinedata up -d --wait` — o PostgreSQL local (o mesmo volume da pasta principal).
 2. `dotnet run --project src/CineData.Ingestion -- bilheteria` — ingestão incremental: só baixa os CSVs cujo CRC32
    mudou e recalcula os agregados tocados. `--cadastros` também reimporta salas e lançamentos.
-3. `dotnet run --project src/CineData.Ingestion -- exportar ../cinedata.front/dados` — os JSON do site.
-4. `npm run build:estatico` em `cinedata.front` — prerender de todas as páginas em `dist/site/browser`.
-5. Com `--enviar`: commit de `cinedata.front/dados` ("Dados: bilheteria até AAAA-MM-DD") e `git push`. O push na
+3. `dotnet run --project src/CineData.Ingestion -- posteres` — liga ao TMDB só os filmes que entraram agora nos
+   rankings (pôster). Precisa do token: `dotnet user-secrets set Tmdb:Token <token> --project src/CineData.Ingestion`.
+4. `dotnet run --project src/CineData.Ingestion -- exportar ../cinedata.front/dados` — os JSON do site.
+5. `npm run build:estatico` em `cinedata.front` — prerender de todas as páginas em `dist/site/browser`.
+6. Com `--enviar`: commit de `cinedata.front/dados` ("Dados: bilheteria até AAAA-MM-DD") e `git push`. O push na
    `main` dispara o workflow [Publicar site](../.github/workflows/publicar-site.yml), que gera o site de novo no
    GitHub Actions e publica.
 
@@ -140,6 +142,22 @@ Para conferir o DNS: `dig seudominio.com.br +short` deve listar os quatro IPs `1
 `dig www.seudominio.com.br +short` deve mostrar `<usuario>.github.io`.
 
 Sem `DESTINO_SITE` o workflow só gera o site e guarda como artefato por 7 dias (útil para conferir).
+
+## Pôsteres (TMDB)
+
+Cada filme do site é ligado a um filme do [TMDB](https://www.themoviedb.org/) pelo título original e pelo ano
+(`CorrespondenciaTmdb`): o título original ou o título no Brasil precisa bater (sem acento, pontuação nem "e/and") e
+o ano não pode ser depois do lançamento no Brasil; festival até 3 anos antes passa; clássico relançado (Carros em 2026)
+só com o título original exato e o filme conhecido no TMDB. Resultado em `obras_tmdb` (1.399 de 1.439 filmes na
+primeira carga, 81 s). As imagens são carregadas de `image.tmdb.org`; o site não guarda nenhuma.
+
+- Correção à mão (cadastro ambíguo na ANCINE): `posteres definir <codigo> <tmdb_id>` ou `posteres definir <codigo>
+  nenhum`. A busca automática não mexe mais nessas obras. Já corrigidos: TWILIGHT (E1600635500000) → Crepúsculo (8966);
+  HOMEM ARANHA (B0500409500000) sem pôster.
+- Sem correspondência, a obra é buscada de novo depois de 30 dias; no site aparece um cartaz tipográfico (iniciais).
+- Termos: o uso gratuito da API do TMDB é para projetos não comerciais e exige o crédito ("Este produto usa a API do
+  TMDB, mas não é endossado nem certificado pelo TMDB"), que está em Como medimos e no rodapé. **Antes de cobrar pelo
+  acesso, falar com o TMDB sobre licença comercial.**
 
 ## Acessos (Umami)
 

@@ -23,6 +23,7 @@ import {
 } from '../../shared/periodo';
 import { valorDe } from '../../shared/recurso';
 import { FONTE, Seo } from '../../shared/seo';
+import { Cartaz } from '../../shared/ui/cartaz';
 import { Kpi } from '../../shared/ui/kpi';
 import { NavegacaoPeriodo } from '../../shared/ui/navegacao-periodo';
 
@@ -34,7 +35,7 @@ const preposicao: Record<Granularidade, string> = { semana: 'de', mes: 'em', tri
  */
 @Component({
   selector: 'cd-painel',
-  imports: [RouterLink, Kpi, RankingBarras, BarraDividida, MapaUfs, BarrasDia, NavegacaoPeriodo],
+  imports: [RouterLink, Kpi, RankingBarras, BarraDividida, MapaUfs, BarrasDia, NavegacaoPeriodo, Cartaz],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './painel.html',
   styleUrl: './painel.scss',

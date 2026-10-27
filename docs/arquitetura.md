@@ -16,10 +16,10 @@ As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
 | Camada | Responsabilidade | Exemplos |
 | --- | --- | --- |
 | **Domain** | Linguagem do negócio e invariantes | `CodigoObra` (CPB/ROE → origem), `SemanaCinematografica` (quinta a quarta), `Periodo` (semana, mês, trimestre, semestre, ano; anterior equivalente), `DiasConsolidados` (dia e período completos), `TempoEmCartaz` (temporada, estreia sem pré-estreias, semanas em cartaz), `Uf` (com região), `Sessao`, `Sala`, `Lancamento`, `ArquivoImportado` (versão por CRC) |
-| **Application** | Casos de uso e portas | `ImportarBilheteria` (incremental por CRC), `ImportarCadastros`, `ServicoConsultas` (período padrão por granularidade, completude, validações), `CoberturaPeriodos`, `ExportarSite` (site estático), `ChavePeriodo`; interfaces `IFonteDadosAncine`, `ILeitorCsvAncine`, `IRepositorio*`, `IConsultasBilheteria`, `IGravadorSite` |
-| **Infrastructure** | Adaptadores | `ZipRemoto` (HTTP Range), `LeitorCsvAncine` (CsvHelper), `CineDataDbContext` (EF Core + snake_case), upserts com `unnest`, `COPY` binário, `ConsultasBilheteriaSql` (Dapper), `GravadorSiteArquivos` (JSON do site, troca atômica da pasta) |
+| **Application** | Casos de uso e portas | `ImportarBilheteria` (incremental por CRC), `ImportarCadastros`, `ServicoConsultas` (período padrão por granularidade, completude, validações), `CoberturaPeriodos`, `ExportarSite` (site estático), `ChavePeriodo`, `EnriquecerPosteres` e `CorrespondenciaTmdb` (pôster do TMDB); interfaces `IFonteDadosAncine`, `ILeitorCsvAncine`, `IRepositorio*`, `IConsultasBilheteria`, `IGravadorSite` |
+| **Infrastructure** | Adaptadores | `ZipRemoto` (HTTP Range), `LeitorCsvAncine` (CsvHelper), `CineDataDbContext` (EF Core + snake_case), upserts com `unnest`, `COPY` binário, `ConsultasBilheteriaSql` (Dapper), `GravadorSiteArquivos` (JSON do site, troca atômica da pasta), `CatalogoTmdbHttp` e `RepositorioPosteres` (TMDB) |
 | **Api** | Entrega HTTP | Minimal APIs em `/api/v1` (`periodo=semana\|mes\|trimestre\|semestre\|ano` + `data` em `/painel`, `/ranking`, `/ufs`; lista em `/periodos`; série de um estado em `/ufs/{uf}/serie`), `ProblemDetails` para 400/404, OpenAPI + Scalar em `/scalar` |
-| **Ingestion** | Entrega CLI | `amostra`, `bilheteria`, `cadastros`, `migrar`, `exportar <pasta> [desde]` (só lê o banco) |
+| **Ingestion** | Entrega CLI | `amostra`, `bilheteria`, `cadastros`, `migrar`, `posteres [definir <codigo> <tmdb_id\|nenhum>]`, `exportar <pasta> [desde]` (só lê o banco) |
 
 ## Escrita × leitura (CQRS leve)
 
@@ -67,6 +67,7 @@ As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
 | `agregado_calendario_uf` | `granularidade`, `inicio`, `uf` | mesmas colunas de `agregado_semana_uf` |
 | `agregado_periodo*` (views) | `granularidade`, `inicio` | `UNION ALL` de semana (`granularidade = 'semana'`) e calendário |
 | `agregado_pendente` | `id` | períodos importados ainda não recalculados nos agregados |
+| `obras_tmdb` | `codigo_obra` | filme do TMDB e caminho do pôster; `manual` protege correções à mão |
 
 ## Front
 

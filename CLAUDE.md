@@ -9,6 +9,8 @@ Plataforma de dados e conteúdo sobre cinema no Brasil, a partir dos dados abert
 - Ingestão: `cd cinedata.back && dotnet run --project src/CineData.Ingestion -- amostra 8`
 - API: `dotnet run --project src/CineData.Api --launch-profile http` → http://localhost:5232, docs em `/scalar`
 - Front: `cd cinedata.front && npx ng serve --port 4300` (a porta 4200 costuma estar ocupada nesta máquina)
+- Pôsteres (TMDB, incremental): `dotnet run --project src/CineData.Ingestion -- posteres`; token em
+  `dotnet user-secrets set Tmdb:Token <token> --project src/CineData.Ingestion` (nunca no repositório, que é público)
 - Export do site estático: `dotnet run --project src/CineData.Ingestion -- exportar ../cinedata.front/dados` (só lê o banco)
 - Site estático: `cd cinedata.front && npm run build:estatico` → `dist/site/browser`; conferir com `node scripts/servir-estatico.mjs`;
   semana inteira: `scripts/publicar-semana.sh` (ver `docs/publicacao.md`)

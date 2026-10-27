@@ -63,9 +63,11 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
                    a.publico, a.sessoes, a.salas, a.ocupacao,
                    coalesce(a.publico / total.t * 100, 0) AS participacao,
                    an.publico AS publico_anterior,
-                   (tem_anterior.existe AND an.publico IS NULL) AS estreia
+                   (tem_anterior.existe AND an.publico IS NULL) AS estreia,
+                   t.poster
             FROM atual a
             JOIN obras o ON o.codigo = a.codigo_obra
+            LEFT JOIN obras_tmdb t ON t.codigo_obra = a.codigo_obra
             LEFT JOIN anterior an ON an.codigo_obra = a.codigo_obra
             CROSS JOIN total
             CROSS JOIN tem_anterior
@@ -87,7 +89,8 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
                 Math.Round(l.Participacao, 1),
                 l.PublicoAnterior,
                 preEstreia ? null : Variacao(l.Publico, l.PublicoAnterior),
-                l.Estreia || preEstreia);
+                l.Estreia || preEstreia,
+                Poster: l.Poster);
         }).ToList();
     }
 
@@ -99,9 +102,11 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
                    u.publico_estrangeiro_dublado::float8 / nullif(u.publico_estrangeiro, 0) * 100 AS dublado,
                    u.lider_codigo,
                    coalesce(nullif(o.titulo_brasil, ''), o.titulo_original) AS lider_titulo,
-                   u.lider_publico
+                   u.lider_publico,
+                   t.poster AS lider_poster
             FROM agregado_periodo_uf u
             LEFT JOIN obras o ON o.codigo = u.lider_codigo
+            LEFT JOIN obras_tmdb t ON t.codigo_obra = u.lider_codigo
             WHERE u.granularidade = @g AND u.inicio = @ini::date
             ORDER BY u.publico DESC
             """, Parametros(periodo), cancellationToken: ct));
@@ -110,7 +115,7 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
             l.Uf.Trim(), Uf.Criar(l.Uf).Regiao.ToString(), l.Publico, l.Sessoes,
             Math.Round((double)l.Publico / l.Sessoes, 1),
             l.LiderCodigo, l.LiderTitulo, l.LiderPublico,
-            l.Dublado is { } d ? Math.Round(d, 1) : null)).ToList();
+            l.Dublado is { } d ? Math.Round(d, 1) : null, l.LiderPoster)).ToList();
     }
 
     public async Task<IReadOnlyList<PontoUfDto>> ObterSerieUfAsync(Granularidade granularidade, Uf uf, CancellationToken ct)
@@ -193,8 +198,9 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
             SELECT o.codigo, coalesce(nullif(o.titulo_brasil, ''), o.titulo_original) AS titulo,
                    o.titulo_original, o.pais,
                    la.data_lancamento::timestamp AS data_lancamento, la.distribuidora, la.tipo_obra,
-                   la.publico_total, la.renda_total
+                   la.publico_total, la.renda_total, t.poster
             FROM obras o
+            LEFT JOIN obras_tmdb t ON t.codigo_obra = o.codigo
             LEFT JOIN LATERAL (
                 SELECT * FROM lancamentos l WHERE l.codigo_obra = o.codigo
                 ORDER BY l.publico_total DESC LIMIT 1
@@ -208,7 +214,7 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
             ? new LancamentoDto(DateOnly.FromDateTime(data), l.Distribuidora!, l.TipoObra!, l.PublicoTotal ?? 0,
                 l.RendaTotal ?? 0, l.PublicoTotal > 0 ? Math.Round((l.RendaTotal ?? 0) / l.PublicoTotal.Value, 2) : null)
             : null;
-        return new ObraDto(l.Codigo, l.Titulo, l.TituloOriginal, l.Pais, Origem(l.Codigo), lancamento);
+        return new ObraDto(l.Codigo, l.Titulo, l.TituloOriginal, l.Pais, Origem(l.Codigo), lancamento, l.Poster);
     }
 
     public async Task<IReadOnlyList<PontoCurvaDto>> ObterCurvaAsync(CodigoObra codigo, CancellationToken ct)
@@ -238,16 +244,18 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
         await using var conexao = await dados.OpenConnectionAsync(ct);
         var linhas = await conexao.QueryAsync<LinhaBusca>(new CommandDefinition("""
             SELECT o.codigo, coalesce(nullif(o.titulo_brasil, ''), o.titulo_original) AS titulo,
-                   coalesce(sum(a.publico), 0)::bigint AS publico
+                   coalesce(sum(a.publico), 0)::bigint AS publico,
+                   t.poster
             FROM obras o
             LEFT JOIN agregado_semana_obra a ON a.codigo_obra = o.codigo
+            LEFT JOIN obras_tmdb t ON t.codigo_obra = o.codigo
             WHERE o.titulo_original ILIKE @padrao OR o.titulo_brasil ILIKE @padrao
-            GROUP BY o.codigo
+            GROUP BY o.codigo, t.poster
             ORDER BY publico DESC
             LIMIT @limite
             """, new { padrao = $"%{termo}%", limite }, cancellationToken: ct));
 
-        return linhas.Select(l => new ObraResumoDto(l.Codigo, l.Titulo, Origem(l.Codigo), l.Publico)).ToList();
+        return linhas.Select(l => new ObraResumoDto(l.Codigo, l.Titulo, Origem(l.Codigo), l.Publico, l.Poster)).ToList();
     }
 
     /// <summary>Cobertura diária (salas que reportaram) de todo o histórico: ~4.000 linhas, base dos dias consolidados.</summary>
@@ -276,16 +284,16 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
     private sealed record LinhaDia(DateTime Data, int Salas, int Sessoes, long Publico);
     private sealed record LinhaResumo(long Publico, int Sessoes, int Obras, int Salas, int Municipios, long? PublicoAnterior);
     private sealed record LinhaRanking(string Codigo, string Titulo, string? Pais, long Publico, int Sessoes, int Salas,
-        double? Ocupacao, double Participacao, long? PublicoAnterior, bool Estreia);
+        double? Ocupacao, double Participacao, long? PublicoAnterior, bool Estreia, string? Poster);
     private sealed record LinhaUf(string Uf, long Publico, int Sessoes, double? Dublado, string? LiderCodigo,
-        string? LiderTitulo, long LiderPublico);
+        string? LiderTitulo, long LiderPublico, string? LiderPoster);
     private sealed record LinhaSerieUf(DateTime Inicio, long Publico, int Sessoes, double Participacao, int Posicao,
         string? LiderCodigo, string? LiderTitulo, long LiderPublico, double? Dublado);
     private sealed record LinhaSemanaObra(string CodigoObra, DateTime Semana, long Publico);
     private sealed record LinhaOrigem(string Prefixo, long Publico, int Obras, int Sessoes);
     private sealed record LinhaAudio(long Dublado, long Legendado);
     private sealed record LinhaObra(string Codigo, string Titulo, string TituloOriginal, string? Pais, DateTime? DataLancamento,
-        string? Distribuidora, string? TipoObra, long? PublicoTotal, decimal? RendaTotal);
+        string? Distribuidora, string? TipoObra, long? PublicoTotal, decimal? RendaTotal, string? Poster);
     private sealed record LinhaCurva(DateTime Data, long Publico, int Sessoes, int Salas);
-    private sealed record LinhaBusca(string Codigo, string Titulo, long Publico);
+    private sealed record LinhaBusca(string Codigo, string Titulo, long Publico, string? Poster);
 }

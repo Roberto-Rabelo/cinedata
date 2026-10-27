@@ -10,6 +10,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <UserSecretsId>30698df4-4019-4fbc-8bb6-c21bae74b6d3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

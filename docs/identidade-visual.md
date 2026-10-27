@@ -38,10 +38,11 @@ marca aparece no site só como marca: logo, foco, sobretítulos e o feixe decora
 
 Home "esta semana no cinema": título da semana por extenso em Bricolage 800, manchete com o número do nº 1, cartão do
 nº 1 com público em destaque e barras do público por dia, depois KPIs, Top 10, nacional × estrangeiro, dublado ×
-legendado, mapa e o último mês. Mapa interativo (`/mapa`): quadrados por estado em um só tom de âmbar de dado (ou
+legendado, mapa e o último mês. Pôsteres do TMDB (proporção 2:3, cantos arredondados, borda da cor da linha) no nº 1,
+no Top 10, na busca, no mapa e na página do filme; sem pôster, um cartaz tipográfico com as iniciais do título e a faixa
+da cor da origem (`shared/ui/cartaz.ts`). A página do filme usa o pôster como imagem de compartilhamento. Mapa interativo (`/mapa`): quadrados por estado em um só tom de âmbar de dado (ou
 verde/azul em "quem venceu"); o estado escolhido ganha contorno na cor da tela e os outros apagam (foco e contexto);
-a lista dos estados repete o dado sem depender da cor. Títulos de filmes em caixa de título (a ANCINE manda em caixa alta). Nada de pôster
-ou foto de filme. Imagem de compartilhamento 1200×630: `cinedata.front/public/og-cinedata.png` (fonte em
+a lista dos estados repete o dado sem depender da cor. Títulos de filmes em caixa de título (a ANCINE manda em caixa alta). Imagem de compartilhamento 1200×630: `cinedata.front/public/og-cinedata.png` (fonte em
 `docs/marca/og-cinedata.html`). Rodapé de toda página: "Fonte: ANCINE (dados abertos)".
 
 ## Tipografia

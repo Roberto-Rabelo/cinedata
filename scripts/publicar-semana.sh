@@ -9,6 +9,7 @@
 #   --enviar        commita cinedata.front/dados e faz push; o workflow "Publicar site" publica a partir do push
 #
 # Variáveis: URL_SITE (endereço público, para og:url, canonical e sitemap; ex.: https://cinedata.com.br).
+# Pôsteres: o token do TMDB fica fora do repositório (dotnet user-secrets set Tmdb:Token <token> --project src/CineData.Ingestion).
 set -euo pipefail
 
 raiz="$(cd "$(dirname "$0")/.." && pwd)"
@@ -38,6 +39,9 @@ if $ingestao; then
   etapa "Ingestão incremental da bilheteria (só os arquivos que a ANCINE mudou)"
   dotnet run --project src/CineData.Ingestion -- bilheteria
 fi
+
+etapa "Pôsteres do TMDB (só os filmes novos nos rankings)"
+dotnet run --project src/CineData.Ingestion -- posteres
 
 etapa "Export dos JSON para cinedata.front/dados"
 dotnet run --project src/CineData.Ingestion -- exportar ../cinedata.front/dados

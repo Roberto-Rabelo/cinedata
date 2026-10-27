@@ -52,6 +52,8 @@ export interface ItemRanking {
   emCartazDesde?: string | null;
   /** Semanas da estreia até o período: a "3ª semana" dos boletins de bilheteria. */
   semanasEmCartaz?: number | null;
+  /** Caminho do pôster no TMDB ("/abc.jpg"). */
+  poster?: string | null;
 }
 
 export interface Uf {
@@ -64,6 +66,7 @@ export interface Uf {
   liderTitulo: string | null;
   liderPublico: number;
   dubladoPctEstrangeiros: number | null;
+  liderPoster?: string | null;
 }
 
 export interface PontoUf {
@@ -127,6 +130,7 @@ export interface Obra {
   pais: string | null;
   origem: Origem;
   lancamento: Lancamento | null;
+  poster?: string | null;
 }
 
 export interface ObraResumo {
@@ -136,6 +140,7 @@ export interface ObraResumo {
   tituloOriginal?: string | null;
   origem: Origem;
   publico: number;
+  poster?: string | null;
 }
 
 export interface PontoCurva {

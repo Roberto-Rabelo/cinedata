@@ -5,6 +5,7 @@ import { ObraResumo } from '../../core/api/modelos';
 import { rotasApi } from '../../core/api/rotas-api';
 import { formatar, rotuloOrigem } from '../formatar';
 import { valorDe } from '../recurso';
+import { Cartaz } from './cartaz';
 
 const normalizar = (texto: string) => texto.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
 
@@ -19,7 +20,7 @@ export function filtrarObras(obras: ObraResumo[], termo: string, limite = 20): O
 
 @Component({
   selector: 'cd-busca',
-  imports: [RouterLink],
+  imports: [RouterLink, Cartaz],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="busca" (focusout)="aoSair($event)">
@@ -41,8 +42,11 @@ export function filtrarObras(obras: ObraResumo[], termo: string, limite = 20): O
               <li>
                 <a [routerLink]="['/obras', obra.codigo]" (click)="limpar()" data-umami-event="busca"
                    [attr.data-umami-event-termo]="termo().trim().toLowerCase()" [attr.data-umami-event-filme]="obra.codigo">
-                  <span class="titulo">{{ formatar.titulo(obra.titulo) }}</span>
-                  <span class="secundario num">{{ rotuloOrigem[obra.origem] }} · {{ formatar.compacto(obra.publico) }}</span>
+                  <cd-cartaz [poster]="obra.poster" [titulo]="formatar.titulo(obra.titulo)" [origem]="obra.origem" />
+                  <span class="nome">
+                    <span class="titulo">{{ formatar.titulo(obra.titulo) }}</span>
+                    <span class="secundario num">{{ rotuloOrigem[obra.origem] }} · {{ formatar.compacto(obra.publico) }}</span>
+                  </span>
                 </a>
               </li>
             } @empty {
@@ -58,7 +62,9 @@ export function filtrarObras(obras: ObraResumo[], termo: string, limite = 20): O
     input { width: 100%; }
     .resultados { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 10; list-style: none; margin: 0; padding: 6px; max-height: 360px; overflow: auto; }
     li { padding: 6px 8px; border-radius: var(--cd-raio-p); font-size: 14px; }
-    a { display: flex; justify-content: space-between; gap: 12px; }
+    a { display: flex; align-items: center; gap: 12px; }
+    .nome { display: flex; flex-direction: column; min-width: 0; font-size: 13.5px; }
+    cd-cartaz { width: 32px; }
     li:has(a):hover { background: var(--cd-poltrona-2); }
     .titulo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   `,

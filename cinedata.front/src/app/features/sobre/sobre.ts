@@ -75,6 +75,14 @@ import { FONTE, Seo } from '../../shared/seo';
           </p>
         </section>
         <section>
+          <h2>Pôsteres</h2>
+          <p>
+            Os pôsteres dos filmes vêm do <a href="https://www.themoviedb.org/" target="_blank" rel="noopener">The Movie
+            Database (TMDB)</a>, ligados a cada filme da ANCINE pelo título original e pelo ano. Este produto usa a API do
+            TMDB, mas não é endossado nem certificado pelo TMDB. Os números são todos da ANCINE.
+          </p>
+        </section>
+        <section>
           <h2>Privacidade</h2>
           <p>
             Contamos as visitas para saber o que é mais útil: páginas vistas, de onde a pessoa veio e o que ela clicou
@@ -107,7 +115,7 @@ import { FONTE, Seo } from '../../shared/seo';
     h2 { font-size: 19px; }
     p { margin: 8px 0 0; color: var(--cd-tela-2); }
     strong { color: var(--cd-tela); font-weight: 600; }
-    .fonte a, .mais { color: var(--cd-tela); text-decoration: underline; text-underline-offset: 4px; }
+    .fonte a, .mais, section a { color: var(--cd-tela); text-decoration: underline; text-underline-offset: 4px; }
     .mais { font-weight: 600; text-decoration-color: var(--cd-projetor); align-self: flex-start; }
     @media (max-width: 720px) { .secoes { grid-template-columns: 1fr; } }
   `,

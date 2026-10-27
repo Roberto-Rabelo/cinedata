@@ -55,8 +55,8 @@
                        data-umami-event="filme-aberto" data-umami-event-origem="mapa-vencedores" [attr.data-umami-event-filme]="f.codigo"
                        (mouseenter)="realce.set({ filme: f.codigo })" (mouseleave)="realce.set(null)"
                        (focus)="realce.set({ filme: f.codigo })" (blur)="realce.set(null)">
-                      <span class="amostra" [style.background]="corOrigem[f.origem]"></span>
-                      <span class="vencedor">{{ formatar.titulo(f.titulo) }}</span>
+                      <cd-cartaz [poster]="f.poster" [titulo]="formatar.titulo(f.titulo)" [origem]="f.origem" />
+                      <span class="vencedor"><span class="amostra" [style.background]="corOrigem[f.origem]"></span>{{ formatar.titulo(f.titulo) }}</span>
                       <span class="num secundario">{{ f.estados }} {{ f.estados === 1 ? 'estado' : 'estados' }}</span>
                     </a>
                   </li>
@@ -128,6 +128,8 @@
 
             @if (d.liderTitulo && d.liderCodigo) {
               <div class="lider">
+                <cd-cartaz [poster]="d.liderPoster" [titulo]="formatar.titulo(d.liderTitulo)" [origem]="origemDoCodigo(d.liderCodigo)" tamanho="medio" />
+                <div class="lider-texto">
                 <span class="rotulo">Filme mais visto</span>
                 <a class="lider-titulo" [routerLink]="['/obras', d.liderCodigo]" data-umami-event="filme-aberto" data-umami-event-origem="mapa-estado" [attr.data-umami-event-filme]="d.liderCodigo">{{ formatar.titulo(d.liderTitulo) }} →</a>
                 <span class="secundario num">
@@ -137,6 +139,7 @@
                 @if (origemDoCodigo(d.liderCodigo); as origem) {
                   <span class="chip"><span class="amostra" [style.background]="corOrigem[origem]"></span>{{ rotuloOrigem[origem] }}</span>
                 }
+                </div>
               </div>
             }
 

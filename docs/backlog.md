@@ -59,6 +59,7 @@ O que o POC provou e o que vem a seguir. Cada item vira uma issue no GitHub.
 - [ ] Público por habitante no mapa (população do IBGE por UF)
 - [ ] Páginas por UF indexáveis (`/uf/sp`), com ranking e série do estado
 - [ ] Publicação semanal sem a máquina local: Actions agendado com PostgreSQL temporário ou `pg_dump` em cache
-- [ ] Enriquecimento com TMDB (pôster, gênero) — checar termos de uso comercial
+- [x] Pôsteres do TMDB no site (97% dos filmes), com correção manual e cartaz tipográfico de reserva
+- [ ] Licença comercial do TMDB antes de cobrar pelo acesso; gênero do TMDB (rankings por gênero)
 - [ ] Deploy: container (API + worker) + PostgreSQL gerenciado
 - [ ] Verificar marca, @ e domínio "CineData"

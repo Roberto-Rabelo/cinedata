@@ -8,6 +8,7 @@ import { corOrigem, formatar, rotuloOrigem } from '../../shared/formatar';
 import { inicioDoPeriodo, linkPeriodo } from '../../shared/periodo';
 import { valorDe } from '../../shared/recurso';
 import { FONTE, Seo } from '../../shared/seo';
+import { Cartaz, urlPoster } from '../../shared/ui/cartaz';
 import { Kpi } from '../../shared/ui/kpi';
 
 /** Semana cinematográfica de um filme: a curva de vida em cartaz resumida, como nos boletins de bilheteria. */
@@ -56,7 +57,7 @@ export function semanasEmCartaz(dias: PontoCurva[], estreia?: string | null): Se
 
 @Component({
   selector: 'cd-obra',
-  imports: [RouterLink, Kpi, CurvaLinha],
+  imports: [RouterLink, Kpi, CurvaLinha, Cartaz],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (curva.error()) {
@@ -71,15 +72,20 @@ export function semanasEmCartaz(dias: PontoCurva[], estreia?: string | null): Se
       <section class="abertura">
         <div class="conteudo">
           <a routerLink="/" class="voltar secundario">← Esta semana no cinema</a>
-          <div class="chips">
-            <span class="chip"><span class="amostra" [style.background]="corOrigem[c.obra.origem]"></span>{{ rotuloOrigem[c.obra.origem] }}</span>
-            @if (c.obra.pais) { <span class="chip">{{ formatar.titulo(c.obra.pais) }}</span> }
-            @if (c.emCartaz) { <span class="chip chip--estreia">Em cartaz</span> }
+          <div class="cabeca">
+            <cd-cartaz [poster]="c.obra.poster" [titulo]="formatar.titulo(c.obra.titulo)" [origem]="c.obra.origem" tamanho="grande" />
+            <div>
+              <div class="chips">
+                <span class="chip"><span class="amostra" [style.background]="corOrigem[c.obra.origem]"></span>{{ rotuloOrigem[c.obra.origem] }}</span>
+                @if (c.obra.pais) { <span class="chip">{{ formatar.titulo(c.obra.pais) }}</span> }
+                @if (c.emCartaz) { <span class="chip chip--estreia">Em cartaz</span> }
+            </div>
+            <h1>{{ formatar.titulo(c.obra.titulo) }}</h1>
+            @if (c.obra.tituloOriginal !== c.obra.titulo) {
+              <p class="original secundario">{{ formatar.titulo(c.obra.tituloOriginal) }}</p>
+            }
+            </div>
           </div>
-          <h1>{{ formatar.titulo(c.obra.titulo) }}</h1>
-          @if (c.obra.tituloOriginal !== c.obra.titulo) {
-            <p class="original secundario">{{ formatar.titulo(c.obra.tituloOriginal) }}</p>
-          }
         </div>
       </section>
 
@@ -164,6 +170,8 @@ export function semanasEmCartaz(dias: PontoCurva[], estreia?: string | null): Se
     .voltar { font-size: 14px; display: inline-block; margin-bottom: 18px; }
     .voltar:hover { color: var(--cd-tela); }
     .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .cabeca { display: flex; align-items: flex-end; gap: 28px; }
+    @media (max-width: 640px) { .cabeca { gap: 16px; } .cabeca cd-cartaz { width: 96px; } }
     h1 { margin-top: 12px; font-size: clamp(34px, 6vw, 60px); font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
     .original { margin: 8px 0 0; font-size: 17px; }
     .obra { display: flex; flex-direction: column; gap: var(--cd-gap); padding-top: 24px; padding-bottom: 56px; }
@@ -224,6 +232,7 @@ export class Obra {
           (c.semanasEmCartaz ? `, ${c.semanasEmCartaz} semanas em cartaz` : '') +
           ` (${this.periodo()}). Curva de público dia a dia e semana a semana. ${FONTE}.`,
         caminho: `/obras/${c.obra.codigo}`,
+        imagem: c.obra.poster ? urlPoster(c.obra.poster, 'w780') : undefined,
       });
     });
   }

@@ -92,7 +92,7 @@ public sealed class ExportarSite(
             var curva = await servico.ObterCurvaObraAsync(codigo, ctObra);
             await saida.GravarAsync($"obras/{codigo}.json", curva, ctObra);
             var o = curva.Obra;
-            busca.Add(new ObraBuscaDto(o.Codigo, o.Titulo, o.TituloOriginal == o.Titulo ? null : o.TituloOriginal, o.Origem, curva.PublicoNoPeriodo));
+            busca.Add(new ObraBuscaDto(o.Codigo, o.Titulo, o.TituloOriginal == o.Titulo ? null : o.TituloOriginal, o.Origem, curva.PublicoNoPeriodo, o.Poster));
         });
         logger.LogInformation("{Obras} curvas de obras", obras.Codigos.Count);
 

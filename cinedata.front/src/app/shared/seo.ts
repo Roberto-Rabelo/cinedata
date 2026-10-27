@@ -8,6 +8,8 @@ export interface DadosSeo {
   descricao: string;
   /** Caminho canônico da página, a partir da raiz: "/semana/2026-10-08". */
   caminho: string;
+  /** Imagem de compartilhamento (URL absoluta); sem ela, a imagem da marca. */
+  imagem?: string;
 }
 
 export const FONTE = 'Fonte: ANCINE (dados abertos)';
@@ -23,10 +25,10 @@ export class Seo {
   private readonly meta = inject(Meta);
   private readonly documento = inject(DOCUMENT);
 
-  definir({ titulo, descricao, caminho }: DadosSeo) {
+  definir({ titulo, descricao, caminho, imagem: propria }: DadosSeo) {
     const tituloCompleto = `${titulo} · CineData`;
     const url = ambiente.urlSite + caminho;
-    const imagem = ambiente.urlSite + IMAGEM;
+    const imagem = propria ?? ambiente.urlSite + IMAGEM;
 
     this.title.setTitle(tituloCompleto);
     const nomes: [string, string][] = [
@@ -44,9 +46,9 @@ export class Seo {
       ['og:description', descricao],
       ['og:url', url],
       ['og:image', imagem],
-      ['og:image:width', '1200'],
-      ['og:image:height', '630'],
-      ['og:image:alt', 'CineData: o cinema brasileiro em números'],
+      ['og:image:width', propria ? '780' : '1200'],
+      ['og:image:height', propria ? '1170' : '630'],
+      ['og:image:alt', propria ? `Pôster: ${titulo}` : 'CineData: o cinema brasileiro em números'],
     ];
     for (const [name, content] of nomes) this.meta.updateTag({ name, content });
     for (const [property, content] of propriedades) this.meta.updateTag({ property, content });

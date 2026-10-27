@@ -1,5 +1,6 @@
 using CineData.Application.Consultas;
 using CineData.Application.Ingestao;
+using CineData.Application.Posteres;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CineData.Application;
@@ -12,6 +13,7 @@ public static class DependencyInjection
         services.AddScoped<ImportarBilheteria>();
         services.AddScoped<ImportarCadastros>();
         services.AddScoped<ServicoConsultas>();
+        services.AddScoped<EnriquecerPosteres>();
         return services;
     }
 }

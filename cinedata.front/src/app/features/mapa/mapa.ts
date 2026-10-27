@@ -20,6 +20,7 @@ import { valorDe } from '../../shared/recurso';
 import { MANTER_ROLAGEM } from '../../shared/rolagem';
 import { FONTE, Seo } from '../../shared/seo';
 import { GRADE, NOME_REGIAO, NOME_UF, NO_ESTADO, REGIOES } from '../../shared/ufs';
+import { Cartaz } from '../../shared/ui/cartaz';
 import { NavegacaoPeriodo } from '../../shared/ui/navegacao-periodo';
 import { ListaEstados } from './lista-estados';
 import { MapaBrasil } from './mapa-brasil';
@@ -40,7 +41,7 @@ export interface UfNoRanking extends Uf {
  */
 @Component({
   selector: 'cd-mapa',
-  imports: [RouterLink, NavegacaoPeriodo, MapaBrasil, ListaEstados],
+  imports: [RouterLink, NavegacaoPeriodo, MapaBrasil, ListaEstados, Cartaz],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './mapa.html',
   styleUrl: './mapa.scss',
@@ -110,10 +111,10 @@ export class Mapa {
 
   /** Placar de "quem venceu": cada filme que liderou ao menos um estado, com quantos estados levou. */
   protected readonly vencedores = computed(() => {
-    const porFilme = new Map<string, { codigo: string; titulo: string; estados: number }>();
+    const porFilme = new Map<string, { codigo: string; titulo: string; poster?: string | null; estados: number }>();
     for (const u of this.ranking()) {
       if (!u.liderCodigo) continue;
-      const filme = porFilme.get(u.liderCodigo) ?? { codigo: u.liderCodigo, titulo: u.liderTitulo ?? u.liderCodigo, estados: 0 };
+      const filme = porFilme.get(u.liderCodigo) ?? { codigo: u.liderCodigo, titulo: u.liderTitulo ?? u.liderCodigo, poster: u.liderPoster, estados: 0 };
       filme.estados++;
       porFilme.set(u.liderCodigo, filme);
     }
