@@ -43,7 +43,17 @@ jobs:
         run: npx ng build --configuration estatico ${BASE_HREF:+--base-href "$BASE_HREF"}
         env:
           BASE_HREF: ${{ vars.BASE_HREF }}
-      - name: 404, sitemap, robots, endereço público e analytics
+      # Pôsteres do TMDB já baixados: a cada build só os filmes novos são baixados. A chave muda a cada semestre
+      # (os termos do TMDB permitem guardar o conteúdo por até seis meses), e então tudo é baixado de novo.
+      - name: Semestre do cache de pôsteres
+        id: semestre
+        run: echo "chave=$(date -u +%Y)-s$(( ($(date -u +%-m) - 1) / 6 + 1 ))" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        with:
+          path: cinedata.front/.cache/posteres
+          key: posteres-${{ steps.semestre.outputs.chave }}-${{ github.run_id }}
+          restore-keys: posteres-${{ steps.semestre.outputs.chave }}-
+      - name: 404, sitemap, robots, pôsteres, endereço público e analytics
         run: node scripts/pos-build-estatico.mjs
         env:
           URL_SITE: ${{ vars.URL_SITE }}

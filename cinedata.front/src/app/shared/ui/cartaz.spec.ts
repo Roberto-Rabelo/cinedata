@@ -14,6 +14,14 @@ describe('Cartaz', () => {
     expect(el.querySelector('img')?.getAttribute('src')).toBe('https://image.tmdb.org/t/p/w342/abc.jpg');
   });
 
+  it('se a imagem não carrega, mostra o cartaz tipográfico', () => {
+    const el = montar({ poster: '/sumiu.jpg', titulo: 'Verity' });
+    el.querySelector('img')!.dispatchEvent(new Event('error'));
+    TestBed.tick();
+    expect(el.querySelector('img')).toBeNull();
+    expect(el.textContent?.trim()).toBe('V');
+  });
+
   it('sem pôster, faz um cartaz tipográfico com as iniciais', () => {
     const el = montar({ poster: null, titulo: 'Os Exterminadores do Além contra a Loira do Banheiro', origem: 'Nacional' });
     expect(el.querySelector('img')).toBeNull();

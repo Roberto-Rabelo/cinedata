@@ -1,24 +1,32 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, linkedSignal } from '@angular/core';
+import { ambiente } from '../../../environments/ambiente';
 import { Origem } from '../../core/api/modelos';
 import { corOrigem } from '../formatar';
 
 /** Larguras do TMDB por tamanho de exibição (2× a largura em CSS, para telas densas). */
 const LARGURA_TMDB = { mini: 'w92', medio: 'w185', grande: 'w342' } as const;
 
+const TMDB = 'https://image.tmdb.org/t/p/';
+
+/**
+ * Endereço do pôster. Os tamanhos da tela vêm da base do ambiente (no site estático, a cópia local); o w780 é só para o
+ * og:image, que precisa de endereço absoluto e não é copiado, então vem sempre do TMDB.
+ */
 export const urlPoster = (caminho: string, tamanho: keyof typeof LARGURA_TMDB | 'w780' = 'grande') =>
-  `https://image.tmdb.org/t/p/${tamanho === 'w780' ? tamanho : LARGURA_TMDB[tamanho]}${caminho}`;
+  tamanho === 'w780' ? `${TMDB}w780${caminho}` : `${ambiente.posteres}${LARGURA_TMDB[tamanho]}${caminho}`;
 
 /**
  * Pôster do filme (TMDB) em proporção 2:3. Sem pôster, um cartaz tipográfico: as iniciais do título sobre a sala escura,
- * com a faixa da cor da origem. A imagem é decorativa (alt vazio): o título sempre aparece ao lado.
+ * com a faixa da cor da origem; o mesmo vale quando a imagem não carrega. A imagem é decorativa (alt vazio): o título
+ * sempre aparece ao lado.
  */
 @Component({
   selector: 'cd-cartaz',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class]': 'tamanho()' },
   template: `
-    @if (poster(); as caminho) {
-      <img [src]="url(caminho)" alt="" loading="lazy" decoding="async" />
+    @if (imagem(); as caminho) {
+      <img [src]="url(caminho)" alt="" loading="lazy" decoding="async" (error)="imagem.set(null)" />
     } @else {
       <span class="tipografico" [style.--cor]="cor()" aria-hidden="true">{{ iniciais() }}</span>
     }
@@ -45,6 +53,9 @@ export class Cartaz {
   readonly titulo = input.required<string>();
   readonly origem = input<Origem | null>();
   readonly tamanho = input<keyof typeof LARGURA_TMDB>('mini');
+
+  /** O pôster a mostrar; vira nulo se a imagem falhar (volta quando o pôster muda). */
+  protected readonly imagem = linkedSignal(() => this.poster());
 
   protected readonly cor = computed(() => corOrigem[this.origem() ?? 'Generica']);
   protected readonly iniciais = computed(() =>

@@ -7,4 +7,5 @@ import { Ambiente } from './ambiente.modelo';
 export const ambiente: Ambiente = {
   fonte: 'api',
   urlSite: '',
+  posteres: 'https://image.tmdb.org/t/p/',
 };

@@ -6,11 +6,14 @@
 //    script do Umami (contagem de acessos sem cookies) em todas as páginas.
 // 2. Cria o 404.html a partir do index.csr.html (o app sem pré-render mostra a página "não encontrada").
 // 3. Gera sitemap.xml e robots.txt a partir de prerendered-routes.json.
-// 4. Mostra o tamanho do site.
+// 4. Copia para posteres/ os pôsteres do TMDB citados nos dados (posteres-estaticos.mjs), baixando só os que faltam
+//    no cache (.cache/posteres ou PASTA_POSTERES). SEM_POSTERES=1 pula a etapa (o site mostra os cartazes tipográficos).
+// 5. Mostra o tamanho do site.
 //
 // Sem URL_SITE as metas ficam com caminhos relativos e o sitemap não é gerado (ele exige endereços absolutos).
 import { copyFile, readFile, readdir, stat, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
+import { copiarPosteres } from './posteres-estaticos.mjs';
 
 const raiz = new URL('../dist/site/', import.meta.url).pathname;
 const site = join(raiz, 'browser');
@@ -31,6 +34,14 @@ async function* arquivos(pasta) {
     if (entrada.isDirectory()) yield* arquivos(caminho);
     else yield caminho;
   }
+}
+
+let posteres = '';
+if (!process.env.SEM_POSTERES) {
+  const pastaCache = resolve(process.env.PASTA_POSTERES ?? new URL('../.cache/posteres', import.meta.url).pathname);
+  const r = await copiarPosteres({ pastaDados: new URL('../dados', import.meta.url).pathname, pastaSite: site, pastaCache });
+  posteres = `, ${r.total} pôsteres (${r.baixados} baixados agora, ${(r.bytes / 1024 / 1024).toFixed(1)} MB)`;
+  if (r.falhas.length) console.warn(`${r.falhas.length} pôsteres não baixaram (o site mostra o cartaz tipográfico): ${r.falhas.slice(0, 5).join(', ')}`);
 }
 
 let bytes = 0;
@@ -60,5 +71,5 @@ await writeFile(join(site, 'robots.txt'), `User-agent: *\nAllow: /\n${urlSite ? 
 
 console.log(
   `Site estático em ${site}: ${rotas.length} páginas pré-renderizadas, ${total} arquivos, ` +
-    `${(bytes / 1024 / 1024).toFixed(1)} MB${urlSite ? `, endereço ${urlSite}` : ''}${umami ? ', com Umami' : ', sem contagem de acessos'}.`,
+    `${(bytes / 1024 / 1024).toFixed(1)} MB${posteres}${urlSite ? `, endereço ${urlSite}` : ''}${umami ? ', com Umami' : ', sem contagem de acessos'}.`,
 );

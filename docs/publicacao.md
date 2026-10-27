@@ -149,7 +149,20 @@ Cada filme do site é ligado a um filme do [TMDB](https://www.themoviedb.org/) p
 (`CorrespondenciaTmdb`): o título original ou o título no Brasil precisa bater (sem acento, pontuação nem "e/and") e
 o ano não pode ser depois do lançamento no Brasil; festival até 3 anos antes passa; clássico relançado (Carros em 2026)
 só com o título original exato e o filme conhecido no TMDB. Resultado em `obras_tmdb` (1.399 de 1.439 filmes na
-primeira carga, 81 s). As imagens são carregadas de `image.tmdb.org`; o site não guarda nenhuma.
+primeira carga, 81 s).
+
+**As imagens vão junto com o site.** No pós-build (`scripts/posteres-estaticos.mjs`), os pôsteres citados nos JSON são
+copiados para `posteres/<largura>/<arquivo>` nas três larguras da tela (w92, w185, w342): 1.387 pôsteres, 79 MB, ~1 min
+na primeira vez. O visitante não acessa o TMDB, a página não depende dele estar no ar e as imagens saem do mesmo
+domínio. Só o `og:image` da página do filme (w780) continua apontando para o TMDB, porque precisa de endereço absoluto e
+só é lido pelos robôs do WhatsApp e do Instagram.
+
+- Cache: os arquivos baixados ficam em `cinedata.front/.cache/posteres` (fora do git); cada build só baixa os filmes
+  novos. No GitHub Actions o cache tem a chave do semestre (`posteres-2026-s2-…`): os termos do TMDB permitem guardar o
+  conteúdo por até seis meses, então a cada semestre tudo é baixado de novo.
+- Pôster que não baixar fica de fora com aviso no log; no site, o `cd-cartaz` mostra o cartaz tipográfico quando a
+  imagem não carrega. `SEM_POSTERES=1` pula a etapa.
+- No desenvolvimento (`ng serve` com a API), as imagens continuam vindo de `image.tmdb.org`.
 
 - Correção à mão (cadastro ambíguo na ANCINE): `posteres definir <codigo> <tmdb_id>` ou `posteres definir <codigo>
   nenhum`. A busca automática não mexe mais nessas obras. Já corrigidos: TWILIGHT (E1600635500000) → Crepúsculo (8966);
