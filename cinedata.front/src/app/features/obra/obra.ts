@@ -93,7 +93,7 @@ export function semanasEmCartaz(dias: PontoCurva[], estreia?: string | null): Se
           @if (c.obra.lancamento; as l) {
             <cd-kpi rotulo="Renda total (lançamento)" [valor]="formatar.moedaCompacta(l.rendaTotal)" [detalhe]="formatar.titulo(l.distribuidora)" />
             @if (l.ticketMedio !== null) {
-              <cd-kpi rotulo="Ingresso médio" [valor]="formatar.moeda(l.ticketMedio)" [detalhe]="'estreia em ' + formatar.diaMesAno(l.data)" />
+              <cd-kpi rotulo="Ingresso médio" [valor]="formatar.moeda(l.ticketMedio)" detalhe="renda ÷ público" />
             }
           }
         </div>

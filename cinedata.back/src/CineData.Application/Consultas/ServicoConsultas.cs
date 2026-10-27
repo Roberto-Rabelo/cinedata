@@ -73,14 +73,13 @@ public sealed class ServicoConsultas(IConsultasBilheteria consultas)
         var semanas = dias
             .GroupBy(d => SemanaCinematografica.Contendo(d.Data).Inicio)
             .Select(g => new PublicoSemana(g.Key, g.Sum(d => d.Publico)));
-        var temporada = TempoEmCartaz.Calcular(semanas, DateOnly.MaxValue);
-
         // Em cartaz: sessões na semana dos últimos dados publicados ou na anterior (a última chega parcial).
         var cobertura = await consultas.ObterCoberturaAsync(ct);
-        var emCartaz = temporada is { } t && cobertura.Count > 0
-            && t.UltimaSemana >= SemanaCinematografica.Contendo(cobertura.Max(d => d.Data)).Inicio.AddDays(-7);
+        var semanaDosDados = cobertura.Count == 0 ? DateOnly.MinValue : SemanaCinematografica.Contendo(cobertura.Max(d => d.Data)).Inicio;
+        var principal = TempoEmCartaz.Principal(semanas, semanaDosDados);
 
-        return new CurvaObraDto(obra, dias.Sum(d => d.Publico), dias, temporada?.Estreia, temporada?.Semanas, emCartaz);
+        return new CurvaObraDto(obra, dias.Sum(d => d.Publico), dias,
+            principal?.Temporada.Estreia, principal?.Temporada.Semanas, principal?.EmCartaz ?? false);
     }
 
     /// <summary>Ranking com há quantas semanas cada filme está em cartaz, até a última semana que começa no período.</summary>

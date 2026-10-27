@@ -39,6 +39,35 @@ public class TempoEmCartazTests
     }
 
     [Fact]
+    public void Intervalo_de_ate_duas_semanas_sem_sessao_nao_quebra_a_temporada()
+    {
+        var semanas = new[] { S("2026-09-03", 500_000), S("2026-09-10", 400_000), S("2026-10-01", 50_000) };
+
+        Assert.Equal(new Temporada(new(2026, 9, 3), new(2026, 10, 1), 5), TempoEmCartaz.Calcular(semanas, new DateOnly(2026, 10, 1)));
+    }
+
+    [Fact]
+    public void Pagina_do_filme_usa_a_temporada_principal_e_nao_sessoes_avulsas_depois()
+    {
+        // Ainda Estou Aqui: temporada de nov/2024 a mar/2025 e uma semana avulsa em abr/2026.
+        var semanas = new[] { S("2024-11-07", 579_064), S("2024-11-14", 797_813), S("2024-11-21", 700_000), S("2026-04-09", 900) };
+
+        var principal = TempoEmCartaz.Principal(semanas, new DateOnly(2026, 10, 22));
+
+        Assert.Equal((new Temporada(new(2024, 11, 7), new(2024, 11, 21), 3), false), principal);
+    }
+
+    [Fact]
+    public void Pagina_do_filme_usa_a_temporada_em_curso_quando_ele_segue_em_cartaz()
+    {
+        var semanas = new[] { S("2016-01-07", 900_000), S("2026-10-08", 225_000), S("2026-10-15", 150_000) };
+
+        var principal = TempoEmCartaz.Principal(semanas, new DateOnly(2026, 10, 22));
+
+        Assert.Equal((new Temporada(new(2026, 10, 8), new(2026, 10, 15), 2), true), principal);
+    }
+
+    [Fact]
     public void Sem_sessoes_ate_a_data_nao_ha_temporada() =>
         Assert.Null(TempoEmCartaz.Calcular([S("2026-10-15", 100)], new DateOnly(2026, 10, 8)));
 }
