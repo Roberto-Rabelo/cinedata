@@ -139,6 +139,36 @@ public class ServicoConsultasTests
         await Assert.ThrowsAsync<ValidacaoException>(() => new ServicoConsultas(_consultas).ObterSerieUfAsync(uf, null, default));
 
     [Fact]
+    public async Task Ranking_traz_ha_quantas_semanas_cada_filme_esta_em_cartaz()
+    {
+        _consultas.Ranking.Add(new ItemRankingDto(1, "E2600183000000", "Verity", "Estrangeira", null, 622_946, 1, 1, 1, null, 26.7, null, null, false));
+        _consultas.Semanas.AddRange(
+        [
+            new("E2600183000000", new DateOnly(2026, 9, 24), 84_681),
+            new("E2600183000000", new DateOnly(2026, 10, 1), 748_093),
+            new("E2600183000000", new DateOnly(2026, 10, 8), 622_946),
+            new("E2600183000000", new DateOnly(2026, 10, 15), 300_455), // depois do período: não conta
+        ]);
+
+        var ranking = await new ServicoConsultas(_consultas).ObterRankingAsync(null, new DateOnly(2026, 10, 8), 10, default);
+
+        Assert.Equal((new DateOnly(2026, 9, 24), 3), (ranking[0].EmCartazDesde!.Value, ranking[0].SemanasEmCartaz!.Value));
+    }
+
+    [Fact]
+    public async Task Curva_diz_se_o_filme_segue_em_cartaz_e_desde_quando()
+    {
+        _consultas.Cobrir("2026-09-01", "2026-10-22");
+        for (var d = new DateOnly(2026, 10, 1); d <= new DateOnly(2026, 10, 21); d = d.AddDays(1))
+            _consultas.Curva.Add(new PontoCurvaDto(d, 1000, 10, 5, false));
+
+        var curva = await new ServicoConsultas(_consultas).ObterCurvaObraAsync("E2600183000000", default);
+
+        // 01/10 é quinta: semanas de 01, 08 e 15/10; o último dado é 22/10, então segue em cartaz.
+        Assert.Equal((new DateOnly(2026, 10, 1), 3, true), (curva.EmCartazDesde!.Value, curva.SemanasEmCartaz!.Value, curva.EmCartaz));
+    }
+
+    [Fact]
     public async Task Curva_com_codigo_invalido_e_invalida() =>
         await Assert.ThrowsAsync<ValidacaoException>(() =>
             new ServicoConsultas(_consultas).ObterCurvaObraAsync("abc", default));
@@ -161,7 +191,7 @@ public class ServicoConsultasTests
         public Task<IReadOnlyList<ItemRankingDto>> ObterRankingAsync(Periodo periodo, int top, CancellationToken ct)
         {
             PeriodoConsultado = periodo;
-            return Task.FromResult<IReadOnlyList<ItemRankingDto>>([]);
+            return Task.FromResult<IReadOnlyList<ItemRankingDto>>(Ranking);
         }
 
         public Granularidade? GranularidadeDaSerie { get; private set; }
@@ -182,8 +212,18 @@ public class ServicoConsultasTests
             Task.FromResult<IReadOnlyList<OrigemDto>>([]);
 
         public Task<AudioDto> ObterAudioAsync(Periodo periodo, CancellationToken ct) => Task.FromResult(new AudioDto(0, 0, 0));
-        public Task<ObraDto?> ObterObraAsync(CodigoObra codigo, CancellationToken ct) => throw new NotSupportedException();
-        public Task<IReadOnlyList<PontoCurvaDto>> ObterCurvaAsync(CodigoObra codigo, CancellationToken ct) => throw new NotSupportedException();
+        public List<ItemRankingDto> Ranking { get; } = [];
+        public List<PublicoSemanaObraDto> Semanas { get; } = [];
+        public List<PontoCurvaDto> Curva { get; } = [];
+
+        public Task<IReadOnlyList<PublicoSemanaObraDto>> ObterSemanasDasObrasAsync(IReadOnlyCollection<string> codigos, CancellationToken ct) =>
+            Task.FromResult<IReadOnlyList<PublicoSemanaObraDto>>(Semanas.Where(s => codigos.Contains(s.CodigoObra)).ToList());
+
+        public Task<ObraDto?> ObterObraAsync(CodigoObra codigo, CancellationToken ct) =>
+            Task.FromResult<ObraDto?>(new ObraDto(codigo.Valor, "Filme", "Filme", null, "Estrangeira", null));
+
+        public Task<IReadOnlyList<PontoCurvaDto>> ObterCurvaAsync(CodigoObra codigo, CancellationToken ct) =>
+            Task.FromResult<IReadOnlyList<PontoCurvaDto>>(Curva);
         public Task<IReadOnlyList<ObraResumoDto>> BuscarObrasAsync(string termo, int limite, CancellationToken ct) => throw new NotSupportedException();
     }
 }

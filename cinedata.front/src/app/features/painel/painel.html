@@ -58,6 +58,7 @@
             <h2 id="titulo-n1" class="n1-titulo"><a [routerLink]="['/obras', l.codigoObra]" data-umami-event="filme-aberto" data-umami-event-origem="numero-1" [attr.data-umami-event-filme]="l.codigoObra">{{ formatar.titulo(l.titulo) }}</a></h2>
             <div class="chips">
               @if (l.estreia) { <span class="chip chip--estreia">Estreia</span> }
+              @if (rotuloEmCartaz(p.periodo.granularidade, l); as cartaz) { <span class="chip">{{ cartaz }}</span> }
               <span class="chip"><span class="amostra" [style.background]="corOrigem[l.origem]"></span>{{ rotuloOrigem[l.origem] }}</span>
               @if (l.pais) { <span class="chip">{{ formatar.titulo(l.pais) }}</span> }
             </div>
@@ -103,7 +104,7 @@
             <h2>Top {{ p.ranking.length }} {{ doPeriodo[p.periodo.granularidade] }}</h2>
             <span class="secundario">por público · toque no filme para ver a curva</span>
           </header>
-          <cd-ranking-barras [itens]="p.ranking" [comVariacao]="p.periodo.completo" />
+          <cd-ranking-barras [itens]="p.ranking" [comVariacao]="p.periodo.completo" [granularidade]="p.periodo.granularidade" />
         </article>
 
         <div class="pilha">

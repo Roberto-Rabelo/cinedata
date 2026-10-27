@@ -200,3 +200,13 @@ export const vizinhoPorExtenso: Record<Granularidade, [string, string]> = {
   semestre: ['Semestre anterior', 'Próximo semestre'],
   ano: ['Ano anterior', 'Próximo ano'],
 };
+
+/**
+ * Tempo em cartaz no ranking: na semana, "3ª semana" (na 1ª o selo de estreia já diz tudo); em mês, trimestre,
+ * semestre e ano, "em cartaz desde 08/10/26".
+ */
+export function rotuloEmCartaz(granularidade: Granularidade, item: { emCartazDesde?: string | null; semanasEmCartaz?: number | null }) {
+  if (!item.semanasEmCartaz || !item.emCartazDesde) return null;
+  if (granularidade === 'semana') return item.semanasEmCartaz > 1 ? `${item.semanasEmCartaz}ª semana` : null;
+  return `em cartaz desde ${formatar.dataCurta(item.emCartazDesde)}`;
+}

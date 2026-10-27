@@ -15,7 +15,7 @@ As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
 
 | Camada | Responsabilidade | Exemplos |
 | --- | --- | --- |
-| **Domain** | Linguagem do negócio e invariantes | `CodigoObra` (CPB/ROE → origem), `SemanaCinematografica` (quinta a quarta), `Periodo` (semana, mês, trimestre, semestre, ano; anterior equivalente), `DiasConsolidados` (dia e período completos), `Uf` (com região), `Sessao`, `Sala`, `Lancamento`, `ArquivoImportado` (versão por CRC) |
+| **Domain** | Linguagem do negócio e invariantes | `CodigoObra` (CPB/ROE → origem), `SemanaCinematografica` (quinta a quarta), `Periodo` (semana, mês, trimestre, semestre, ano; anterior equivalente), `DiasConsolidados` (dia e período completos), `TempoEmCartaz` (temporada, estreia sem pré-estreias, semanas em cartaz), `Uf` (com região), `Sessao`, `Sala`, `Lancamento`, `ArquivoImportado` (versão por CRC) |
 | **Application** | Casos de uso e portas | `ImportarBilheteria` (incremental por CRC), `ImportarCadastros`, `ServicoConsultas` (período padrão por granularidade, completude, validações), `CoberturaPeriodos`, `ExportarSite` (site estático), `ChavePeriodo`; interfaces `IFonteDadosAncine`, `ILeitorCsvAncine`, `IRepositorio*`, `IConsultasBilheteria`, `IGravadorSite` |
 | **Infrastructure** | Adaptadores | `ZipRemoto` (HTTP Range), `LeitorCsvAncine` (CsvHelper), `CineDataDbContext` (EF Core + snake_case), upserts com `unnest`, `COPY` binário, `ConsultasBilheteriaSql` (Dapper), `GravadorSiteArquivos` (JSON do site, troca atômica da pasta) |
 | **Api** | Entrega HTTP | Minimal APIs em `/api/v1` (`periodo=semana\|mes\|trimestre\|semestre\|ano` + `data` em `/painel`, `/ranking`, `/ufs`; lista em `/periodos`; série de um estado em `/ufs/{uf}/serie`), `ProblemDetails` para 400/404, OpenAPI + Scalar em `/scalar` |
@@ -41,6 +41,10 @@ As dependências apontam para dentro. O Domain não conhece banco, HTTP nem CSV.
   `atualizar_agregados_bilheteria` chama a semanal (`atualizar_agregados_semana`) e a de calendário. As views
   `agregado_periodo*` juntam as duas famílias e o SQL de leitura (`ConsultasBilheteriaSql`) é o mesmo para todas as
   granularidades.
+- **Tempo em cartaz** é regra de domínio (`TempoEmCartaz`): a temporada é a sequência de semanas seguidas com sessões
+  até o período (um relançamento começa outra) e a estreia é a primeira semana com ao menos 5% do público da melhor
+  semana (pré-estreias ficam de fora). O `ServicoConsultas` aplica a regra ao ranking (`semanasEmCartaz`,
+  `emCartazDesde`, lendo `agregado_semana_obra` só das obras do ranking) e à curva da obra (`emCartaz`).
 - **Dias consolidados** são regra de domínio (`DiasConsolidados`), aplicada em memória sobre `agregado_dia` pelo
   `ServicoConsultas`: marca semanas (7 dias consolidados) e períodos de calendário (cobertos e com o fim consolidado)
   completos, e escolhe o período padrão de cada granularidade.

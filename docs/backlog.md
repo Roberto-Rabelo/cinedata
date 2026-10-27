@@ -24,7 +24,8 @@ O que o POC provou e o que vem a seguir. Cada item vira uma issue no GitHub.
 ## Etapa 2 — Métricas para conteúdo
 
 - [ ] Ocupação média por filme/sala ("o filme que mais lota salas")
-- [ ] Curva de vida: semanas em cartaz e queda média semana a semana
+- [x] Tempo em cartaz: "3ª semana" no ranking, "em cartaz desde" nos meses e anos, temporada na página do filme
+- [ ] Queda média semana a semana (curva de vida comparada entre filmes)
 - [ ] Ranking de exibidoras e distribuidoras
 - [ ] Cidades sem cinema / desertos de cinema (cruzar salas × IBGE)
 - [ ] "Neste dia" (efemérides do histórico)

@@ -175,6 +175,17 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
         return new AudioDto(l.Dublado, l.Legendado, total == 0 ? 0 : Math.Round(100.0 * l.Dublado / total, 1));
     }
 
+    public async Task<IReadOnlyList<PublicoSemanaObraDto>> ObterSemanasDasObrasAsync(IReadOnlyCollection<string> codigos, CancellationToken ct)
+    {
+        await using var conexao = await dados.OpenConnectionAsync(ct);
+        var linhas = await conexao.QueryAsync<LinhaSemanaObra>(new CommandDefinition("""
+            SELECT codigo_obra, semana::timestamp AS semana, publico
+            FROM agregado_semana_obra
+            WHERE codigo_obra = ANY(@codigos)
+            """, new { codigos = codigos.ToArray() }, cancellationToken: ct));
+        return linhas.Select(l => new PublicoSemanaObraDto(l.CodigoObra, DateOnly.FromDateTime(l.Semana), l.Publico)).ToList();
+    }
+
     public async Task<ObraDto?> ObterObraAsync(CodigoObra codigo, CancellationToken ct)
     {
         await using var conexao = await dados.OpenConnectionAsync(ct);
@@ -270,6 +281,7 @@ internal sealed class ConsultasBilheteriaSql(NpgsqlDataSource dados) : IConsulta
         string? LiderTitulo, long LiderPublico);
     private sealed record LinhaSerieUf(DateTime Inicio, long Publico, int Sessoes, double Participacao, int Posicao,
         string? LiderCodigo, string? LiderTitulo, long LiderPublico, double? Dublado);
+    private sealed record LinhaSemanaObra(string CodigoObra, DateTime Semana, long Publico);
     private sealed record LinhaOrigem(string Prefixo, long Publico, int Obras, int Sessoes);
     private sealed record LinhaAudio(long Dublado, long Legendado);
     private sealed record LinhaObra(string Codigo, string Titulo, string TituloOriginal, string? Pais, DateTime? DataLancamento,

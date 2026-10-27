@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ItemRanking } from '../../core/api/modelos';
+import { Granularidade, ItemRanking } from '../../core/api/modelos';
+import { rotuloEmCartaz } from '../periodo';
 import { formatar, rotuloOrigem } from '../formatar';
 
 /** Ranking do período: barras horizontais (uma série, uma cor), valor rotulado na ponta. */
@@ -26,6 +27,7 @@ import { formatar, rotuloOrigem } from '../formatar';
                 <span class="valor num">{{ formatar.compacto(item.publico) }}</span>
               </span>
               <span class="detalhes secundario num">
+                @if (rotuloEmCartaz(granularidade(), item); as cartaz) { <strong class="cartaz">{{ cartaz }}</strong> · }
                 {{ formatar.inteiro(item.sessoes) }} sessões ·
                 {{ formatar.decimal(item.publicoMedioPorSessao) }} pessoas/sessão
                 @if (item.ocupacaoPct !== null) { · {{ formatar.pct(item.ocupacaoPct) }} de ocupação }
@@ -54,15 +56,19 @@ import { formatar, rotuloOrigem } from '../formatar';
     .barra { height: 10px; min-width: 4px; background: var(--cd-dado-ambar); border-radius: 0 4px 4px 0; }
     .valor { font-weight: 600; font-size: 14px; }
     .detalhes { font-size: 12.5px; }
+    .cartaz { color: var(--cd-tela); font-weight: 600; }
   `,
 })
 export class RankingBarras {
   readonly itens = input.required<ItemRanking[]>();
   /** Desligada em período parcial: comparar com um período inteiro daria quedas falsas. */
   readonly comVariacao = input(true);
+  /** Granularidade do ranking: muda como o tempo em cartaz aparece ("3ª semana" ou "em cartaz desde"). */
+  readonly granularidade = input<Granularidade>('semana');
   private readonly maximo = computed(() => Math.max(1, ...this.itens().map(i => i.publico)));
   protected readonly formatar = formatar;
   protected readonly rotuloOrigem = rotuloOrigem;
+  protected readonly rotuloEmCartaz = rotuloEmCartaz;
 
   // A barra ocupa até 85% do trilho para o rótulo de valor caber ao lado.
   protected largura(item: ItemRanking) {

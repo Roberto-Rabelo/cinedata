@@ -15,6 +15,8 @@ public interface IConsultasBilheteria
     Task<IReadOnlyList<PontoUfDto>> ObterSerieUfAsync(Granularidade granularidade, Uf uf, CancellationToken ct);
     Task<IReadOnlyList<OrigemDto>> ObterPorOrigemAsync(Periodo periodo, CancellationToken ct);
     Task<AudioDto> ObterAudioAsync(Periodo periodo, CancellationToken ct);
+    /// <summary>Todas as semanas com sessões de cada obra pedida (para o tempo em cartaz do ranking).</summary>
+    Task<IReadOnlyList<PublicoSemanaObraDto>> ObterSemanasDasObrasAsync(IReadOnlyCollection<string> codigos, CancellationToken ct);
     Task<ObraDto?> ObterObraAsync(CodigoObra codigo, CancellationToken ct);
     Task<IReadOnlyList<PontoCurvaDto>> ObterCurvaAsync(CodigoObra codigo, CancellationToken ct);
     Task<IReadOnlyList<ObraResumoDto>> BuscarObrasAsync(string termo, int limite, CancellationToken ct);

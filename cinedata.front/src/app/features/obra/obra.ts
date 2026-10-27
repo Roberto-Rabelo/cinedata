@@ -13,6 +13,7 @@ import { Kpi } from '../../shared/ui/kpi';
 /** Semana cinematográfica de um filme: a curva de vida em cartaz resumida, como nos boletins de bilheteria. */
 export interface SemanaEmCartaz {
   inicio: string;
+  /** Semana da temporada a partir da estreia (1ª, 2ª…); 0 ou menos nas semanas de pré-estreia. */
   numero: number;
   publico: number;
   /** Maior número de salas num dia da semana. */
@@ -24,8 +25,12 @@ export interface SemanaEmCartaz {
 /** Abaixo disso, a semana anterior é pré-estreia: a variação seria absurda (+122.000%). A mesma regra da API. */
 const LIMITE_PRE_ESTREIA = 0.05;
 
-/** Agrupa a curva diária em semanas de quinta a quarta, numeradas a partir da primeira com sessão. */
-export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
+/**
+ * Agrupa a curva diária em semanas de quinta a quarta. Com a estreia (do back, sem pré-estreias), mostra só a
+ * temporada atual (e até 3 semanas de pré-estreia antes dela) numerada a partir da estreia; sem ela, numera da
+ * primeira semana com sessão.
+ */
+export function semanasEmCartaz(dias: PontoCurva[], estreia?: string | null): SemanaEmCartaz[] {
   const semanas = new Map<string, SemanaEmCartaz>();
   for (const d of dias) {
     const inicio = inicioDoPeriodo('semana', d.data);
@@ -35,9 +40,13 @@ export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
     s.parcial ||= d.parcial;
     semanas.set(inicio, s);
   }
-  const lista = [...semanas.values()].sort((a, b) => a.inicio.localeCompare(b.inicio));
+  const semana = 7 * 24 * 3600 * 1000;
+  const desde = estreia ? new Date(`${estreia}T00:00:00Z`).getTime() : null;
+  const lista = [...semanas.values()]
+    .filter(s => desde === null || new Date(`${s.inicio}T00:00:00Z`).getTime() >= desde - 3 * semana)
+    .sort((a, b) => a.inicio.localeCompare(b.inicio));
   lista.forEach((s, i) => {
-    s.numero = i + 1;
+    s.numero = desde === null ? i + 1 : Math.round((new Date(`${s.inicio}T00:00:00Z`).getTime() - desde) / semana) + 1;
     const anterior = lista[i - 1];
     const comparavel = anterior && anterior.publico >= s.publico * LIMITE_PRE_ESTREIA && !s.parcial;
     s.variacaoPct = comparavel ? Math.round((1000 * (s.publico - anterior.publico)) / anterior.publico) / 10 : null;
@@ -65,6 +74,7 @@ export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
           <div class="chips">
             <span class="chip"><span class="amostra" [style.background]="corOrigem[c.obra.origem]"></span>{{ rotuloOrigem[c.obra.origem] }}</span>
             @if (c.obra.pais) { <span class="chip">{{ formatar.titulo(c.obra.pais) }}</span> }
+            @if (c.emCartaz) { <span class="chip chip--estreia">Em cartaz</span> }
           </div>
           <h1>{{ formatar.titulo(c.obra.titulo) }}</h1>
           @if (c.obra.tituloOriginal !== c.obra.titulo) {
@@ -76,8 +86,10 @@ export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
       <div class="conteudo obra">
         <div class="kpis">
           <cd-kpi rotulo="Público nos cinemas" [valor]="formatar.inteiro(c.publicoNoPeriodo)" [detalhe]="periodo()" />
-          <cd-kpi rotulo="Semanas em cartaz" [valor]="formatar.inteiro(semanas().length)"
-                  [detalhe]="melhorSemana() ? 'melhor: ' + formatar.compacto(melhorSemana()!.publico) + ' na ' + melhorSemana()!.numero + 'ª semana' : ''" />
+          @if (c.semanasEmCartaz) {
+            <cd-kpi rotulo="Tempo em cartaz" [valor]="c.semanasEmCartaz + (c.semanasEmCartaz === 1 ? ' semana' : ' semanas')"
+                    [detalhe]="(c.emCartaz ? 'em cartaz desde ' : 'estreou em ') + formatar.diaMesAno(c.emCartazDesde!) + (c.emCartaz ? '' : ' · saiu de cartaz')" />
+          }
           @if (c.obra.lancamento; as l) {
             <cd-kpi rotulo="Renda total (lançamento)" [valor]="formatar.moedaCompacta(l.rendaTotal)" [detalhe]="formatar.titulo(l.distribuidora)" />
             @if (l.ticketMedio !== null) {
@@ -102,7 +114,7 @@ export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
           <article class="cartao">
             <header class="titulo-cartao">
               <h2>Semana a semana</h2>
-              <span class="secundario">semana cinematográfica, de quinta a quarta{{ semanas().length > 12 ? ' · as 12 primeiras' : '' }}</span>
+              <span class="secundario">semana cinematográfica, de quinta a quarta, a partir da estreia{{ semanas().length > 12 ? ' · as 12 primeiras' : '' }}</span>
             </header>
             <div class="tabela-rolagem">
               <table>
@@ -112,7 +124,7 @@ export function semanasEmCartaz(dias: PontoCurva[]): SemanaEmCartaz[] {
                 <tbody>
                   @for (s of semanas().slice(0, 12); track s.inicio) {
                     <tr>
-                      <td>{{ s.numero }}ª</td>
+                      <td>{{ s.numero > 0 ? s.numero + 'ª' : 'pré' }}</td>
                       <td>
                         @if (temPagina(s.inicio)) {
                           <a [routerLink]="linkPeriodo('semana', s.inicio)">{{ formatar.dataCurta(s.inicio) }}</a>
@@ -193,10 +205,7 @@ export class Obra {
   protected readonly fonte = FONTE;
 
   protected readonly dados = computed(() => valorDe(this.curva));
-  protected readonly semanas = computed(() => semanasEmCartaz(this.dados()?.dias ?? []));
-  protected readonly melhorSemana = computed(() =>
-    this.semanas().reduce<SemanaEmCartaz | null>((a, s) => (!a || s.publico > a.publico ? s : a), null),
-  );
+  protected readonly semanas = computed(() => semanasEmCartaz(this.dados()?.dias ?? [], this.dados()?.emCartazDesde));
 
   protected readonly periodo = computed(() => {
     const dias = this.dados()?.dias ?? [];
@@ -211,8 +220,9 @@ export class Obra {
       this.seo.definir({
         titulo: `${titulo}: público nos cinemas do Brasil`,
         descricao:
-          `${titulo} levou ${formatar.inteiro(c.publicoNoPeriodo)} pessoas aos cinemas do Brasil em ${this.semanas().length} ` +
-          `semanas em cartaz (${this.periodo()}). Curva de público dia a dia e semana a semana. ${FONTE}.`,
+          `${titulo} levou ${formatar.inteiro(c.publicoNoPeriodo)} pessoas aos cinemas do Brasil` +
+          (c.semanasEmCartaz ? `, ${c.semanasEmCartaz} semanas em cartaz` : '') +
+          ` (${this.periodo()}). Curva de público dia a dia e semana a semana. ${FONTE}.`,
         caminho: `/obras/${c.obra.codigo}`,
       });
     });

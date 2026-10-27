@@ -37,6 +37,8 @@ public sealed record ResumoDto(
     long? PublicoPeriodoAnterior,
     double? VariacaoPct);
 
+/// <param name="EmCartazDesde">Quinta da semana de estreia da temporada (sem pré-estreias; ver TempoEmCartaz).</param>
+/// <param name="SemanasEmCartaz">Semanas da estreia até o período: na semana, a "3ª semana" dos boletins.</param>
 public sealed record ItemRankingDto(
     int Posicao,
     string CodigoObra,
@@ -51,7 +53,9 @@ public sealed record ItemRankingDto(
     double ParticipacaoPct,
     long? PublicoPeriodoAnterior,
     double? VariacaoPct,
-    bool Estreia);
+    bool Estreia,
+    DateOnly? EmCartazDesde = null,
+    int? SemanasEmCartaz = null);
 
 public sealed record UfDto(
     string Uf,
@@ -105,4 +109,16 @@ public sealed record ObraResumoDto(string Codigo, string Titulo, string Origem, 
 /// <param name="Parcial">O dia ainda não está consolidado na ANCINE: exibidores continuam enviando dados.</param>
 public sealed record PontoCurvaDto(DateOnly Data, long Publico, int Sessoes, int Salas, bool Parcial);
 
-public sealed record CurvaObraDto(ObraDto Obra, long PublicoNoPeriodo, IReadOnlyList<PontoCurvaDto> Dias);
+/// <param name="EmCartazDesde">Estreia da temporada mais recente (um relançamento começa outra).</param>
+/// <param name="SemanasEmCartaz">Semanas da estreia à última semana com sessões.</param>
+/// <param name="EmCartaz">Teve sessões na semana dos últimos dados publicados ou na anterior.</param>
+public sealed record CurvaObraDto(
+    ObraDto Obra,
+    long PublicoNoPeriodo,
+    IReadOnlyList<PontoCurvaDto> Dias,
+    DateOnly? EmCartazDesde = null,
+    int? SemanasEmCartaz = null,
+    bool EmCartaz = false);
+
+/// <summary>Público de uma obra numa semana cinematográfica: base do tempo em cartaz.</summary>
+public sealed record PublicoSemanaObraDto(string CodigoObra, DateOnly Semana, long Publico);

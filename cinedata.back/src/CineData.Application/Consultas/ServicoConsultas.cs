@@ -1,4 +1,5 @@
 using CineData.Application.Common;
+using CineData.Domain.Bilheteria;
 using CineData.Domain.Common;
 using CineData.Domain.Obras;
 
@@ -31,7 +32,7 @@ public sealed class ServicoConsultas(IConsultasBilheteria consultas)
         return new PainelDto(
             descricao,
             await consultas.ObterResumoAsync(p, ct),
-            await consultas.ObterRankingAsync(p, top, ct),
+            await RankingComTempoEmCartazAsync(p, top, ct),
             await consultas.ObterPorOrigemAsync(p, ct),
             await consultas.ObterAudioAsync(p, ct),
             await consultas.ObterPorUfAsync(p, ct));
@@ -41,7 +42,7 @@ public sealed class ServicoConsultas(IConsultasBilheteria consultas)
     {
         ValidarTop(top);
         var (p, _) = await ResolverPeriodoAsync(periodo, data, ct);
-        return await consultas.ObterRankingAsync(p, top, ct);
+        return await RankingComTempoEmCartazAsync(p, top, ct);
     }
 
     public async Task<IReadOnlyList<UfDto>> ObterPorUfAsync(string? periodo, DateOnly? data, CancellationToken ct)
@@ -69,7 +70,33 @@ public sealed class ServicoConsultas(IConsultasBilheteria consultas)
         var obra = await consultas.ObterObraAsync(codigoObra, ct)
             ?? throw new RecursoNaoEncontradoException($"Obra {codigoObra} não encontrada.");
         var dias = await consultas.ObterCurvaAsync(codigoObra, ct);
-        return new CurvaObraDto(obra, dias.Sum(d => d.Publico), dias);
+        var semanas = dias
+            .GroupBy(d => SemanaCinematografica.Contendo(d.Data).Inicio)
+            .Select(g => new PublicoSemana(g.Key, g.Sum(d => d.Publico)));
+        var temporada = TempoEmCartaz.Calcular(semanas, DateOnly.MaxValue);
+
+        // Em cartaz: sessões na semana dos últimos dados publicados ou na anterior (a última chega parcial).
+        var cobertura = await consultas.ObterCoberturaAsync(ct);
+        var emCartaz = temporada is { } t && cobertura.Count > 0
+            && t.UltimaSemana >= SemanaCinematografica.Contendo(cobertura.Max(d => d.Data)).Inicio.AddDays(-7);
+
+        return new CurvaObraDto(obra, dias.Sum(d => d.Publico), dias, temporada?.Estreia, temporada?.Semanas, emCartaz);
+    }
+
+    /// <summary>Ranking com há quantas semanas cada filme está em cartaz, até a última semana que começa no período.</summary>
+    private async Task<IReadOnlyList<ItemRankingDto>> RankingComTempoEmCartazAsync(Periodo periodo, int top, CancellationToken ct)
+    {
+        var ranking = await consultas.ObterRankingAsync(periodo, top, ct);
+        if (ranking.Count == 0) return ranking;
+
+        var semanas = (await consultas.ObterSemanasDasObrasAsync(ranking.Select(r => r.CodigoObra).ToList(), ct))
+            .ToLookup(s => s.CodigoObra, s => new PublicoSemana(s.Semana, s.Publico));
+        var ate = SemanaCinematografica.Contendo(periodo.Fim).Inicio;
+        return ranking
+            .Select(r => TempoEmCartaz.Calcular(semanas[r.CodigoObra], ate) is { } t
+                ? r with { EmCartazDesde = t.Estreia, SemanasEmCartaz = t.Semanas }
+                : r)
+            .ToList();
     }
 
     public Task<IReadOnlyList<ObraResumoDto>> BuscarObrasAsync(string? termo, CancellationToken ct)

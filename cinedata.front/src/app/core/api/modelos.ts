@@ -48,6 +48,10 @@ export interface ItemRanking {
   publicoPeriodoAnterior: number | null;
   variacaoPct: number | null;
   estreia: boolean;
+  /** Quinta da semana de estreia da temporada (sem pré-estreias). */
+  emCartazDesde?: string | null;
+  /** Semanas da estreia até o período: a "3ª semana" dos boletins de bilheteria. */
+  semanasEmCartaz?: number | null;
 }
 
 export interface Uf {
@@ -147,6 +151,12 @@ export interface CurvaObra {
   obra: Obra;
   publicoNoPeriodo: number;
   dias: PontoCurva[];
+  /** Estreia da temporada mais recente (um relançamento começa outra). */
+  emCartazDesde?: string | null;
+  /** Semanas da estreia à última semana com sessões. */
+  semanasEmCartaz?: number | null;
+  /** Teve sessões na semana dos últimos dados publicados ou na anterior. */
+  emCartaz?: boolean;
 }
 
 // Site estático (CLI `exportar`): índice do export, espelho de CineData.Application.Exportacao.

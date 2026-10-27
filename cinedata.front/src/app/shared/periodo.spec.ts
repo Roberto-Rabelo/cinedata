@@ -7,6 +7,7 @@ import {
   inicioDoPeriodo,
   lerGranularidade,
   periodoVizinho,
+  rotuloEmCartaz,
   rotuloOpcao,
   semanaPorExtenso,
   tituloPeriodo,
@@ -86,6 +87,14 @@ describe('periodo', () => {
     expect(linkGranularidade('semana')).toEqual(['/']);
     expect(linkGranularidade('semana', ['mapa'])).toEqual(['/', 'mapa']);
     expect(linkGranularidade('ano', ['mapa'])).toEqual(['/', 'mapa', 'ano']);
+  });
+
+  it('escreve o tempo em cartaz do jeito de cada granularidade', () => {
+    const verity = { emCartazDesde: '2026-09-24', semanasEmCartaz: 3 };
+    expect(rotuloEmCartaz('semana', verity)).toBe('3ª semana');
+    expect(rotuloEmCartaz('semana', { ...verity, semanasEmCartaz: 1 })).toBeNull(); // o selo de estreia já diz
+    expect(rotuloEmCartaz('mes', verity)).toBe('em cartaz desde 24/09/26');
+    expect(rotuloEmCartaz('mes', {})).toBeNull();
   });
 
   it('anda um período para trás e para frente', () => {

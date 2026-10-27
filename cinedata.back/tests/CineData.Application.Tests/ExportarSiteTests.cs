@@ -169,6 +169,9 @@ public class ExportarSiteTests
 
         public Task<AudioDto> ObterAudioAsync(Periodo periodo, CancellationToken ct) => Task.FromResult(new AudioDto(0, 0, 0));
 
+        public Task<IReadOnlyList<PublicoSemanaObraDto>> ObterSemanasDasObrasAsync(IReadOnlyCollection<string> codigos, CancellationToken ct) =>
+            Task.FromResult<IReadOnlyList<PublicoSemanaObraDto>>([]);
+
         public Task<ObraDto?> ObterObraAsync(CodigoObra codigo, CancellationToken ct) =>
             Task.FromResult<ObraDto?>(new ObraDto(
                 codigo.Valor, codigo.Valor, codigo.Origem == OrigemObra.Nacional ? codigo.Valor : $"Original de {codigo.Valor}",

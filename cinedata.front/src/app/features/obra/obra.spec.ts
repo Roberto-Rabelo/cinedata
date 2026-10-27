@@ -20,6 +20,12 @@ describe('semanasEmCartaz', () => {
     expect(semanas.map(s => s.variacaoPct)).toEqual([null, -50, null]);
   });
 
+  it('numera a partir da estreia do back e deixa de fora temporadas antigas', () => {
+    const dias = [dia('2016-01-07', 900_000), dia('2026-10-01', 2_000), dia('2026-10-08', 225_000), dia('2026-10-15', 150_000)];
+    const semanas = semanasEmCartaz(dias, '2026-10-08');
+    expect(semanas.map(s => [s.inicio, s.numero])).toEqual([['2026-10-01', 0], ['2026-10-08', 1], ['2026-10-15', 2]]);
+  });
+
   it('não calcula variação contra semana de pré-estreia (menos de 5% do público)', () => {
     const semanas = semanasEmCartaz([dia('2026-10-01', 474), dia('2026-10-08', 579_064), dia('2026-10-15', 797_813)]);
     expect(semanas.map(s => s.variacaoPct)).toEqual([null, null, 37.8]);

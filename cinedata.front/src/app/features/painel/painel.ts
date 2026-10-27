@@ -18,6 +18,7 @@ import {
   oPeriodo,
   linkPeriodo,
   periodoAnterior,
+  rotuloEmCartaz,
   tituloPeriodo,
 } from '../../shared/periodo';
 import { valorDe } from '../../shared/recurso';
@@ -105,6 +106,7 @@ export class Painel {
   protected readonly legendaGranularidade = legendaGranularidade;
   protected readonly tituloPeriodo = tituloPeriodo;
   protected readonly rotuloOrigem = rotuloOrigem;
+  protected readonly rotuloEmCartaz = rotuloEmCartaz;
   protected readonly corOrigem = corOrigem;
   protected readonly linkPeriodo = linkPeriodo;
   protected readonly fonte = FONTE;
