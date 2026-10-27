@@ -36,7 +36,6 @@ const NUMEROS = {
   sp: '33%',
   mes: { nome: 'setembro', lider: 'Minha Melhor Amiga' },
   obra: { titulo: 'Ainda Estou Aqui', publico: '5,7 milhões', semanas: 35 },
-  filmes: '1.443',
   ingressos: 1_229_691_177,
   sessoes: 38_471_082,
 };
@@ -208,7 +207,7 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
   <div id="mural" class="camada">
     <div id="parede">${posteres.map(p => `<img src="${p}" alt="">`).join('')}</div>
     <div id="varredura"></div>
-    <div id="tm" class="camada titulo"><span>Cada filme, sua página</span><h1>${NUMEROS.filmes} filmes que passaram nos cinemas do Brasil</h1></div>
+    <div id="tm" class="camada titulo"><span>Cada filme, sua página</span><h1>Os filmes mais vistos do Brasil, um a um</h1></div>
     <div id="credito" class="camada">Pôsteres: TMDB</div>
   </div>
 
@@ -464,6 +463,8 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
     el('vinheta').style.opacity = (1 - entre(t, POUSO - .6, POUSO)) * entre(t, 0, .4);
     el('bokeh').style.opacity = (1 - entre(t, 5.5, 6.5)) * entre(t, 0, .8);
     el('palco').style.opacity = visivel * entre(t, 0, .45);
+    const s = janela(t, 6.45, POUSO - .35, .45);
+    mostrar('slogan', s, t < 6.9 ? 30 * (1 - saida(entre(t, 6.45, 6.9))) : -40 * entre(t, POUSO - .8, POUSO - .35));
     if (!visivel) return;
 
     const { cx, cy, z } = camera(t);
@@ -542,8 +543,6 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
       k.b.style.transform = 'translate(' + bx + 'px, ' + k.y + 'px)';
     }
 
-    const s = janela(t, 6.45, POUSO - .35, .45);
-    mostrar('slogan', s, t < 6.9 ? 30 * (1 - saida(entre(t, 6.45, 6.9))) : -40 * entre(t, POUSO - .8, POUSO - .35));
   }
 
   // ---------- Mural de pôsteres ----------

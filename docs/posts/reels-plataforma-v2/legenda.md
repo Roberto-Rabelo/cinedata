@@ -1,7 +1,7 @@
 # Reels de apresentação, versão 2 (@cinedata.br)
 
 `reels.mp4`: 1080×1920 (9:16), 30 fps, 38 s, H.264 sem áudio. `capa.png`: capa do Reels (o mural de pôsteres com
-"1.443 filmes que passaram nos cinemas do Brasil"). Imagens reais de cinedatabr.tech no celular, já com os pôsteres,
+"Os filmes mais vistos do Brasil, um a um"). Imagens reais de cinedatabr.tech no celular, já com os pôsteres,
 e dados até 23/10/2026.
 
 A versão 1 (sem pôsteres, abertura curta) continua em `docs/posts/reels-plataforma/`, com o script
@@ -26,7 +26,7 @@ Os números ficam em `NUMEROS` no topo de `scripts/gerar-reels-v2.mjs`; com dado
 | 3,3–4,5 s | Para a câmera | vira para a direita, olha para a câmera, pisca e, num último pulo, para no lugar do projetor no logo; os rolos recolhem |
 | 4,5–6,6 s | Acende | o olho vai para a borda e vira a lente; pisca duas vezes e liga; o feixe atravessa o símbolo, cada barra pula ao ser iluminada e a luz acende o nome |
 | 6,4–8,5 s | Logo | "O cinema brasileiro em números / Entenda como o seu filme favorito está indo nos cinemas"; o logo encolhe e pousa no canto, onde vira o cabeçalho |
-| 8,5–12,4 s | Mural | os pôsteres dos 84 filmes mais vistos desde 2016, inclinados, com uma faixa de luz passando; "1.443 filmes que passaram nos cinemas do Brasil"; crédito "Pôsteres: TMDB" |
+| 8,5–12,4 s | Mural | os pôsteres dos 84 filmes mais vistos desde 2016, inclinados, com uma faixa de luz passando; "Os filmes mais vistos do Brasil, um a um"; crédito "Pôsteres: TMDB" |
 | 12,4–18,1 s | Top 10 | home no celular com o pôster do nº 1; "Street Fighter, nº 1 da semana de 15 a 21 de outubro: 320.927 pessoas" e "1,5 milhão de ingressos em 7 dias" |
 | 18,1–24,1 s | Mapa | São Paulo aberto ("33% do público do Brasil"); "quem venceu" em setembro: "27 de 27 estados" |
 | 24,1–29 s | Filme | Ainda Estou Aqui com pôster, público e tempo em cartaz; "5,7 milhões de espectadores, em 35 semanas em cartaz" |
@@ -36,7 +36,7 @@ Os números ficam em `NUMEROS` no topo de `scripts/gerar-reels-v2.mjs`; com dado
 Conferência: 1.229.691.177 ingressos de ago/2016 a 23/10/2026 (soma de `dados/mes/2016-08..12` e `dados/ano/2017..2026`);
 38.471.082 sessões no banco; semana de 15/10: 1.493.026 pessoas, Street Fighter 320.927, SP 490.801 (32,9%); Minha
 Melhor Amiga líder nas 27 UFs em `dados/mes/2026-09.json`; Ainda Estou Aqui 5.731.852 e 35 semanas em
-`dados/obras/B2400324700000.json`; 1.443 obras em `dados/indice.json`.
+`dados/obras/B2400324700000.json`.
 
 ## Ao publicar
 
@@ -58,7 +58,7 @@ O cinema brasileiro em números. 🎬
 
 cinedatabr.tech reúne a bilheteria de todos os cinemas do país, atualizada toda semana:
 ▪️ Top 10 da semana e do mês, com o pôster de cada filme
-▪️ 1.443 filmes com página própria: público, curva dia a dia e quanto tempo ficaram em cartaz
+▪️ Página para cada filme do ranking: público, curva dia a dia e quanto tempo ficou em cartaz
 ▪️ Mapa interativo: toque num estado e veja o público e o filme mais visto
 ▪️ 1,23 bilhão de ingressos desde 2016, em 38,5 milhões de sessões
 
