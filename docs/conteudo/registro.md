@@ -6,6 +6,7 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-10-28 | Post especial | os 10 mais vistos entre os lançados no 1º semestre de 2026 | [semestre-2026-top10](../posts/semestre-2026-top10/legenda.md) | carrossel 12 | `/materias/filmes-mais-vistos-primeiro-semestre-2026` | pronto (Reels a fazer) |
 | 2026-10-27 | Notícia | Feito Pipa chega aos cinemas (Oscar 2027) | [noticia-feito-pipa](../posts/noticia-feito-pipa/legenda.md) | carrossel 7 | `/materias/feito-pipa-chega-aos-cinemas` | pronto (publicar até 29/10) |
 | 2026-10-27 | Top 5 | semana de 15 a 21/10/2026 | [top5-2026-10-15](../posts/top5-2026-10-15/legenda.md) | carrossel 6 | `/materias/top-5-semana-2026-10-15` | pronto |
 | 2026-10-27 | Institucional | Reels de apresentação v2 | [reels-plataforma-v2](../posts/reels-plataforma-v2/legenda.md) | reels 35 s | — | pronto |

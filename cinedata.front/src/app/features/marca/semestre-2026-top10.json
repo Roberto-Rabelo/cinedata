@@ -1,0 +1,110 @@
+{
+  "_comentario": "Top 10 dos filmes lançados no 1º semestre de 2026 (lançamentos comerciais da ANCINE, público e renda da carreira). Usado pelo carrossel (slides-semestre-2026.ts) e pelo vídeo. Critério e SQL em docs/posts/semestre-2026-top10/legenda.md.",
+  "capa": "qjTqY5coNiz6sVtPng40IzltsoN.jpg",
+  "filmes": [
+    {
+      "posicao": 1,
+      "codigo": "E2600061000000",
+      "titulo": "Toy Story 5",
+      "estreia": "2026-06-18",
+      "publico": 8163641,
+      "renda": 177786088,
+      "imagem": "4D1pdB27uph7J8HQzNf8QvvH9bn.jpg",
+      "posicao4x5": "50% 50%"
+    },
+    {
+      "posicao": 2,
+      "codigo": "E2600038000000",
+      "titulo": "Michael",
+      "estreia": "2026-04-23",
+      "publico": 7439387,
+      "renda": 169225133,
+      "imagem": "ufSwlnECLoUbBjPrFqEQcWBzHwc.jpg",
+      "posicao4x5": "44% 50%"
+    },
+    {
+      "posicao": 3,
+      "codigo": "E2600030000000",
+      "titulo": "O Diabo Veste Prada 2",
+      "estreia": "2026-04-30",
+      "publico": 6973302,
+      "renda": 165810667,
+      "imagem": "dRoFlUbH1l51ACmx5oPCI3jfvZq.jpg",
+      "posicao4x5": "50% 50%",
+      "escurecer": true
+    },
+    {
+      "posicao": 4,
+      "codigo": "E2500396700000",
+      "titulo": "A Empregada",
+      "estreia": "2026-01-01",
+      "publico": 4755762,
+      "renda": 98190230,
+      "imagem": "zTnAnYIn0Iv3cn0ZHlzLhou3ybm.jpg",
+      "posicao4x5": "50% 50%"
+    },
+    {
+      "posicao": 5,
+      "codigo": "E2600038400000",
+      "titulo": "Super Mario Galaxy: O Filme",
+      "estreia": "2026-04-01",
+      "publico": 4383491,
+      "renda": 95891720,
+      "imagem": "9Z2uDYXqJrlmePznQQJhL6d92Rq.jpg",
+      "posicao4x5": "50% 50%"
+    },
+    {
+      "posicao": 6,
+      "codigo": "E2600139100000",
+      "titulo": "Todo Mundo em Pânico",
+      "estreia": "2026-06-04",
+      "publico": 2671311,
+      "renda": 58543217,
+      "imagem": "jVwJ3XqwdlrzQoNUlUqPjw9Bjjr.jpg",
+      "posicao4x5": "42% 50%"
+    },
+    {
+      "posicao": 7,
+      "codigo": "E2500455100000",
+      "titulo": "Devoradores de Estrelas",
+      "estreia": "2026-03-19",
+      "publico": 1997520,
+      "renda": 48125739,
+      "imagem": "2I1OFQJ0L9T0dpU6FobKFWV2PxX.jpg",
+      "posicao4x5": "50% 50%"
+    },
+    {
+      "posicao": 8,
+      "codigo": "E2600035300000",
+      "titulo": "Mestres do Universo",
+      "estreia": "2026-06-04",
+      "publico": 1874917,
+      "renda": 41926639,
+      "imagem": "piV2OnzTZCyGBP9JCjlHIgKGlfo.jpg",
+      "posicao4x5": "50% 50%"
+    },
+    {
+      "posicao": 9,
+      "codigo": "E2600004300000",
+      "titulo": "Pânico 7",
+      "estreia": "2026-02-26",
+      "publico": 1648192,
+      "renda": 34665934,
+      "imagem": "3eUyLEF5M0ky3h6KJsWiWzaakB8.jpg",
+      "posicao4x5": "55% 50%"
+    },
+    {
+      "posicao": 10,
+      "codigo": "E2600025800000",
+      "titulo": "Cara de Um, Focinho de Outro",
+      "estreia": "2026-03-05",
+      "publico": 1369408,
+      "renda": 28924183,
+      "imagem": "3Jj0A10NVu2dWnoEL5t5oT79L1Y.jpg",
+      "posicao4x5": "50% 50%"
+    }
+  ],
+  "lancamentosSemestre": { "obras": 233, "publico": 58118629 },
+  "top10Semestre2025": { "publico": 38163329, "primeiro": "Lilo & Stitch" },
+  "nacional": { "titulo": "Velhos Bandidos", "codigo": "B2600027400000", "publico": 431355 }
+}

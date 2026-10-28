@@ -40,6 +40,8 @@ Lista longa (mais de 10) ou itens sem foto boa: usar um slide de ranking compact
 
 - O critério vai escrito na legenda.md (o que entrou, o que ficou de fora e por quê).
 - Renda sempre "em valores da época".
+- Recorte de período ("o semestre", "o ano"): dizer se é **lançado no período** (carreira inteira, `lancamentos`) ou
+  **visto no período** (soma de `sessoes`); as listas mudam bastante. A alternativa descartada vai para a legenda.md.
 - Data de calendário: publicar 1–2 dias antes (ex.: Halloween na quinta ou sexta antes de 31/10, 18h–19h).
 - Se o especial tiver Reels, produzir o carrossel primeiro e o vídeo a partir do mesmo JSON
   ([reels-especial.md](reels-especial.md)).
@@ -61,4 +63,4 @@ Lista longa (mais de 10) ou itens sem foto boa: usar um slide de ranking compact
 
 ## Exemplos
 
-[halloween-terror-top10](../../posts/halloween-terror-top10/legenda.md)
+[halloween-terror-top10](../../posts/halloween-terror-top10/legenda.md) · [semestre-2026-top10](../../posts/semestre-2026-top10/legenda.md)

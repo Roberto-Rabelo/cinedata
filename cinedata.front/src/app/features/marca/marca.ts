@@ -89,6 +89,7 @@ interface Cor {
           <a routerLink="/marca/top5-2026-10-15" class="secundario">Top 5 de 15 a 21/10, com pôsteres (6 slides) →</a>
           <a routerLink="/marca/como-medimos" class="secundario">Como medimos (5 slides) →</a>
           <a routerLink="/marca/halloween-terror-top10" class="secundario">Halloween: top 10 do terror (12 slides) →</a>
+          <a routerLink="/marca/semestre-2026-top10" class="secundario">1º semestre de 2026: top 10 (12 slides) →</a>
         </article>
       </div>
     </section>
