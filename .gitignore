@@ -16,8 +16,9 @@ dist/
 !.vscode/extensions.json
 .DS_Store
 
-# Ferramentas locais
-.claude/
+# Ferramentas locais (as skills do projeto são versionadas)
+.claude/*
+!.claude/skills/
 
 # Segredos locais
 *.env

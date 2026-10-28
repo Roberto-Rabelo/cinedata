@@ -28,3 +28,9 @@ Plataforma de dados e conteúdo sobre cinema no Brasil, a partir dos dados abert
 - Front com dois modos de dados (`environments/ambiente*.ts`): `api` no desenvolvimento, `estatico` no site publicado.
   Componentes leem só via `rotasApi`; a chave de período (`ChavePeriodo` no back, `chavePeriodo` no front) precisa
   ser igual nos dois lados. `cinedata.front/dados` é gerado pelo `exportar` (não editar à mão).
+
+## Conteúdo (posts e vídeos)
+
+Pedidos de post (Top 5, Notícia, especial, Reels) seguem a cartela SDD em `docs/conteudo/` (`README.md` = formatos e
+pautas, `principios.md` = regras comuns, `formatos/*.md` = specs, `registro.md` = o que já foi feito). A skill
+`.claude/skills/cinedata-midia` é o roteiro. Formato novo vira spec antes de virar post.
