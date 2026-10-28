@@ -26,6 +26,7 @@ const marca: Routes = [
   { path: 'marca/top5-2026-10-15', title: 'CineData · Top 5 de 15 a 21/10', loadComponent: () => import('./features/marca/slides-top5-2026-10-15').then(m => m.SlidesTop5Semana1015) },
   { path: 'marca/top5-2026-10-08', title: 'CineData · Top 5 de 08 a 14/10', loadComponent: () => import('./features/marca/slides-top5').then(m => m.SlidesTop5) },
   { path: 'marca/como-medimos', title: 'CineData · como medimos', loadComponent: () => import('./features/marca/slides-como-medimos').then(m => m.SlidesComoMedimos) },
+  { path: 'marca/noticia-feito-pipa', title: 'CineData · Notícia: Feito Pipa', loadComponent: () => import('./features/marca/slides-noticia-feito-pipa').then(m => m.SlidesNoticiaFeitoPipa) },
   { path: 'marca/halloween-terror-top10', title: 'CineData · top 10 do terror', loadComponent: () => import('./features/marca/slides-halloween').then(m => m.SlidesHalloween) },
   { path: 'marca', title: 'CineData · identidade visual', loadComponent: () => import('./features/marca/marca').then(m => m.Marca) },
 ];

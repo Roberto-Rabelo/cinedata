@@ -12,7 +12,7 @@ import { Logo } from '../../shared/ui/logo';
   // Posição no carrossel, para o script de exportação nomear o PNG (há slides de vídeo entre eles).
   host: { '[attr.data-numero]': 'numero()' },
   template: `
-    <section class="slide" [class.com-fundo]="fundo()">
+    <section class="slide" [class.com-fundo]="fundo()" [class.escuro]="escurecer()">
       @if (fundo(); as url) {
         <img class="fundo" [src]="url" [style.object-position]="posicaoFundo()" alt="" />
       }
@@ -45,6 +45,10 @@ import { Logo } from '../../shared/ui/logo';
       content: ''; position: absolute; inset: 0; z-index: 0;
       background: linear-gradient(to bottom, rgb(13 14 18 / .85), rgb(13 14 18 / 0) 22%, rgb(13 14 18 / 0) 38%, rgb(13 14 18 / .92) 68%, var(--cd-sala));
     }
+    /* Foto clara (céu, praia): véu mais forte para o texto manter contraste em toda a altura. */
+    .slide.com-fundo.escuro::before {
+      background: linear-gradient(to bottom, rgb(13 14 18 / .88), rgb(13 14 18 / .6) 25%, rgb(13 14 18 / .7) 50%, rgb(13 14 18 / .94) 70%, var(--cd-sala));
+    }
     .slide.com-fundo > :not(.fundo) { position: relative; z-index: 1; }
     .topo { display: flex; justify-content: space-between; align-items: center; }
     .topo cd-logo { font-size: 4.6cqw; }
@@ -65,4 +69,6 @@ export class Slide {
   readonly credito = input<string>();
   /** Capa com o logo grande no corpo: o logo pequeno do topo sairia repetido. */
   readonly semLogo = input(false);
+  /** Escurece mais a foto de fundo, para imagens claras sob muito texto. */
+  readonly escurecer = input(false);
 }
