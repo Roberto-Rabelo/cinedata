@@ -50,6 +50,7 @@ Lista longa (mais de 10) ou itens sem foto boa: usar um slide de ranking compact
 2. Escolher as imagens (ver cada uma; anotar `posicao4x5`, o recorte 4:5 de cada foto).
 3. Criar `slides-<slug>.ts` a partir de `slides-halloween.ts`; rota `marca/<slug>`.
 4. Exportar, olhar, ajustar; `legenda.md` com critério, SQL e lista completa.
+   Matéria `<slug>.md`: a lista em tabela com links para as obras, "o que a lista revela" e o critério.
 5. Aceite, registro, commit. Se houver Reels, seguir a spec dele.
 
 ## Aceite (além do comum)

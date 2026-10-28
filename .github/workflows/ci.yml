@@ -34,3 +34,4 @@ jobs:
       - run: npm ci
       - run: npx ng build
       - run: npx ng test --watch=false
+      - run: npm run test:scripts

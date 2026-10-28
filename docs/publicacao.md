@@ -193,10 +193,45 @@ guardar IP; a página `/sobre` avisa o leitor. O script só entra no site public
 | `filme-aberto` | clique num filme | `filme` (código), `origem` (top10, numero-1, mes, mapa-estado, mapa-vencedores) |
 | `busca` | resultado escolhido na busca | `termo`, `filme` |
 | `abrir-mapa`, `instagram`, `fonte-ancine` | cliques nesses links | — |
+| `trailer` | play no trailer de uma matéria | — |
+| `obra-vizinha`, `materia-obra` | clique num filme do bloco "Na mesma semana" ou de uma matéria | — |
 
 Os eventos ficam em atributos `data-umami-event` no HTML dos componentes. Para medir o Instagram, use na bio
 `https://cinedatabr.tech/?utm_source=instagram&utm_medium=bio` (e `utm_medium=story` / `post` nos outros links): o
-Umami separa as visitas por campanha.
+Umami separa as visitas por campanha. Cada post aponta para a sua matéria:
+`https://cinedatabr.tech/materias/<slug>?utm_source=instagram&utm_medium=post&utm_campaign=<slug>`.
+
+## Buscadores (SEO)
+
+O que o build já entrega: uma página HTML pré-renderizada por período, mapa, filme e matéria, com título, descrição,
+Open Graph, canonical e dados estruturados (schema.org em JSON-LD: `Organization`, `WebSite`, `Dataset` nos
+períodos, `Movie` + `BreadcrumbList` nos filmes, `NewsArticle` nas matérias). O pós-build:
+
+- **achata as páginas** (`obras/X/index.html` → `obras/X.html`): o host serve `/obras/X` com 200, sem redirecionar
+  para `/obras/X/`, então endereço servido, canonical, sitemap e links internos são o mesmo;
+- gera o **sitemap** só com páginas cujo canonical é o próprio endereço (aliases como `/semana` e `/mapa/mes` ficam de
+  fora) e com `lastmod` real: um período antigo fica com a data em que se consolidou, os filmes em cartaz e as páginas
+  atuais com a data dos dados, as matérias com a data delas.
+
+**Ativar (uma vez), Google Search Console:**
+1. https://search.google.com/search-console → **Adicionar propriedade** → **Domínio** → `cinedatabr.tech`.
+2. O Google mostra um registro **TXT** (`google-site-verification=…`). Crie esse TXT no DNS do domínio (no painel
+   onde o `cinedatabr.tech` foi registrado) e clique em **Verificar** (pode levar alguns minutos).
+3. **Sitemaps** → enviar `https://cinedatabr.tech/sitemap.xml`.
+4. **Inspeção de URL** → cole `https://cinedatabr.tech/` e uma matéria → **Solicitar indexação** (acelera a primeira
+  visita do robô).
+5. Depois de 3–7 dias: **Páginas** (o que foi indexado e por que não) e **Desempenho** (buscas que trazem gente).
+
+**Bing Webmaster Tools** (também alimenta DuckDuckGo e o ChatGPT search): https://www.bing.com/webmasters →
+**Importar do Google Search Console** (usa a verificação acima).
+
+**Conferir depois de publicar:**
+
+```bash
+curl -sI https://cinedatabr.tech/obras/E2600183000000 | head -3   # 200, sem "location"
+```
+
+e o [Rich Results Test](https://search.google.com/test/rich-results) numa página de filme e numa matéria.
 
 ## Opção futura: tudo no GitHub Actions, com PostgreSQL temporário
 

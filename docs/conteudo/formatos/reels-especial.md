@@ -41,7 +41,8 @@ interface do Instagram cobre o topo e a base).
 ## Legenda do Reels
 
 Mais curta que a do carrossel (~400–600 caracteres): gancho, uma provocação para assistir até o fim, pergunta, link na
-bio, fonte, hashtags. Vai na mesma `legenda.md` do especial, em seção "Reels".
+bio, fonte, hashtags. Vai na mesma `legenda.md` do especial, em seção "Reels". O Reels não tem matéria própria: aponta
+para a matéria do especial.
 
 ## Passo a passo
 

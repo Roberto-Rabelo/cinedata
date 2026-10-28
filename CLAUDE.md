@@ -14,7 +14,8 @@ Plataforma de dados e conteúdo sobre cinema no Brasil, a partir dos dados abert
 - Export do site estático: `dotnet run --project src/CineData.Ingestion -- exportar ../cinedata.front/dados` (só lê o banco)
 - Site estático: `cd cinedata.front && npm run build:estatico` → `dist/site/browser`; conferir com `node scripts/servir-estatico.mjs`;
   semana inteira: `scripts/publicar-semana.sh` (ver `docs/publicacao.md`)
-- Testes: `dotnet test` (back), `npx ng test --watch=false` (front)
+- Testes: `dotnet test` (back), `npx ng test --watch=false` e `npm run test:scripts` (front)
+- Matérias do site: editar `cinedata.front/conteudo/materias/*.md` e rodar `npm run materias` (gera `public/conteudo/materias`, que vai para o git); trailer: `node scripts/buscar-trailer.mjs <id-tmdb>`
 - Migration: `dotnet ef migrations add <Nome> -p src/CineData.Infrastructure -s src/CineData.Infrastructure -o Persistence/Migrations`
 
 ## Convenções
@@ -33,4 +34,5 @@ Plataforma de dados e conteúdo sobre cinema no Brasil, a partir dos dados abert
 
 Pedidos de post (Top 5, Notícia, especial, Reels) seguem a cartela SDD em `docs/conteudo/` (`README.md` = formatos e
 pautas, `principios.md` = regras comuns, `formatos/*.md` = specs, `registro.md` = o que já foi feito). A skill
-`.claude/skills/cinedata-midia` é o roteiro. Formato novo vira spec antes de virar post.
+`.claude/skills/cinedata-midia` é o roteiro. Formato novo vira spec antes de virar post. Todo post tem também uma
+matéria em `/materias/<slug>`; SEO (canonical, sitemap, JSON-LD, páginas achatadas em `.html`) em `docs/publicacao.md`.

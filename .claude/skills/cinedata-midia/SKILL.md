@@ -15,11 +15,16 @@ A fonte da verdade são os arquivos em `docs/conteudo/`. Leia-os a cada execuç�
    de um especial). Fatos de fora da ANCINE: 2 fontes abertas; divergência com o que o usuário disse → avise antes.
 4. **Produção**: siga o "Passo a passo" da spec, partindo do exemplo mais recente do formato (componente em
    `cinedata.front/src/app/features/marca/`, saída em `docs/posts/<slug>/`). Dê notícias curtas do andamento.
-5. **Aceite**: rode o checklist comum (`principios.md`) e o da spec. Abra e olhe cada PNG/quadro exportado.
-6. **Registro**: linha nova em `docs/conteudo/registro.md`; tire a pauta da cartela; acrescente pautas novas que o
+5. **Matéria**: escreva `cinedata.front/conteudo/materias/<slug>.md` (seção "Matéria" dos princípios), busque o
+   trailer com `node scripts/buscar-trailer.mjs <id-tmdb>`, rode `npm run materias` e confira `/materias/<slug>`.
+6. **Aceite**: rode o checklist comum (`principios.md`) e o da spec. Abra e olhe cada PNG/quadro exportado.
+7. **Registro**: linha nova em `docs/conteudo/registro.md`; tire a pauta da cartela; acrescente pautas novas que o
    post criar (ex.: acompanhamento prometido). Se o trabalho revelou uma regra nova, atualize a spec (não só o post).
-7. **Commit** local só com os arquivos do post e dos docs de conteúdo, sem linha `Co-Authored-By`. Não faça push sem
+8. **Commit** local só com os arquivos do post e dos docs de conteúdo, sem linha `Co-Authored-By`. Não faça push sem
    pedido.
+
+**Métricas**: quando o usuário mandar números do Insights do Instagram ou do Umami, registre na seção "Desempenho" de
+`docs/conteudo/registro.md` e diga em 2–3 linhas o que funcionou melhor por formato.
 
 Ao terminar, mande os arquivos ao usuário (PNGs e `legenda.md`) e diga em 2–3 linhas o que o post traz, o que ficou de
 fora e o que ainda precisa dele (ex.: escolher a música do Reels).

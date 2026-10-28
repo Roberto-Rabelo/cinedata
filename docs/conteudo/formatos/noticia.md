@@ -54,6 +54,7 @@ Selo: `<span class="selo">CineData <i>|</i> Notícia</span>` (ver `slides-notici
 3. Escolher imagens no TMDB (baixar em w780 para ver, usar w1280 no slide).
 4. Criar `slides-noticia-<assunto>.ts` a partir de `slides-noticia-feito-pipa.ts`; rota `marca/noticia-<assunto>`.
 5. Exportar, olhar cada PNG, ajustar; escrever `legenda.md` com "Fatos de fora da ANCINE".
+   Matéria `<slug>.md`: o fato, o contexto e a régua em tabela, com o trailer do filme e as fontes.
 6. Incluir as pautas de acompanhamento na cartela; aceite, registro, commit.
 
 ## Aceite (além do comum)

@@ -4,6 +4,9 @@ Mídia orientada por spec (SDD): cada formato de post tem uma spec com entradas,
 passo e critérios de aceite. Um pedido ("faz o Top 5 da semana") vira: **cartela → spec do formato → briefing →
 produção → aceite → registro**. Formato novo entra primeiro aqui, como spec, e só depois vira post.
 
+Cada post tem duas peças: o **carrossel/vídeo** do Instagram e a **matéria** no site (`/materias/<slug>`), que o Google
+indexa e para onde o post leva o leitor ([princípios](principios.md#matéria-a-versão-do-post-no-site)).
+
 ## Formatos
 
 | Formato | Para quê | Quando | Peça | Spec | Último exemplo |
@@ -50,6 +53,13 @@ Ideias com data. Ao produzir, a pauta sai daqui e vai para o [registro](registro
 | fim de dezembro | Post especial | os filmes mais vistos de 2026 | retrospectiva do ano |
 | 21/01/2027 | Notícia | indicados ao Oscar 2027 | Feito Pipa |
 | 14/03/2027 | Notícia | resultado do Oscar 2027 | Feito Pipa |
+
+## Melhorias do processo
+
+| Quando | Ideia |
+| --- | --- |
+| com volume (~20+ posts) | puxar os insights do Instagram por API (conta Profissional + Página do Facebook + app na Meta), em vez de copiar à mão |
+| depois da indexação | ver no Search Console quais buscas trazem gente e transformar as melhores em pautas |
 
 ## Como incluir um formato novo
 

@@ -29,6 +29,16 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Prerender,
     getPrerenderParams: async () => lerDados<ObraResumo[]>('busca.json').map(o => ({ codigo: o.codigo })),
   },
+  { path: 'materias', renderMode: RenderMode.Prerender },
+  {
+    path: 'materias/:slug',
+    renderMode: RenderMode.Prerender,
+    // Gerado por scripts/materias.mjs (public/conteudo/materias/indice.json).
+    getPrerenderParams: async () =>
+      (JSON.parse(readFileSync(join(process.cwd(), 'public/conteudo/materias/indice.json'), 'utf8')) as { slug: string }[]).map(m => ({
+        slug: m.slug,
+      })),
+  },
   { path: 'sobre', renderMode: RenderMode.Prerender },
   // Endereço sem página: o host serve o 404.html (cópia do index.csr.html, scripts/pos-build-estatico.mjs).
   { path: '**', renderMode: RenderMode.Client },

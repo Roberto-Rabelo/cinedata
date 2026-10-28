@@ -60,6 +60,7 @@ Variação com vídeos (como em `top5-2026-10-08`): os slides 2 e 4 viram o spot
    (números do JSON) e os textos dos slots; registrar a rota `marca/top5-<inicio>`.
 3. `ng serve --port 4330` (modo API, para os pôsteres) e exportar para `docs/posts/top5-<inicio>/`.
 4. Olhar os 6 PNGs; escrever a `legenda.md` no padrão dos [princípios](../principios.md#legenda-legendamd), com a
+   Matéria `top-5-semana-<inicio>.md`: a história da semana, a tabela do Top 5 com links para as obras e para `/semana/<inicio>`.
    tabela "De onde vem cada número".
 5. Aceite, registro, commit.
 

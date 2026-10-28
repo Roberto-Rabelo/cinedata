@@ -58,8 +58,26 @@ acento; cores de dados `--cd-dado-*`; Bricolage Grotesque para manchetes e núme
 | Vídeo 9:16 | página de composição com `window.render(t)` gravada por `scripts/quadros.mjs` (ver [reels-especial.md](formatos/reels-especial.md)) |
 | Dados compartilhados | carrossel e vídeo do mesmo post leem o mesmo JSON (`features/marca/<slug>.json`) |
 | Saída | `docs/posts/<slug>/`: `slide-NN.png` (ou `reels.mp4` + `capa*.png`) e `legenda.md` |
+| Matéria no site | `cinedata.front/conteudo/materias/<slug>.md` → `npm run materias` (em `cinedata.front`) gera `public/conteudo/materias/*.json` (vai para o git) → página `/materias/<slug>` |
 
 `<slug>`: `top5-AAAA-MM-DD` (início da semana), `noticia-<assunto>`, `<tema>-<recorte>`, `reels-<assunto>`.
+
+## Matéria (a versão do post no site)
+
+Todo post tem também uma matéria: é ela que o Google indexa, que outros sites podem citar e para onde o Instagram
+manda o leitor. O post é o anúncio; a matéria é o conteúdo completo.
+
+- Arquivo `cinedata.front/conteudo/materias/<slug>.md`, com slug **descritivo** nas palavras que alguém buscaria
+  (`feito-pipa-chega-aos-cinemas`, não `noticia-1`); a coluna "Matéria" do [registro](registro.md) liga post e matéria.
+  Frontmatter: `titulo` (a manchete com o
+  número, até ~90 caracteres), `resumo` (1–2 frases, vira a descrição no Google), `data` (AAAA-MM-DD do dia de
+  publicação, nunca futura), `formato` (`Notícia`, `Top 5`, `Especial`), `imagem` (cena 16:9 do TMDB em `w1280`),
+  `obras` (códigos CPB/ROE citados), `trailer` (`youtube` + `titulo`, de `node scripts/buscar-trailer.mjs <id-tmdb>`),
+  `instagram` (URL do post, quando publicado), `fontes` (`titulo` + `url` dos fatos de fora da ANCINE).
+- Corpo em Markdown, 300–900 palavras: o que o carrossel diz, com mais contexto, uma tabela quando houver ranking, e
+  **links internos** para as páginas de dados (`/obras/<cpb>`, `/semana/<início>`, `/mapa/semana/<início>`).
+- Termina com uma linha em itálico dizendo a fonte e o recorte dos números.
+- Gerar com `npm run materias` e conferir em `ng serve` → `/materias/<slug>`.
 
 ## Legenda (`legenda.md`)
 
@@ -69,8 +87,9 @@ Estrutura fixa, nesta ordem:
 2. Tabela **Slide | Arquivo | Conteúdo**.
 3. Comando para regerar os arquivos.
 4. **Legenda** num bloco ```text```, com a contagem de caracteres (limite do Instagram 2.200; mirar 800–1.300): gancho
-   com o número na 1ª linha, o conteúdo, uma pergunta para comentários, "link na bio" quando fizer sentido, fonte,
-   3–6 hashtags.
+   com o número na 1ª linha, o conteúdo, uma pergunta para comentários, "a matéria completa está no link da bio", fonte,
+   3–6 hashtags. Link da matéria com UTM, para a bio ou o story:
+   `https://cinedatabr.tech/materias/<slug-da-materia>?utm_source=instagram&utm_medium=post&utm_campaign=<slug-do-post>`.
 5. **Números e como conferir**: cada número com valor e SQL/JSON.
 6. **Fatos de fora da ANCINE** (quando houver), com links e data da conferência.
 
@@ -81,6 +100,7 @@ Estrutura fixa, nesta ordem:
 - [ ] Exportação sem erro de estouro; cada PNG aberto e olhado (contraste, cortes, palavra solta no fim da linha).
 - [ ] Rodapé com fonte e perfil em todo slide; crédito de imagem quando houver foto.
 - [ ] Legenda dentro do limite, com fonte.
-- [ ] `ng build` e `ng test` passando no front.
+- [ ] Matéria escrita, gerada (`npm run materias`) e conferida em `/materias/<slug>`.
+- [ ] `ng build`, `ng test` e `npm run test:scripts` passando no front.
 - [ ] Linha nova no [registro](registro.md); pauta correspondente retirada da cartela.
 - [ ] Commit local só com os arquivos do post, **sem linha de coautoria**. Push só se o usuário pedir.
