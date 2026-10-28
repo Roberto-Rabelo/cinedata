@@ -23,6 +23,9 @@ números contando, revelação no fim. Feito quadro a quadro no Chrome, então t
 - Composição HTML com `window.render(t)` (t em segundos), gravada por `scripts/quadros.mjs`.
 - Script do vídeo: `cinedata.front/scripts/gerar-video-<slug>.mjs <pasta-saida>`, lendo o mesmo JSON do carrossel.
 - Prévia barata: `VIDEO_PREVIA=2,5,30 node scripts/gerar-video-<slug>.mjs <pasta>` grava só esses segundos em PNG.
+- Abertura com a **vinheta do logo** (o projetor-personagem que acende o logo, ~7 s): `scripts/vinheta-logo.mjs`
+  (`cssVinheta`, `htmlVinheta(slogan)`, `jsVinheta({ relogio })`); o slogan sob o logo destaca o tema. Exemplo:
+  `gerar-video-semestre-2026-v2.mjs`. Com ela, encurtar os cartões (~2,2 s) para caber em 45 s.
 - Precisa de `ffmpeg` no PATH, Google Chrome instalado e internet (imagens do TMDB).
 
 ## Estrutura (roteiro padrão de contagem)

@@ -1,6 +1,6 @@
 # Post especial · os 10 filmes mais vistos entre os lançados no 1º semestre de 2026
 
-12 slides 1080×1350 (`slide-01.png` … `slide-12.png`) e um Reels de 41,8 s, da rota `/marca/semestre-2026-top10` do front
+12 slides 1080×1350 (`slide-01.png` … `slide-12.png`) e dois Reels (v1 de 41,8 s; v2 de 44,4 s, com a vinheta do logo), da rota `/marca/semestre-2026-top10` do front
 (`cinedata.front/src/app/features/marca/slides-semestre-2026.ts`), no mesmo formato do especial de Halloween. Atemporal:
 pode sair em qualquer dia; sugestão, um dia útil entre 18h e 19h, sem bater com o Halloween e o Feito Pipa (29–31/10).
 
@@ -49,6 +49,28 @@ Fonte: ANCINE (dados abertos), lançamentos comerciais. Bilheteria em valores da
 
 #cinema #bilheteria #filmes2026 #toystory5 #dadosabertos
 ```
+
+## Reels V2 (com a vinheta do logo)
+
+`reels-v2/reels.mp4`: 1080×1920, 30 fps, 44,4 s, H.264 sem áudio. `reels-v2/capa-reels.png`: o logo aceso com
+"1º semestre de 2026". Abre com a vinheta do Reels de apresentação (o projetor-personagem acende o logo,
+`scripts/vinheta-logo.mjs`), com o selo do semestre sob o logo; o logo pousa no cabeçalho e segue a contagem da
+versão 1, com cartões de 2,2 s. A versão 1 (`reels.mp4`, acima) continua como está. Mesma legenda do Reels.
+
+```bash
+cd cinedata.front && node scripts/gerar-video-semestre-2026-v2.mjs ../docs/posts/semestre-2026-top10/reels-v2
+```
+
+| Tempo | Cena |
+| --- | --- |
+| 0–5,5 s | Vinheta: o projetor do logo entra pulando, olha as barras, pula por cima, pisca para a câmera e vira a lente; o feixe acende as barras e o nome |
+| 5,5–7,5 s | "Especial · 1º semestre de 2026 · Os 10 filmes que bombaram nos cinemas do Brasil" sob o logo; o logo encolhe e pousa no cabeçalho |
+| 7,1–9,9 s | Cena de Toy Story 5: "41,3 milhões de espectadores nos 10 filmes mais vistos entre os lançados de janeiro a junho", "Do 10º ao 1º. Quem levou?" |
+| 9,9–29,7 s | Contagem regressiva do 10º ao 2º, 2,2 s cada |
+| 29,7–31,2 s | Suspense: "O filme mais visto do 1º semestre é…" |
+| 31,2–36,2 s | O nº 1: Toy Story 5, 8.163.641 espectadores |
+| 36,2–40,6 s | O que a lista revela: 71%, +8%, 431 mil |
+| 40,6–44,4 s | "Qual desses você viu no cinema?", logo, cinedatabr.tech, fonte |
 
 ## Legenda
 
