@@ -61,5 +61,5 @@ para a matéria do especial.
 
 ## Exemplos
 
-[Halloween (reels)](../../posts/halloween-terror-top10/legenda.md#reels-vídeo) · Institucionais:
+[Halloween (reels)](../../posts/halloween-terror-top10/legenda.md#reels-vídeo) · [1º semestre de 2026](../../posts/semestre-2026-top10/legenda.md#reels-vídeo) · Institucionais:
 [reels-plataforma](../../posts/reels-plataforma/legenda.md), [reels-plataforma-v2](../../posts/reels-plataforma-v2/legenda.md)

@@ -1,6 +1,6 @@
 # Post especial · os 10 filmes mais vistos entre os lançados no 1º semestre de 2026
 
-12 slides 1080×1350 (`slide-01.png` … `slide-12.png`), da rota `/marca/semestre-2026-top10` do front
+12 slides 1080×1350 (`slide-01.png` … `slide-12.png`) e um Reels de 41,8 s, da rota `/marca/semestre-2026-top10` do front
 (`cinedata.front/src/app/features/marca/slides-semestre-2026.ts`), no mesmo formato do especial de Halloween. Atemporal:
 pode sair em qualquer dia; sugestão, um dia útil entre 18h e 19h, sem bater com o Halloween e o Feito Pipa (29–31/10).
 
@@ -12,6 +12,42 @@ pode sair em qualquer dia; sugestão, um dia útil entre 18h e 19h, sem bater co
 
 ```bash
 cd cinedata.front && node scripts/exportar-slides.mjs /marca/semestre-2026-top10 ../docs/posts/semestre-2026-top10 http://localhost:4300
+```
+
+## Reels (vídeo)
+
+`reels.mp4`: 1080×1920 (9:16), 30 fps, 41,8 s, H.264 sem áudio. `capa-reels.png`: capa (o nº 1 revelado). Mesmos
+dados do carrossel (`semestre-2026-top10.json`) e mesma composição do Reels de Halloween, com as cenas em 4K do TMDB.
+
+```bash
+cd cinedata.front && node scripts/gerar-video-semestre-2026.mjs ../docs/posts/semestre-2026-top10
+```
+
+| Tempo | Cena |
+| --- | --- |
+| 0–3,6 s | Abertura: o projetor liga piscando sobre Toy Story 5; "Os 10 filmes que bombaram nos cinemas do Brasil", 41,3 milhões, "Do 10º ao 1º. Quem levou?" |
+| 3,6–26,1 s | Contagem regressiva do 10º ao 2º, 2,5 s cada: cena se aproximando, lugar, título, data de estreia, público contando, renda e barra contra o nº 1 |
+| 26,1–27,6 s | Suspense: tela escura, feixe piscando, "O filme mais visto do 1º semestre é…" |
+| 27,6–32,6 s | O nº 1: Toy Story 5, 8.163.641 espectadores |
+| 32,6–37,4 s | O que a lista revela: 71% do público dos 233 lançamentos; +8% sobre 2025; 431 mil em Velhos Bandidos |
+| 37,4–41,8 s | "Qual desses você viu no cinema?", logo, cinedatabr.tech, fonte e crédito das imagens |
+
+Ao publicar: escolher um áudio animado da biblioteca do Instagram; capa `capa-reels.png`.
+
+Legenda do Reels (473 caracteres):
+
+```text
+Do 10º ao 1º: os filmes que bombaram nos cinemas do Brasil no 1º semestre de 2026. 🍿
+
+Juntos, 41,3 milhões de espectadores, 8% a mais que o top 10 de 2025. E o nº 1 estreou a 13 dias do fim de junho… assiste até o fim. 🎬
+
+Qual desses você viu no cinema? Conta aqui.
+
+A matéria completa está no link da bio.
+
+Fonte: ANCINE (dados abertos), lançamentos comerciais. Bilheteria em valores da época. Imagens: divulgação.
+
+#cinema #bilheteria #filmes2026 #toystory5 #dadosabertos
 ```
 
 ## Legenda
