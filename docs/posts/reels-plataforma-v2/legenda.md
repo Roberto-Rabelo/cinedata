@@ -1,6 +1,6 @@
 # Reels de apresentação, versão 2 (@cinedata.br)
 
-`reels.mp4`: 1080×1920 (9:16), 30 fps, 38 s, H.264 sem áudio. `capa.png`: capa do Reels (o mural de pôsteres com
+`reels.mp4`: 1080×1920 (9:16), 30 fps, 35 s, H.264 sem áudio. `capa.png`: capa do Reels (o mural de pôsteres com
 "Os filmes mais vistos do Brasil, um a um"). Imagens reais de cinedatabr.tech no celular, já com os pôsteres,
 e dados até 23/10/2026.
 
@@ -15,23 +15,26 @@ cd cinedata.front && node scripts/gerar-reels-v2.mjs ../docs/posts/reels-platafo
 ```
 
 Os números ficam em `NUMEROS` no topo de `scripts/gerar-reels-v2.mjs`; com dados novos, conferir antes de regerar.
-`REELS_PREVIA=2.4,3.6,9.4` grava só esses segundos como PNG, para ajustar o layout.
+`REELS_PREVIA=1.8,2.7,7.5` grava só esses segundos como PNG, para ajustar o layout.
 
 ## Roteiro
 
+A abertura foi desenhada em 8,5 s e roda em 6,8 s: as pausas correm mais rápido que os gestos (`TRECHOS` no
+script). O mural tem 2,8 s.
+
 | Tempo | Cena | Na tela |
 | --- | --- | --- |
-| 0–1,4 s | Entrada | o projetor do logo, como personagem (rolos de filme nas "orelhas", a lente como olho), entra pulando da direita, sob uma luz de palco |
-| 1,4–3,3 s | O salto | para, olha as barras com a cabeça inclinada, agacha e pula por cima delas até o lugar do logo |
-| 3,3–4,5 s | Para a câmera | vira para a direita, olha para a câmera, pisca e, num último pulo, para no lugar do projetor no logo; os rolos recolhem |
-| 4,5–6,6 s | Acende | o olho vai para a borda e vira a lente; pisca duas vezes e liga; o feixe atravessa o símbolo, cada barra pula ao ser iluminada e a luz acende o nome |
-| 6,4–8,5 s | Logo | "O cinema brasileiro em números / Entenda como o seu filme favorito está indo nos cinemas"; o logo encolhe e pousa no canto, onde vira o cabeçalho |
-| 8,5–12,4 s | Mural | os pôsteres dos 84 filmes mais vistos desde 2016, inclinados, com uma faixa de luz passando; "Os filmes mais vistos do Brasil, um a um"; crédito "Pôsteres: TMDB" |
-| 12,4–18,1 s | Top 10 | home no celular com o pôster do nº 1; "Street Fighter, nº 1 da semana de 15 a 21 de outubro: 320.927 pessoas" e "1,5 milhão de ingressos em 7 dias" |
-| 18,1–24,1 s | Mapa | São Paulo aberto ("33% do público do Brasil"); "quem venceu" em setembro: "27 de 27 estados" |
-| 24,1–29 s | Filme | Ainda Estou Aqui com pôster, público e tempo em cartaz; "5,7 milhões de espectadores, em 35 semanas em cartaz" |
-| 29–33 s | Números | contagem até 1,23 bilhão de ingressos desde 2016, 38,5 milhões de sessões, 27 estados |
-| 33–38 s | Chamada | cinedatabr.tech, "Todos os cinemas do Brasil, atualizado toda semana", "Link na bio", fonte |
+| 0–1 s | Entrada | o projetor do logo, como personagem (rolos de filme nas "orelhas", a lente como olho), entra pulando da direita, sob uma luz de palco |
+| 1–2,4 s | O salto | para, olha as barras com a cabeça inclinada, agacha e pula por cima delas até o lugar do logo |
+| 2,4–3,4 s | Para a câmera | vira para a direita, olha para a câmera, pisca e, num último pulo, para no lugar do projetor no logo; os rolos recolhem |
+| 3,4–5,1 s | Acende | o olho vai para a borda e vira a lente; pisca duas vezes e liga; o feixe atravessa o símbolo, cada barra pula ao ser iluminada e a luz acende o nome |
+| 5–6,8 s | Logo | "O cinema brasileiro em números / Entenda como o seu filme favorito está indo nos cinemas"; o logo encolhe e pousa no canto, onde vira o cabeçalho |
+| 6,8–9,6 s | Mural | os pôsteres dos 84 filmes mais vistos desde 2016, inclinados, com uma faixa de luz passando; "Os filmes mais vistos do Brasil, um a um"; crédito "Pôsteres: TMDB" |
+| 9,6–15,4 s | Top 10 | home no celular com o pôster do nº 1; "Street Fighter, nº 1 da semana de 15 a 21 de outubro: 320.927 pessoas" e "1,5 milhão de ingressos em 7 dias" |
+| 15,4–21,4 s | Mapa | São Paulo aberto ("33% do público do Brasil"); "quem venceu" em setembro: "27 de 27 estados" |
+| 21,4–26,3 s | Filme | Ainda Estou Aqui com pôster, público e tempo em cartaz; "5,7 milhões de espectadores, em 35 semanas em cartaz" |
+| 26,3–30,3 s | Números | contagem até 1,23 bilhão de ingressos desde 2016, 38,5 milhões de sessões, 27 estados |
+| 30,3–35 s | Chamada | cinedatabr.tech, "Todos os cinemas do Brasil, atualizado toda semana", "Link na bio", fonte |
 
 Conferência: 1.229.691.177 ingressos de ago/2016 a 23/10/2026 (soma de `dados/mes/2016-08..12` e `dados/ano/2017..2026`);
 38.471.082 sessões no banco; semana de 15/10: 1.493.026 pessoas, Street Fighter 320.927, SP 490.801 (32,9%); Minha

@@ -1,4 +1,4 @@
-// Reels de apresentação da plataforma, versão 2 (1080×1920, 9:16, 30 fps, 38 s), com os pôsteres do site. A versão 1
+// Reels de apresentação da plataforma, versão 2 (1080×1920, 9:16, 30 fps, 35 s), com os pôsteres do site. A versão 1
 // (gerar-reels.mjs, docs/posts/reels-plataforma) continua como está, para o caso de voltar a ela.
 //
 // Abertura animada, inspirada na vinheta da Pixar: o projetor do logo é um personagem. Ele entra pulando (os rolos de
@@ -22,11 +22,22 @@ const [saidaArg, site = 'http://localhost:4320'] = process.argv.slice(2);
 if (!saidaArg) throw new Error('uso: node scripts/gerar-reels-v2.mjs <pasta-saida> [url-do-site]');
 const saida = resolve(saidaArg);
 const FPS = 30;
-const DURACAO = 38;
+/**
+ * Relógio da abertura. A animação foi desenhada em 8,5 s (os tempos dentro de abertura() são nesse relógio); no vídeo
+ * ela corre mais rápido, mais nas pausas que nos gestos: [fim do trecho na animação, velocidade].
+ */
+const TRECHOS = [[.35, 2.3], [1.42, 1.2], [2.06, 1.8], [3.05, 1.15], [4.15, 1.4], [5.75, 1.15], [6.6, 1.25], [8.5, 1.1]];
+/** [instante no vídeo, instante na animação]. */
+const RELOGIO = TRECHOS.reduce((pontos, [fim, velocidade]) => {
+  const [video, animacao] = pontos.at(-1);
+  return [...pontos, [video + (fim - animacao) / velocidade, fim]];
+}, [[0, 0]]);
 /** Quando o logo da abertura pousa no cabeçalho. */
-const POUSO = 8.5;
+const POUSO = RELOGIO.at(-1)[0];
 /** Quando o celular entra (o corpo, igual ao da versão 1 a partir dos 3 s dela); antes, a abertura e o mural. */
-const CORPO = 12.4;
+const CORPO = POUSO + 2.8;
+/** O corpo dura o mesmo que na versão 1 (25,6 s a partir da entrada do celular). */
+const DURACAO = Math.round(CORPO + 25.6);
 
 // Números do vídeo (export de 27/10/2026, dados até 23/10). Conferir antes de regerar com dados novos.
 const NUMEROS = {
@@ -252,6 +263,9 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
   const ESCALA_TELA = 616 / (390 * ${ESCALA});
   const CORPO = ${CORPO};
   const POUSO = ${POUSO};
+  /** Fim da abertura no relógio da animação (ver RELOGIO). */
+  const FIM_ABERTURA = 8.5;
+  const RELOGIO = ${JSON.stringify(RELOGIO)};
   const lim = (x) => Math.min(1, Math.max(0, x));
   const suave = (x) => { x = lim(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
   const saida = (x) => 1 - Math.pow(1 - lim(x), 3);
@@ -316,8 +330,8 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
       [3.1, mundoX(14), mundoY(14.5), 2.6],
       [4.8, mundoX(13), mundoY(15), 2.75],
       [6.4, LARGURA / 2, centroY + 30 / zFinal, zFinal],
-      [POUSO - .75, LARGURA / 2, centroY + 30 / (zFinal * 1.03), zFinal * 1.03],
-      [POUSO, (540 - topo.left) / zTopo, Y0 + (860 - topo.top) / zTopo, zTopo],
+      [FIM_ABERTURA - .75, LARGURA / 2, centroY + 30 / (zFinal * 1.03), zFinal * 1.03],
+      [FIM_ABERTURA, (540 - topo.left) / zTopo, Y0 + (860 - topo.top) / zTopo, zTopo],
     ];
 
     // Poeira no ar: quase invisível no escuro, brilha dentro do feixe.
@@ -459,12 +473,12 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
 
   function abertura(t) {
     // Ao pousar, troca seca pelo logo do cabeçalho (mesmo desenho e lugar; um fade mostraria os dois desalinhados).
-    const visivel = t < POUSO ? 1 : 0;
-    el('vinheta').style.opacity = (1 - entre(t, POUSO - .6, POUSO)) * entre(t, 0, .4);
+    const visivel = t < FIM_ABERTURA ? 1 : 0;
+    el('vinheta').style.opacity = (1 - entre(t, FIM_ABERTURA - .6, FIM_ABERTURA)) * entre(t, 0, .4);
     el('bokeh').style.opacity = (1 - entre(t, 5.5, 6.5)) * entre(t, 0, .8);
     el('palco').style.opacity = visivel * entre(t, 0, .45);
-    const s = janela(t, 6.45, POUSO - .35, .45);
-    mostrar('slogan', s, t < 6.9 ? 30 * (1 - saida(entre(t, 6.45, 6.9))) : -40 * entre(t, POUSO - .8, POUSO - .35));
+    const s = janela(t, 6.45, FIM_ABERTURA - .35, .45);
+    mostrar('slogan', s, t < 6.9 ? 30 * (1 - saida(entre(t, 6.45, 6.9))) : -40 * entre(t, FIM_ABERTURA - .8, FIM_ABERTURA - .35));
     if (!visivel) return;
 
     const { cx, cy, z } = camera(t);
@@ -562,7 +576,7 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
       img.style.opacity = p;
       img.style.transform = 'translateY(' + (60 * (1 - p)) + 'px) scale(' + mix(.85, 1, p) + ')';
     });
-    el('varredura').style.transform = 'translateX(' + mix(-900, 900, entre(t, m + .7, m + 3.1)) + 'px)';
+    el('varredura').style.transform = 'translateX(' + mix(-900, 900, entre(t, m + .7, CORPO - .2)) + 'px)';
     texto('tm', t, m + .5, CORPO);
     texto('credito', t, m + .9, CORPO);
   }
@@ -620,9 +634,18 @@ const composicao = (telas, simbolo, posteres) => `<!doctype html><html><head><me
     texto('fonte', t, 24.4, 40);
   }
 
+  /** Instante do vídeo → instante da animação da abertura. */
+  function relogio(t) {
+    for (let i = 1; i < RELOGIO.length; i++) {
+      const [va, aa] = RELOGIO[i - 1], [vb, ab] = RELOGIO[i];
+      if (t < vb) return mix(aa, ab, (t - va) / (vb - va));
+    }
+    return FIM_ABERTURA + t - POUSO;
+  }
+
   window.render = function (t) {
     if (!CAMERA) iniciar();
-    abertura(t);
+    abertura(relogio(t));
     mural(t);
     corpo(t - CORPO + 3, t);
   };
@@ -638,7 +661,7 @@ try {
   await pagina.setContent(composicao(telas, simbolo, await posteresDoMural()), { waitUntil: 'networkidle' });
   await pagina.evaluate(() => document.fonts.ready);
   // Capa: o mural de pôsteres com o título.
-  await gravarVideo(pagina, { fps: FPS, duracao: DURACAO, saida, nome: 'reels.mp4', capa: POUSO + 2.6, previa: process.env.REELS_PREVIA?.split(',').map(Number) });
+  await gravarVideo(pagina, { fps: FPS, duracao: DURACAO, saida, nome: 'reels.mp4', capa: POUSO + 2, previa: process.env.REELS_PREVIA?.split(',').map(Number) });
 } finally {
   await navegador.close();
 }
