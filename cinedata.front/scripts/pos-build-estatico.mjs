@@ -5,13 +5,15 @@
 // 1. Troca o marcador %URL_SITE% (og:url, og:image, canonical) pelo endereço público e, com UMAMI_ID, inclui o
 //    script do Umami (contagem de acessos sem cookies) em todas as páginas.
 // 2. Cria o 404.html a partir do index.csr.html (o app sem pré-render mostra a página "não encontrada").
-// 3. Gera sitemap.xml e robots.txt a partir de prerendered-routes.json.
-// 4. Copia para posteres/ os pôsteres do TMDB citados nos dados (posteres-estaticos.mjs), baixando só os que faltam
+// 3. Achata as páginas: <rota>/index.html vira <rota>.html. O host serve /obras/X a partir de obras/X.html com 200,
+//    sem redirecionar para /obras/X/, e assim o endereço servido é o mesmo do canonical, do sitemap e dos links.
+// 4. Gera sitemap.xml (só páginas cujo canonical é o próprio endereço, com lastmod) e robots.txt.
+// 5. Copia para posteres/ os pôsteres do TMDB citados nos dados (posteres-estaticos.mjs), baixando só os que faltam
 //    no cache (.cache/posteres ou PASTA_POSTERES). SEM_POSTERES=1 pula a etapa (o site mostra os cartazes tipográficos).
-// 5. Mostra o tamanho do site.
+// 6. Mostra o tamanho do site.
 //
 // Sem URL_SITE as metas ficam com caminhos relativos e o sitemap não é gerado (ele exige endereços absolutos).
-import { copyFile, readFile, readdir, stat, writeFile } from 'node:fs/promises';
+import { copyFile, readFile, readdir, rename, rmdir, stat, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { copiarPosteres } from './posteres-estaticos.mjs';
 
@@ -60,12 +62,63 @@ await copyFile(join(site, 'index.csr.html'), join(site, '404.html'));
 
 const { routes } = JSON.parse(await readFile(join(raiz, 'prerendered-routes.json'), 'utf8'));
 const rotas = Object.keys(routes).sort();
+
+const arquivoDaRota = rota => (rota === '/' ? join(site, 'index.html') : join(site, `${rota.slice(1)}.html`));
+for (const rota of rotas) {
+  if (rota === '/') continue;
+  const pasta = join(site, rota.slice(1));
+  await rename(join(pasta, 'index.html'), arquivoDaRota(rota));
+  // A pasta continua quando tem filhos (semana/ → semana/2026-10-15.html); vazia, sai.
+  if ((await readdir(pasta)).length === 0) await rmdir(pasta);
+}
+
 if (urlSite) {
-  const urls = rotas.map(r => `  <url><loc>${urlSite}${r === '/' ? '/' : r}</loc></url>`).join('\n');
+  const dados = new URL('../dados/', import.meta.url).pathname;
+  const lerJson = async caminho => JSON.parse(await readFile(join(dados, caminho), 'utf8'));
+  const { dadosAte } = await lerJson('indice.json');
+  const menor = (a, b) => (a < b ? a : b);
+  const somarDias = (data, dias) => new Date(Date.parse(data) + dias * 864e5).toISOString().slice(0, 10);
+
+  // lastmod = quando o conteúdo da página mudou de verdade: um período antigo não muda mais (os exibidores enviam
+  // retificações por até ~2 semanas); a página atual e os filmes em cartaz mudam a cada carga.
+  const ultimaMudanca = async rota => {
+    const partes = rota.split('/').filter(Boolean);
+    if (partes[0] === 'mapa') partes.shift();
+    const [secao, chave] = partes;
+    try {
+      if (secao === 'materias') {
+        const materias = JSON.parse(await readFile(join(site, 'conteudo/materias/indice.json'), 'utf8'));
+        return chave ? (materias.find(m => m.slug === chave)?.data ?? null) : (materias[0]?.data ?? null);
+      }
+      if (secao === 'obras' && chave) {
+        const obra = await lerJson(`obras/${chave}.json`);
+        return obra.emCartaz ? dadosAte : menor(obra.dias.at(-1)?.data ?? dadosAte, dadosAte);
+      }
+      if (chave && ['semana', 'mes', 'trimestre', 'semestre', 'ano'].includes(secao)) {
+        const { periodo } = await lerJson(`${secao}/${chave}.json`);
+        return menor(somarDias(periodo.fim, 14), dadosAte);
+      }
+    } catch {
+      return null;
+    }
+    return rota === '/' || rota === '/mapa' ? dadosAte : null;
+  };
+
+  const linhas = [];
+  for (const rota of rotas) {
+    const endereco = `${urlSite}${rota === '/' ? '/' : rota}`;
+    const html = await readFile(arquivoDaRota(rota), 'utf8');
+    const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+    // Página-alias (/semana, /mapa/mes…): o canonical aponta para o período padrão, que já está no sitemap.
+    if (canonical && canonical !== endereco) continue;
+    const lastmod = await ultimaMudanca(rota);
+    linhas.push(`  <url><loc>${endereco}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}</url>`);
+  }
   await writeFile(
     join(site, 'sitemap.xml'),
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${linhas.join('\n')}\n</urlset>\n`,
   );
+  console.log(`sitemap.xml: ${linhas.length} de ${rotas.length} páginas (as demais são aliases de outra URL).`);
 }
 await writeFile(join(site, 'robots.txt'), `User-agent: *\nAllow: /\n${urlSite ? `Sitemap: ${urlSite}/sitemap.xml\n` : ''}`);
 

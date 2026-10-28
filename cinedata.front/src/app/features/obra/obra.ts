@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-import { CurvaObra, IndiceSite, PontoCurva } from '../../core/api/modelos';
+import { CurvaObra, IndiceSite, PainelPeriodo, PontoCurva } from '../../core/api/modelos';
 import { rotasApi } from '../../core/api/rotas-api';
 import { CurvaLinha } from '../../shared/charts/curva-linha';
 import { corOrigem, formatar, rotuloOrigem } from '../../shared/formatar';
 import { inicioDoPeriodo, linkPeriodo } from '../../shared/periodo';
 import { valorDe } from '../../shared/recurso';
+import { filme, trilha } from '../../shared/dados-estruturados';
 import { FONTE, Seo } from '../../shared/seo';
 import { Cartaz, urlPoster } from '../../shared/ui/cartaz';
 import { Kpi } from '../../shared/ui/kpi';
@@ -156,6 +157,29 @@ export function semanasEmCartaz(dias: PontoCurva[], estreia?: string | null): Se
           </article>
         }
 
+        @if (vizinhos().length && semanaEstreia(); as estreia) {
+          <article class="cartao">
+            <header class="titulo-cartao">
+              <h2>Na mesma semana</h2>
+              <span class="secundario">
+                o Top 10 da semana de estreia,
+                <a [routerLink]="linkPeriodo('semana', estreia)">{{ formatar.dataCurta(estreia) }}</a>
+              </span>
+            </header>
+            <ul class="vizinhos">
+              @for (v of vizinhos(); track v.codigoObra) {
+                <li>
+                  <a [routerLink]="['/obras', v.codigoObra]" data-umami-event="obra-vizinha">
+                    <cd-cartaz [poster]="v.poster" [titulo]="formatar.titulo(v.titulo)" [origem]="v.origem" tamanho="medio" />
+                    <span class="nome">{{ v.posicao }}º {{ formatar.titulo(v.titulo) }}</span>
+                    <span class="secundario num">{{ formatar.compacto(v.publico) }}</span>
+                  </a>
+                </li>
+              }
+            </ul>
+          </article>
+        }
+
         <p class="fonte secundario">{{ fonte }}. Código ANCINE {{ c.obra.codigo }}.</p>
       </div>
     } @else {
@@ -193,6 +217,11 @@ export function semanasEmCartaz(dias: PontoCurva[], estreia?: string | null): Se
       td { padding: 8px 8px 8px 0; white-space: normal; }
       td .chip { margin: 2px 0 0; }
     }
+    .titulo-cartao a { text-decoration: underline; text-decoration-color: var(--cd-linha); text-underline-offset: 3px; }
+    .vizinhos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 16px; }
+    .vizinhos a { display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+    .vizinhos a:hover .nome { text-decoration: underline; }
+    .vizinhos .nome { font-weight: 600; line-height: 1.25; }
     .fonte { font-size: 13px; margin: 0; }
     .aviso { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
     .aviso h1 { font-size: 28px; margin: 0; }
@@ -215,6 +244,19 @@ export class Obra {
   protected readonly dados = computed(() => valorDe(this.curva));
   protected readonly semanas = computed(() => semanasEmCartaz(this.dados()?.dias ?? [], this.dados()?.emCartazDesde));
 
+  /** Semana de estreia (a 1ª da temporada) e os outros filmes do Top 10 dela: ligação entre páginas de filmes. */
+  protected readonly semanaEstreia = computed(() => {
+    const s = this.semanas().find(x => x.numero === 1)?.inicio ?? this.dados()?.emCartazDesde;
+    return s && this.temPagina(s) ? s : undefined;
+  });
+  private readonly painelEstreia = httpResource<PainelPeriodo>(() => {
+    const s = this.semanaEstreia();
+    return s ? rotasApi.painel('semana', s) : undefined;
+  });
+  protected readonly vizinhos = computed(() =>
+    (valorDe(this.painelEstreia)?.ranking ?? []).filter(r => r.codigoObra !== this.dados()?.obra.codigo).slice(0, 6),
+  );
+
   protected readonly periodo = computed(() => {
     const dias = this.dados()?.dias ?? [];
     return dias.length ? `de ${formatar.diaMesAno(dias[0].data)} a ${formatar.diaMesAno(dias[dias.length - 1].data)}` : '';
@@ -225,14 +267,20 @@ export class Obra {
       const c = this.dados();
       if (!c) return;
       const titulo = formatar.titulo(c.obra.titulo);
+      const caminho = `/obras/${c.obra.codigo}`;
+      const imagem = c.obra.poster ? urlPoster(c.obra.poster, 'w780') : undefined;
       this.seo.definir({
         titulo: `${titulo}: público nos cinemas do Brasil`,
         descricao:
           `${titulo} levou ${formatar.inteiro(c.publicoNoPeriodo)} pessoas aos cinemas do Brasil` +
           (c.semanasEmCartaz ? `, ${c.semanasEmCartaz} semanas em cartaz` : '') +
           ` (${this.periodo()}). Curva de público dia a dia e semana a semana. ${FONTE}.`,
-        caminho: `/obras/${c.obra.codigo}`,
-        imagem: c.obra.poster ? urlPoster(c.obra.poster, 'w780') : undefined,
+        caminho,
+        imagem,
+        estruturado: [
+          filme({ nome: titulo, caminho, imagem, pais: c.obra.pais ? formatar.titulo(c.obra.pais) : null }),
+          trilha([['CineData', '/'], [titulo, caminho]]),
+        ],
       });
     });
   }

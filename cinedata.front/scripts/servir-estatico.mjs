@@ -2,7 +2,8 @@
 //
 //   node scripts/servir-estatico.mjs [porta]      (padrão 4320)
 //
-// /semana/2026-10-08 → semana/2026-10-08/index.html; o que não existe recebe o 404.html com status 404.
+// Como o GitHub Pages: /semana/2026-10-08 → semana/2026-10-08.html (o pós-build achata as páginas), depois a pasta
+// com index.html (só a raiz); o que não existe recebe o 404.html com status 404.
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
@@ -24,7 +25,7 @@ const tipos = {
 async function arquivo(caminho) {
   const alvo = normalize(join(site, decodeURIComponent(caminho)));
   if (!alvo.startsWith(site)) return null;
-  for (const candidato of [alvo, join(alvo, 'index.html')]) {
+  for (const candidato of [alvo, `${alvo.replace(/\/+$/, '')}.html`, join(alvo, 'index.html')]) {
     try {
       if ((await stat(candidato)).isFile()) return candidato;
     } catch {

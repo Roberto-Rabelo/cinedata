@@ -18,6 +18,7 @@ import {
 } from '../../shared/periodo';
 import { valorDe } from '../../shared/recurso';
 import { MANTER_ROLAGEM } from '../../shared/rolagem';
+import { conjuntoDeDados } from '../../shared/dados-estruturados';
 import { FONTE, Seo } from '../../shared/seo';
 import { GRADE, NOME_REGIAO, NOME_UF, NO_ESTADO, REGIOES } from '../../shared/ufs';
 import { Cartaz } from '../../shared/ui/cartaz';
@@ -196,13 +197,19 @@ export class Mapa {
       const g = p.periodo.granularidade;
       const lider = this.ranking()[0];
       const titulo = tituloPeriodo(p.periodo);
+      const descricao =
+        `Público de cinema por estado ${doPeriodo[g]} (${titulo}). ` +
+        (lider ? `${NOME_UF[lider.uf]} lidera com ${formatar.inteiro(lider.publico)} espectadores (${formatar.pct(lider.participacaoPct)} do Brasil). ` : '') +
+        `Filme mais visto, público por sessão e dublagem em cada estado. ${FONTE}.`;
+      // /mapa/mes mostra o último mês completo: o canonical é a página do próprio mês (/mapa/mes/2026-09), como no painel.
+      const caminho = this.chave() || g !== 'semana' ? `/mapa/${g}/${chavePeriodo(g, p.periodo.inicio)}` : '/mapa';
       this.seo.definir({
         titulo: `Mapa do cinema no Brasil: ${titulo}`,
-        descricao:
-          `Público de cinema por estado ${doPeriodo[g]} (${titulo}). ` +
-          (lider ? `${NOME_UF[lider.uf]} lidera com ${formatar.inteiro(lider.publico)} espectadores (${formatar.pct(lider.participacaoPct)} do Brasil). ` : '') +
-          `Filme mais visto, público por sessão e dublagem em cada estado. ${FONTE}.`,
-        caminho: this.chave() ? `/mapa/${g}/${chavePeriodo(g, p.periodo.inicio)}` : g === 'semana' ? '/mapa' : `/mapa/${g}`,
+        descricao,
+        caminho,
+        estruturado: [
+          conjuntoDeDados({ nome: `Público de cinema por estado: ${titulo}`, descricao, caminho, inicio: p.periodo.inicio, fim: p.periodo.fim }),
+        ],
       });
     });
   }

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { site } from '../../shared/dados-estruturados';
 import { FONTE, Seo } from '../../shared/seo';
 
 /** Metodologia em linguagem de leitor: de onde vêm os números e o que eles não dizem. */
@@ -128,6 +129,7 @@ export class Sobre {
       titulo: 'Como medimos',
       descricao: `De onde vêm os números do CineData: bilheteria diária informada pelos cinemas à ANCINE, semana de quinta a quarta, dias parciais e estreias. ${FONTE}.`,
       caminho: '/sobre',
+      estruturado: [site()],
     });
   }
 }

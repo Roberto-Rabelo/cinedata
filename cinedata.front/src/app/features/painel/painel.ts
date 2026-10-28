@@ -22,6 +22,7 @@ import {
   tituloPeriodo,
 } from '../../shared/periodo';
 import { valorDe } from '../../shared/recurso';
+import { conjuntoDeDados, site } from '../../shared/dados-estruturados';
 import { FONTE, Seo } from '../../shared/seo';
 import { Cartaz } from '../../shared/ui/cartaz';
 import { Kpi } from '../../shared/ui/kpi';
@@ -159,12 +160,22 @@ export class Painel {
       `filmes nacionais: ${formatar.pct(this.nacionalPct())}; dublados: ${formatar.pct(p.audio.dubladoPct)} dos estrangeiros.`,
       `Top 10, mapa por estado e mais. ${FONTE}.`,
     ];
+    const descricao = partes.filter(Boolean).join(' ');
+    const caminho = this.ehInicio() ? '/' : `/${g}/${chavePeriodo(g, p.periodo.inicio)}`;
+    const dataset = conjuntoDeDados({
+      nome: `Bilheteria dos cinemas do Brasil ${preposicao[g]} ${titulo}`,
+      descricao,
+      caminho,
+      inicio: p.periodo.inicio,
+      fim: p.periodo.fim,
+    });
     return {
       titulo: this.ehInicio()
         ? `Esta semana no cinema: ${titulo}`
         : `Cinema no Brasil ${preposicao[g]} ${titulo}: Top 10 e público`,
-      descricao: partes.filter(Boolean).join(' '),
-      caminho: this.ehInicio() ? '/' : `/${g}/${chavePeriodo(g, p.periodo.inicio)}`,
+      descricao,
+      caminho,
+      estruturado: this.ehInicio() ? [site(), dataset] : [dataset],
     };
   }
 }
