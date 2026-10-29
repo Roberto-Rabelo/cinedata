@@ -78,7 +78,7 @@ janeiro, embora tenha tido 210 mil espectadores em pré-estreias em dezembro de 
 
 Outro jeito de medir é contar só os ingressos vendidos dentro do semestre. Aí Michael fica em 1º (7,38 milhões),
 Avatar: Fogo e Cinzas e Zootopia 2, lançados em 2025, entram na lista, e Toy Story 5 cai para 7º. Ficamos com os
-lançamentos porque a pergunta era quais filmes do semestre bombaram, e não o que estava em cartaz.
+lançamentos porque a pergunta era quais filmes do semestre dominaram as bilheterias, e não o que estava em cartaz.
 
 *Fonte: ANCINE (dados abertos), consolidado de lançamentos comerciais até a última publicação. Bilheteria em valores
 da época, sem correção da inflação.*

@@ -129,7 +129,7 @@ const composicao = (simbolo) => `<!doctype html><html><head><meta charset="utf-8
     <div class="fundo"><img src="${original(dados.capa)}" alt=""></div>
     <div class="texto">
       <span class="rotulo">Especial · 1º semestre de 2026</span>
-      <h1>Os 10 filmes que bombaram nos cinemas do Brasil</h1>
+      <h1>Os 10 filmes que dominaram as bilheterias do Brasil</h1>
       <p class="sub">lançados de janeiro a junho · <b>${milhoes(somaPublico)} milhões</b> de espectadores</p>
       <p class="chamada">Do 10º ao 1º. Quem levou?</p>
     </div>

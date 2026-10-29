@@ -162,7 +162,7 @@ ${cssVinheta}
     <p class="site">cinedatabr.tech</p>
   </div>
   <p class="fonte">Fonte: ANCINE (dados abertos), lançamentos de jan. a jun. de 2026.<br>Bilheteria em valores da época. Imagens: divulgação.</p></div>
-  ${htmlVinheta('<span class="rotulo">Especial</span>1º semestre<br>de 2026<small>Os 10 filmes que <b>bombaram</b><br>nos cinemas do Brasil</small>')}
+  ${htmlVinheta('<span class="rotulo">Especial</span>1º semestre<br>de 2026<small>Os 10 filmes que <b>dominaram</b><br>as bilheterias do Brasil</small>')}
   <div id="topo" class="camada"><span class="logo">${simbolo}<span>cine<b>data</b></span></span><span>1º semestre de 2026</span></div>
   <div id="cortina" class="camada"></div>
 </div>

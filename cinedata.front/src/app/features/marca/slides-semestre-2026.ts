@@ -40,7 +40,7 @@ const somaPublico = top10.reduce((t, f) => t + f.publico, 0);
       <cd-slide [numero]="1" [total]="total" [fundo]="capa" posicaoFundo="50% 50%" [escurecer]="true" credito="Imagem: divulgação">
         <div class="capa base">
           <span class="rotulo">Especial · 1º semestre de 2026</span>
-          <p class="manchete grande">Os 10 filmes que bombaram nos cinemas do Brasil</p>
+          <p class="manchete grande">Os 10 filmes que dominaram as bilheterias do Brasil</p>
           <p class="numero medio">{{ milhoes(somaPublico) }} milhões</p>
           <p class="texto claro">de espectadores e R$ {{ milhoes(somaRenda) }} milhões em bilheteria, entre os lançados de janeiro a junho.</p>
         </div>

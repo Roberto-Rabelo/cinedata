@@ -6,7 +6,7 @@ pode sair em qualquer dia; sugestão, um dia útil entre 18h e 19h, sem bater co
 
 | Slide | Arquivo | Conteúdo |
 | --- | --- | --- |
-| 1 | `slide-01.png` | capa: "Os 10 filmes que bombaram nos cinemas do Brasil", 41,3 milhões de espectadores e R$ 919,1 milhões |
+| 1 | `slide-01.png` | capa: "Os 10 filmes que dominaram as bilheterias do Brasil", 41,3 milhões de espectadores e R$ 919,1 milhões |
 | 2–11 | `slide-02.png` … `slide-11.png` | do 1º ao 10º: posição, título, data de estreia, espectadores, bilheteria e barra contra o nº 1 |
 | 12 | `slide-12.png` | o que a lista revela: 71% do público dos 233 lançamentos, +8% sobre 2025, Velhos Bandidos com 431 mil; "Qual desses você viu no cinema?" |
 
@@ -25,7 +25,7 @@ cd cinedata.front && node scripts/gerar-video-semestre-2026.mjs ../docs/posts/se
 
 | Tempo | Cena |
 | --- | --- |
-| 0–3,6 s | Abertura: o projetor liga piscando sobre Toy Story 5; "Os 10 filmes que bombaram nos cinemas do Brasil", 41,3 milhões, "Do 10º ao 1º. Quem levou?" |
+| 0–3,6 s | Abertura: o projetor liga piscando sobre Toy Story 5; "Os 10 filmes que dominaram as bilheterias do Brasil", 41,3 milhões, "Do 10º ao 1º. Quem levou?" |
 | 3,6–26,1 s | Contagem regressiva do 10º ao 2º, 2,5 s cada: cena se aproximando, lugar, título, data de estreia, público contando, renda e barra contra o nº 1 |
 | 26,1–27,6 s | Suspense: tela escura, feixe piscando, "O filme mais visto do 1º semestre é…" |
 | 27,6–32,6 s | O nº 1: Toy Story 5, 8.163.641 espectadores |
@@ -34,10 +34,10 @@ cd cinedata.front && node scripts/gerar-video-semestre-2026.mjs ../docs/posts/se
 
 Ao publicar: escolher um áudio animado da biblioteca do Instagram; capa `capa-reels.png`.
 
-Legenda do Reels (473 caracteres):
+Legenda do Reels (477 caracteres):
 
 ```text
-Do 10º ao 1º: os filmes que bombaram nos cinemas do Brasil no 1º semestre de 2026. 🍿
+Do 10º ao 1º: os filmes que dominaram as bilheterias do Brasil no 1º semestre de 2026. 🍿
 
 Juntos, 41,3 milhões de espectadores, 8% a mais que o top 10 de 2025. E o nº 1 estreou a 13 dias do fim de junho… assiste até o fim. 🎬
 
@@ -64,7 +64,7 @@ cd cinedata.front && node scripts/gerar-video-semestre-2026-v2.mjs ../docs/posts
 | Tempo | Cena |
 | --- | --- |
 | 0–5,5 s | Vinheta: o projetor do logo entra pulando, olha as barras, pula por cima, pisca para a câmera e vira a lente; o feixe acende as barras e o nome |
-| 5,5–7,5 s | "Especial · 1º semestre de 2026 · Os 10 filmes que bombaram nos cinemas do Brasil" sob o logo; o logo encolhe e pousa no cabeçalho |
+| 5,5–7,5 s | "Especial · 1º semestre de 2026 · Os 10 filmes que dominaram as bilheterias do Brasil" sob o logo; o logo encolhe e pousa no cabeçalho |
 | 7,1–9,9 s | Cena de Toy Story 5: "41,3 milhões de espectadores nos 10 filmes mais vistos entre os lançados de janeiro a junho", "Do 10º ao 1º. Quem levou?" |
 | 9,9–29,7 s | Contagem regressiva do 10º ao 2º, 2,2 s cada |
 | 29,7–31,2 s | Suspense: "O filme mais visto do 1º semestre é…" |
@@ -110,8 +110,9 @@ Link da matéria (bio ou story):
 ## Critério
 
 - **Base:** consolidado de lançamentos comerciais da ANCINE (`lancamentos`), que soma público e renda de toda a
-  carreira do filme (o mesmo do especial de Halloween). "Bombar no semestre" = ser lançado de 01/01 a 30/06/2026 e
-  somar o maior público.
+  carreira do filme (o mesmo do especial de Halloween). "Dominar as bilheterias do semestre" = ser lançado de 01/01 a 30/06/2026
+  e somar o maior público (espectadores, como em todos os posts). Por renda, a lista muda só no 10º lugar: Dia D
+  (R$ 32.537.171, 1.321.998 espectadores) passaria Cara de Um, Focinho de Outro (R$ 28.924.183, 1.369.408).
 - **Data de lançamento:** a do consolidado (`min(data_lancamento)`). A Empregada consta como lançada em 01/01/2026, mas
   teve 209.624 espectadores em sessões de pré-estreia desde 16/12/2025; entra pela data oficial.
 - **Ainda em cartaz:** Toy Story 5, Super Mario Galaxy, Devoradores de Estrelas, Mestres do Universo e Cara de Um,
