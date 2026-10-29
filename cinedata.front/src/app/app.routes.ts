@@ -37,7 +37,7 @@ export const routes: Routes = [
   ...paginasDePeriodo,
   ...paginasDoMapa,
   { path: 'obras/:codigo', title: 'CineData · obra', loadComponent: () => import('./features/obra/obra').then(m => m.Obra) },
-  { path: 'materias', title: 'Matérias · CineData', loadComponent: () => import('./features/materia/materias').then(m => m.Materias) },
+  { path: 'materias', title: 'Notícias · CineData', loadComponent: () => import('./features/materia/materias').then(m => m.Materias) },
   { path: 'materias/:slug', title: 'CineData · matéria', loadComponent: () => import('./features/materia/materia').then(m => m.Materia) },
   { path: 'sobre', title: 'Como medimos · CineData', loadComponent: () => import('./features/sobre/sobre').then(m => m.Sobre) },
   ...(ambiente.fonte === 'api' ? marca : []),

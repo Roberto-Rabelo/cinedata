@@ -14,7 +14,7 @@ import { MateriaResumo, PASTA_MATERIAS } from './modelos';
   template: `
     <section class="conteudo materias">
       <header>
-        <span class="rotulo">Matérias</span>
+        <span class="rotulo">Notícias</span>
         <h1>O cinema no Brasil, explicado com dados</h1>
         <p class="secundario intro">As notícias, rankings e especiais do CineData, com os números da ANCINE por trás de cada história.</p>
       </header>
@@ -57,7 +57,7 @@ export class Materias {
 
   constructor() {
     inject(Seo).definir({
-      titulo: 'Matérias: o cinema no Brasil explicado com dados',
+      titulo: 'Notícias: o cinema no Brasil explicado com dados',
       descricao: 'Notícias, rankings da semana e especiais sobre o cinema no Brasil, com os números de bilheteria da ANCINE por trás de cada história.',
       caminho: '/materias',
       estruturado: [site()],

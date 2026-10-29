@@ -16,11 +16,11 @@ import { Materia as DadosMateria, PASTA_MATERIAS } from './modelos';
   template: `
     @if (recurso.error()) {
       <section class="conteudo materia">
-        <div class="cartao"><h1>Matéria não encontrada</h1><a routerLink="/materias">Ver todas as matérias →</a></div>
+        <div class="cartao"><h1>Notícia não encontrada</h1><a routerLink="/materias">Ver todas as notícias →</a></div>
       </section>
     } @else if (dados(); as m) {
       <article class="conteudo materia">
-        <a routerLink="/materias" class="voltar secundario">← Matérias</a>
+        <a routerLink="/materias" class="voltar secundario">← Notícias</a>
         <header>
           <span class="meta"><span class="chip chip--estreia">{{ m.formato }}</span><time class="secundario" [attr.datetime]="m.data">{{ formatar.diaMesAno(m.data) }}</time></span>
           <h1>{{ m.titulo }}</h1>
@@ -143,7 +143,7 @@ export class Materia {
             imagem: m.imagem,
             sobre: this.obrasComPagina().map(o => filme({ nome: formatar.titulo(o.titulo!), caminho: `/obras/${o.codigo}` })),
           }),
-          trilha([['CineData', '/'], ['Matérias', '/materias'], [m.titulo, caminho]]),
+          trilha([['CineData', '/'], ['Notícias', '/materias'], [m.titulo, caminho]]),
         ],
       });
     });
