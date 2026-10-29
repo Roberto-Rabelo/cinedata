@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/core';
-import { conjuntoDeDados, filme, materia, trilha } from './dados-estruturados';
+import { conjuntoDeDados, filme, materia, paginaDeNoticias, trilha } from './dados-estruturados';
 import { Seo } from './seo';
 
 const lerJsonLd = (doc: Document) => {
@@ -58,5 +58,23 @@ describe('construtores de schema.org', () => {
     const m = materia({ titulo: 't', resumo: 'r', caminho: '/materias/t', data: '2026-10-27' });
     expect((m['author'] as Record<string, string>)['name']).toBe('CineData');
     expect(m['datePublished']).toBe('2026-10-27');
+  });
+
+  it('página de notícias é uma CollectionPage com a lista numerada dos artigos, e cada artigo aponta para ela', () => {
+    const p = paginaDeNoticias({
+      nome: 'Notícias',
+      descricao: 'd',
+      caminho: '/materias',
+      itens: [{ titulo: 'a', caminho: '/materias/a' }, { titulo: 'b', caminho: '/materias/b' }],
+    });
+    const lista = p['mainEntity'] as { numberOfItems: number; itemListElement: { position: number; url: string }[] };
+    expect(p['@type']).toBe('CollectionPage');
+    expect(lista.numberOfItems).toBe(2);
+    expect(lista.itemListElement.map(i => i.position)).toEqual([1, 2]);
+    expect(lista.itemListElement[1].url).toMatch(/\/materias\/b$/);
+
+    const m = materia({ titulo: 't', resumo: 'r', caminho: '/materias/t', data: '2026-10-27', secao: 'Especial' });
+    expect(m['articleSection']).toBe('Especial');
+    expect((m['isPartOf'] as Record<string, string>)['@id']).toBe(p['@id']);
   });
 });

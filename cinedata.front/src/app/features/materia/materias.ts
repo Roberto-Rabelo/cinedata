@@ -1,11 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { httpResource } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { formatar } from '../../shared/formatar';
 import { valorDe } from '../../shared/recurso';
 import { Seo } from '../../shared/seo';
-import { site } from '../../shared/dados-estruturados';
+import { paginaDeNoticias, site, trilha } from '../../shared/dados-estruturados';
 import { MateriaResumo, PASTA_MATERIAS } from './modelos';
+
+/** A URL continua /materias (os posts do Instagram já apontam para ela); o nome na página é "Notícias". */
+const CAMINHO = '/materias';
+const TITULO = 'Notícias de cinema e bilheteria no Brasil';
+const DESCRICAO =
+  'Notícias, rankings da semana e especiais sobre os filmes mais vistos nos cinemas do Brasil, com os números de bilheteria da ANCINE por trás de cada história.';
 
 @Component({
   selector: 'cd-materias',
@@ -15,7 +21,7 @@ import { MateriaResumo, PASTA_MATERIAS } from './modelos';
     <section class="conteudo materias">
       <header>
         <span class="rotulo">Notícias</span>
-        <h1>O cinema no Brasil, explicado com dados</h1>
+        <h1>Notícias do cinema no Brasil, explicadas com dados</h1>
         <p class="secundario intro">As notícias, rankings e especiais do CineData, com os números da ANCINE por trás de cada história.</p>
       </header>
       @if (lista(); as itens) {
@@ -56,11 +62,25 @@ export class Materias {
   protected readonly formatar = formatar;
 
   constructor() {
-    inject(Seo).definir({
-      titulo: 'Notícias: o cinema no Brasil explicado com dados',
-      descricao: 'Notícias, rankings da semana e especiais sobre o cinema no Brasil, com os números de bilheteria da ANCINE por trás de cada história.',
-      caminho: '/materias',
-      estruturado: [site()],
+    const seo = inject(Seo);
+    // Redefinido quando o índice chega: a lista de artigos entra no JSON-LD da página pré-renderizada.
+    effect(() => {
+      const itens = this.lista() ?? [];
+      seo.definir({
+        titulo: TITULO,
+        descricao: DESCRICAO,
+        caminho: CAMINHO,
+        estruturado: [
+          site(),
+          paginaDeNoticias({
+            nome: TITULO,
+            descricao: DESCRICAO,
+            caminho: CAMINHO,
+            itens: itens.map(m => ({ titulo: m.titulo, caminho: `${CAMINHO}/${m.slug}`, imagem: m.imagem })),
+          }),
+          trilha([['CineData', '/'], ['Notícias', CAMINHO]]),
+        ],
+      });
     });
   }
 }

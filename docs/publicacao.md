@@ -205,7 +205,8 @@ Umami separa as visitas por campanha. Cada post aponta para a sua matéria:
 
 O que o build já entrega: uma página HTML pré-renderizada por período, mapa, filme e matéria, com título, descrição,
 Open Graph, canonical e dados estruturados (schema.org em JSON-LD: `Organization`, `WebSite`, `Dataset` nos
-períodos, `Movie` + `BreadcrumbList` nos filmes, `NewsArticle` nas matérias). O pós-build:
+períodos, `Movie` + `BreadcrumbList` nos filmes, `NewsArticle` (com `articleSection` = formato) nas matérias e
+`CollectionPage` + `ItemList` na página de Notícias, `/materias`). O pós-build:
 
 - **achata as páginas** (`obras/X/index.html` → `obras/X.html`): o host serve `/obras/X` com 200, sem redirecionar
   para `/obras/X/`, então endereço servido, canonical, sitemap e links internos são o mesmo;

@@ -64,6 +64,8 @@ export const materia = (m: {
   resumo: string;
   caminho: string;
   data: string;
+  /** Formato (Notícia, Top 5, Especial): vira a editoria do artigo. */
+  secao?: string;
   imagem?: string;
   sobre?: DadoEstruturado[];
 }): DadoEstruturado => ({
@@ -73,10 +75,41 @@ export const materia = (m: {
   url: absoluta(m.caminho),
   mainEntityOfPage: absoluta(m.caminho),
   datePublished: m.data,
+  dateModified: m.data,
   inLanguage: 'pt-BR',
+  ...(m.secao ? { articleSection: m.secao } : {}),
+  isPartOf: { '@id': absoluta('/materias#pagina') },
   ...(m.imagem ? { image: [m.imagem] } : {}),
   // Nome e URL repetidos (além do @id): o validador do Google pede o nome do autor no próprio artigo.
   author: { '@type': 'Organization', '@id': ID_ORGANIZACAO(), name: 'CineData', url: absoluta('/') },
   publisher: { '@type': 'Organization', '@id': ID_ORGANIZACAO(), name: 'CineData', logo: { '@type': 'ImageObject', url: absoluta('/logo-cinedata.png') } },
   ...(m.sobre?.length ? { about: m.sobre } : {}),
+});
+
+/** A página de notícias: uma coleção cujo conteúdo principal é a lista dos artigos, do mais recente ao mais antigo. */
+export const paginaDeNoticias = (p: {
+  nome: string;
+  descricao: string;
+  caminho: string;
+  itens: { titulo: string; caminho: string; imagem?: string }[];
+}): DadoEstruturado => ({
+  '@type': 'CollectionPage',
+  '@id': absoluta(`${p.caminho}#pagina`),
+  name: p.nome,
+  description: p.descricao,
+  url: absoluta(p.caminho),
+  inLanguage: 'pt-BR',
+  isPartOf: { '@id': absoluta('/#site') },
+  publisher: { '@id': ID_ORGANIZACAO() },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: p.itens.length,
+    itemListElement: p.itens.map((m, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: absoluta(m.caminho),
+      name: m.titulo,
+      ...(m.imagem ? { image: m.imagem } : {}),
+    })),
+  },
 });

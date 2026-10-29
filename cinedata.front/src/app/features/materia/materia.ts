@@ -140,6 +140,7 @@ export class Materia {
             resumo: m.resumo,
             caminho,
             data: m.data,
+            secao: m.formato,
             imagem: m.imagem,
             sobre: this.obrasComPagina().map(o => filme({ nome: formatar.titulo(o.titulo!), caminho: `/obras/${o.codigo}` })),
           }),
