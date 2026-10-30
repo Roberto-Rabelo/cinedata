@@ -50,6 +50,7 @@ Ideias com data. Ao produzir, a pauta sai daqui e vai para o [registro](registro
 | após a semana de 29/10 a 04/11 | Acompanhamento | Feito Pipa · semana 1: pré-estreias | prometido no post de 27/10; régua: O Agente Secreto fez 54,9 mil nas pré-estreias |
 | após 05/11 | Acompanhamento | Feito Pipa · semana de estreia | régua: 381 mil (O Agente Secreto) e 579 mil (Ainda Estou Aqui) |
 | dezembro | Notícia | pré-lista (shortlist) do Oscar de Filme Internacional | Feito Pipa está ou não está |
+| após a semana de 17 a 23/12 | Acompanhamento | Vingadores: Doutor Destino, a despedida de Patrick Stewart | prometido no post de 30/10; régua: Doutor Estranho 2 fez 4,0 mi e Logan 2,47 mi na semana de estreia |
 | fim de dezembro | Post especial | os filmes mais vistos de 2026 | retrospectiva do ano |
 | 21/01/2027 | Notícia | indicados ao Oscar 2027 | Feito Pipa |
 | 14/03/2027 | Notícia | resultado do Oscar 2027 | Feito Pipa |
