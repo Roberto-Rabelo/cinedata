@@ -61,7 +61,7 @@ no Brasil, de nov/2026 a dez/2027) está no painel, como ideias. Ao produzir, a 
 | 22/12 | Aniversário | Minha Mãe é uma Peça 2 faz 10 anos | 9,24 mi; a franquia de Paulo Gustavo |
 | após a semana de 17 a 23/12 | Acompanhamento | Vingadores: Doutor Destino, a despedida de Patrick Stewart | prometido no post de 30/10; régua: Doutor Estranho 2 fez 4,0 mi e Logan 2,47 mi na semana de estreia |
 | 12/01/2027 | Post especial | os filmes mais vistos de 2026 | abre a série Retrospectiva 2026; espera a ANCINE fechar dezembro |
-| 14/01 a 09/02/2027 | Post especial | Retrospectiva 2026 por gênero: ação e heróis, animação, comédia, terror, suspense, drama; e os recortes cinema brasileiro e relançamentos | um post por recorte; gêneros do TMDB (a ANCINE só separa ficção, animação e documentário) |
+| 14/01 a 11/02/2027 | Post especial | Retrospectiva 2026 por gênero: ação e heróis, animação, comédia, terror, suspense, drama; e os recortes cinema brasileiro, relançamentos e adaptações (livros, games, quadrinhos) | um post por recorte; gêneros do TMDB (a ANCINE só separa ficção, animação e documentário) |
 | 05/01/2027 | Aniversário | Moana faz 10 anos | 5,15 mi; Moana 2 (9,11 mi) e o live-action (2,25 mi) |
 | início de janeiro/2027 | Post especial | os filmes que fazem 10 anos em 2027 (top 10 de 2017) | critério a confirmar |
 | 21/01/2027 | Notícia | indicados ao Oscar 2027 | Feito Pipa |
