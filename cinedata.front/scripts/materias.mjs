@@ -3,7 +3,7 @@
 //
 //   node scripts/materias.mjs        (rodar depois de editar uma matéria; os JSON gerados vão para o git)
 //
-// Frontmatter: titulo, resumo, data (AAAA-MM-DD), formato (Notícia | Top 5 | Especial), imagem (URL), creditoImagem,
+// Frontmatter: titulo, resumo, data (AAAA-MM-DD), formato (Notícia | Top 5 | Especial | Aniversário), imagem (URL), creditoImagem,
 // obras (lista de códigos CPB/ROE), trailer ({ youtube, titulo }), instagram (URL do post), fontes ({ titulo, url }).
 // As obras citadas ganham título, pôster e público a partir de dados/obras/<codigo>.json (as que o site tem página).
 import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
@@ -15,7 +15,7 @@ import { parse } from 'yaml';
 const raiz = new URL('../', import.meta.url).pathname;
 const origem = join(raiz, 'conteudo/materias');
 const destino = join(raiz, 'public/conteudo/materias');
-const FORMATOS = ['Notícia', 'Top 5', 'Especial'];
+const FORMATOS = ['Notícia', 'Top 5', 'Especial', 'Aniversário'];
 
 const lerObra = async codigo => {
   try {

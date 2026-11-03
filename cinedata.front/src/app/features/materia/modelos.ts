@@ -3,7 +3,7 @@ import { Origem } from '../../core/api/modelos';
 /** Gerado por scripts/materias.mjs a partir de conteudo/materias/*.md (servido como estático nos dois modos). */
 export const PASTA_MATERIAS = 'conteudo/materias';
 
-export type FormatoMateria = 'Notícia' | 'Top 5' | 'Especial';
+export type FormatoMateria = 'Notícia' | 'Top 5' | 'Especial' | 'Aniversário';
 
 export interface MateriaResumo {
   slug: string;

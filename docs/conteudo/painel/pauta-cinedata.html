@@ -1,0 +1,479 @@
+<title>Pauta CineData</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: a sala de cinema do CineData. Cabeçalho com os números da semana, depois o quadro (colunas por etapa) ou a agenda (por data). */
+:root {
+  color-scheme: dark;
+  --sala: #0d0e12;
+  --poltrona: #16181f;
+  --poltrona-2: #1e212a;
+  --linha: #2a2e3a;
+  --tela: #f3efe6;
+  --tela-2: #a3a7b3;
+  --tela-3: #6f7482;
+  --projetor: #ffb547;
+  --alta: #3fbf7f;
+  --queda: #ef6461;
+  --azul: #7d96f0;
+  --verde: #4fc48a;
+  --rosa: #e88bb5;
+  --lilas: #b09cf0;
+  --fonte-display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+  --fonte-texto: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --raio: 14px;
+  --raio-p: 8px;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--sala); color: var(--tela); font-family: var(--fonte-texto); font-size: 14px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 24px 48px;
+  background-image: radial-gradient(90% 40% at 100% 0%, color-mix(in oklab, var(--projetor) 10%, transparent), transparent 60%);
+  background-repeat: no-repeat;
+}
+.pagina { max-width: 1400px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+h1, h2, h3 { font-family: var(--fonte-display); letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--projetor); outline-offset: 2px; }
+
+/* Cabeçalho */
+.topo { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; }
+.marca { display: flex; flex-direction: column; gap: 4px; }
+.marca small { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--projetor); }
+.marca h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 800; }
+.marca p { margin: 0; color: var(--tela-2); max-width: 60ch; }
+.resumo { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; width: min(100%, 620px); }
+.resumo div { background: var(--poltrona); border: 1px solid var(--linha); border-radius: var(--raio-p); padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.resumo strong { font-family: var(--fonte-display); font-size: 26px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.resumo span { font-size: 12px; color: var(--tela-2); }
+.resumo .quente strong { color: var(--projetor); }
+
+/* Barra de ferramentas */
+.barra { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.abas { display: inline-flex; background: var(--poltrona); border: 1px solid var(--linha); border-radius: 99px; padding: 3px; }
+.abas button { border: 0; background: none; padding: 6px 14px; border-radius: 99px; cursor: pointer; color: var(--tela-2); font-weight: 600; }
+.abas button[aria-pressed="true"] { background: var(--poltrona-2); color: var(--tela); }
+.campo { background: var(--poltrona); border: 1px solid var(--linha); border-radius: var(--raio-p); padding: 7px 10px; min-width: 0; }
+.campo::placeholder { color: var(--tela-3); }
+#busca { flex: 1 1 200px; }
+.botao { border: 1px solid var(--linha); background: var(--poltrona-2); border-radius: var(--raio-p); padding: 7px 14px; cursor: pointer; font-weight: 600; }
+.botao:hover { border-color: var(--tela-3); }
+.botao.primario { background: var(--projetor); color: var(--sala); border-color: var(--projetor); }
+.botao.perigo { color: var(--queda); }
+.botao:disabled { opacity: .45; cursor: not-allowed; }
+.aviso { color: var(--tela-2); font-size: 13px; }
+.aviso.erro { color: var(--queda); }
+
+/* Quadro */
+.quadro { display: grid; grid-template-columns: repeat(5, minmax(240px, 1fr)); gap: 12px; overflow-x: auto; padding-bottom: 8px; }
+.coluna { background: color-mix(in oklab, var(--poltrona) 60%, transparent); border: 1px solid var(--linha); border-radius: var(--raio); padding: 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.coluna header { display: flex; justify-content: space-between; align-items: baseline; padding: 2px 4px 4px; }
+.coluna h2 { font-size: 15px; font-weight: 700; }
+.coluna header span { color: var(--tela-3); font-variant-numeric: tabular-nums; font-size: 12px; }
+.coluna .vazio { color: var(--tela-3); font-size: 13px; padding: 8px 4px; }
+
+.cartao { background: var(--poltrona); border: 1px solid var(--linha); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; text-align: left; width: 100%; }
+.cartao:hover { border-color: var(--tela-3); background: var(--poltrona-2); }
+.cartao .linha1 { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.cartao h3 { font-family: var(--fonte-texto); font-size: 14px; font-weight: 600; letter-spacing: 0; line-height: 1.3; }
+.cartao p { margin: 0; color: var(--tela-2); font-size: 12.5px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.cartao .rodape { display: flex; justify-content: space-between; gap: 8px; align-items: center; font-size: 12px; color: var(--tela-3); }
+.mover { display: flex; gap: 4px; }
+.mover button { border: 1px solid var(--linha); background: none; border-radius: 6px; width: 26px; height: 22px; line-height: 1; cursor: pointer; color: var(--tela-2); }
+.mover button:hover { color: var(--tela); border-color: var(--tela-3); }
+
+.chip { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 99px; border: 1px solid currentColor; white-space: nowrap; }
+.f-top5 { color: var(--projetor); }
+.f-noticia { color: var(--queda); }
+.f-especial { color: var(--azul); }
+.f-aniversario { color: var(--rosa); }
+.f-acompanhamento { color: var(--verde); }
+.f-reels { color: var(--lilas); }
+.f-institucional { color: var(--tela-2); }
+.prazo { font-variant-numeric: tabular-nums; }
+.prazo.perto { color: var(--projetor); font-weight: 600; }
+.prazo.atrasado { color: var(--queda); font-weight: 600; }
+.prioridade { display: inline-flex; gap: 2px; }
+.prioridade i { width: 5px; height: 10px; border-radius: 1px; background: var(--linha); }
+.prioridade i.on { background: var(--projetor); }
+
+/* Agenda */
+.agenda { display: flex; flex-direction: column; gap: 18px; }
+.mes h2 { font-size: 16px; color: var(--tela-2); font-weight: 700; text-transform: capitalize; margin-bottom: 8px; }
+.mes ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.item { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; align-items: center; background: var(--poltrona); border: 1px solid var(--linha); border-radius: 10px; padding: 10px 12px; cursor: pointer; width: 100%; text-align: left; }
+.item:hover { border-color: var(--tela-3); }
+.item .dia { font-family: var(--fonte-display); font-weight: 800; font-size: 20px; line-height: 1; font-variant-numeric: tabular-nums; }
+.item .dia small { display: block; font-family: var(--fonte-texto); font-weight: 500; font-size: 11px; color: var(--tela-3); margin-top: 3px; }
+.item .meio { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.item .meio strong { font-weight: 600; }
+.item .meio span { color: var(--tela-2); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.item .lado { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-size: 12px; color: var(--tela-3); }
+.sem-data h2 { font-size: 16px; color: var(--tela-2); margin-bottom: 8px; }
+
+/* Editor */
+.veu { position: fixed; inset: 0; background: rgb(5 6 8 / .7); display: flex; justify-content: flex-end; z-index: 20; }
+.painel {
+  width: min(560px, 100%); height: 100%; overflow-y: auto; background: var(--poltrona); border-left: 1px solid var(--linha);
+  padding: calc(20px + env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) 20px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.painel header { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+.painel h2 { font-size: 22px; font-weight: 800; }
+.grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.grade .largo { grid-column: 1 / -1; }
+label.rotulo { display: flex; flex-direction: column; gap: 5px; font-size: 12px; font-weight: 600; color: var(--tela-2); min-width: 0; }
+label.rotulo .campo { font-weight: 400; color: var(--tela); width: 100%; }
+textarea.campo { resize: vertical; min-height: 70px; }
+fieldset { border: 1px solid var(--linha); border-radius: var(--raio-p); padding: 12px; margin: 0; }
+legend { font-size: 12px; font-weight: 600; color: var(--projetor); padding: 0 6px; letter-spacing: .08em; text-transform: uppercase; }
+.metricas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.acoes { display: flex; gap: 8px; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 4px; }
+.acoes div { display: flex; gap: 8px; flex-wrap: wrap; }
+.confirmar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; color: var(--queda); font-size: 13px; }
+.carimbo { font-size: 12px; color: var(--tela-3); }
+
+@media (max-width: 720px) {
+  .resumo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grade, .metricas { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .item { grid-template-columns: 52px minmax(0, 1fr); }
+  .item .lado { grid-column: 2; flex-direction: row; align-items: center; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cartao, .item, .botao { transition: border-color .15s, background-color .15s; }
+}
+</style>
+
+<div class="pagina">
+  <header class="topo">
+    <div class="marca">
+      <small>CineData · Instagram e site</small>
+      <h1>Pauta CineData</h1>
+      <p>Ideias, pautas com data, o que está em produção e o desempenho de cada post publicado. Claude lê e escreve aqui também.</p>
+    </div>
+    <div class="resumo" aria-label="Resumo">
+      <div class="quente"><strong id="n-proximos">–</strong><span>datas nos próximos 30 dias</span></div>
+      <div><strong id="n-producao">–</strong><span>em produção</span></div>
+      <div><strong id="n-prontos">–</strong><span>prontos para publicar</span></div>
+      <div><strong id="n-publicados">–</strong><span>publicados</span></div>
+    </div>
+  </header>
+
+  <div class="barra">
+    <div class="abas" role="group" aria-label="Visão">
+      <button type="button" id="aba-quadro" aria-pressed="true">Quadro</button>
+      <button type="button" id="aba-agenda" aria-pressed="false">Agenda</button>
+    </div>
+    <input id="busca" class="campo" type="search" placeholder="Buscar filme, assunto, gancho…" aria-label="Buscar">
+    <select id="filtro-formato" class="campo" aria-label="Formato"></select>
+    <label class="aviso"><input type="checkbox" id="ver-descartados"> descartados</label>
+    <button type="button" class="botao primario" id="novo">+ Nova ideia</button>
+  </div>
+  <p class="aviso" id="estado">Carregando as pautas…</p>
+
+  <section id="vista-quadro" class="quadro" aria-label="Quadro de pautas"></section>
+  <section id="vista-agenda" class="agenda" aria-label="Agenda de pautas" hidden></section>
+</div>
+
+<div class="veu" id="veu" hidden>
+  <form class="painel" id="editor" novalidate>
+    <header>
+      <div>
+        <span class="carimbo" id="ed-carimbo"></span>
+        <h2 id="ed-titulo-painel">Nova ideia</h2>
+      </div>
+      <button type="button" class="botao" id="ed-fechar" aria-label="Fechar">Fechar</button>
+    </header>
+    <div class="grade">
+      <label class="rotulo largo">Título<input class="campo" id="ed-titulo" required placeholder="Ex.: Moana faz 10 anos"></label>
+      <label class="rotulo">Formato<select class="campo" id="ed-formato"></select></label>
+      <label class="rotulo">Etapa<select class="campo" id="ed-status"></select></label>
+      <label class="rotulo">Data alvo<input class="campo" id="ed-data" type="date"></label>
+      <label class="rotulo">Quando (texto)<input class="campo" id="ed-quando" placeholder="toda semana, fim de dezembro…"></label>
+      <label class="rotulo">Prioridade<select class="campo" id="ed-prioridade"><option value="3">alta</option><option value="2">média</option><option value="1">baixa</option></select></label>
+      <label class="rotulo">Filme(s) · CPB/ROE<input class="campo" id="ed-obras" placeholder="E1600677400000, …"></label>
+      <label class="rotulo largo">Gancho<textarea class="campo" id="ed-gancho" placeholder="Por que agora, e o número que puxa o post"></textarea></label>
+      <label class="rotulo largo">Notas<textarea class="campo" id="ed-notas" placeholder="Dados a buscar, imagens, ideias de slide"></textarea></label>
+      <label class="rotulo">Pasta do post<input class="campo" id="ed-pasta" placeholder="docs/posts/…"></label>
+      <label class="rotulo">Matéria no site<input class="campo" id="ed-materia" placeholder="/materias/…"></label>
+      <label class="rotulo largo">Link do post no Instagram<input class="campo" id="ed-instagram" type="url" placeholder="https://www.instagram.com/p/…"></label>
+    </div>
+    <fieldset id="ed-desempenho">
+      <legend>Desempenho</legend>
+      <div class="metricas">
+        <label class="rotulo">Publicado em<input class="campo" id="m-publicadoEm" type="date"></label>
+        <label class="rotulo">Alcance<input class="campo" id="m-alcance" type="number" min="0" inputmode="numeric"></label>
+        <label class="rotulo">Curtidas<input class="campo" id="m-curtidas" type="number" min="0" inputmode="numeric"></label>
+        <label class="rotulo">Comentários<input class="campo" id="m-comentarios" type="number" min="0" inputmode="numeric"></label>
+        <label class="rotulo">Salvamentos<input class="campo" id="m-salvamentos" type="number" min="0" inputmode="numeric"></label>
+        <label class="rotulo">Compart.<input class="campo" id="m-compartilhamentos" type="number" min="0" inputmode="numeric"></label>
+        <label class="rotulo">Seguidores<input class="campo" id="m-seguidores" type="number" min="0" inputmode="numeric"></label>
+        <label class="rotulo">Visitas no site<input class="campo" id="m-visitas" type="number" min="0" inputmode="numeric"></label>
+      </div>
+    </fieldset>
+    <p class="aviso erro" id="ed-erro" hidden></p>
+    <div class="acoes">
+      <div id="ed-zona-excluir">
+        <button type="button" class="botao perigo" id="ed-excluir">Excluir</button>
+      </div>
+      <div>
+        <button type="button" class="botao" id="ed-cancelar">Cancelar</button>
+        <button type="submit" class="botao primario" id="ed-salvar">Salvar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+const ETAPAS = [
+  { id: 'ideia', nome: 'Ideias' },
+  { id: 'pauta', nome: 'Pautado' },
+  { id: 'producao', nome: 'Em produção' },
+  { id: 'pronto', nome: 'Pronto' },
+  { id: 'publicado', nome: 'Publicado' },
+];
+const DESCARTADO = { id: 'descartado', nome: 'Descartado' };
+const FORMATOS = ['Top 5', 'Notícia', 'Especial', 'Aniversário', 'Acompanhamento', 'Reels', 'Institucional'];
+const METRICAS = ['alcance', 'curtidas', 'comentarios', 'salvamentos', 'compartilhamentos', 'seguidores', 'visitas'];
+const classeFormato = f => 'f-' + (f || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+const $ = id => document.getElementById(id);
+const el = (tag, attrs = {}, ...filhos) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') n.className = v; else if (k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v === true ? '' : v);
+  }
+  for (const f of filhos.flat()) if (f != null && f !== false) n.append(f.nodeType ? f : document.createTextNode(String(f)));
+  return n;
+};
+
+let cartoes = [];
+let db = null;
+let podeEscrever = true;
+let vista = 'quadro';
+try { vista = localStorage.getItem('pauta-vista') || 'quadro'; } catch {}
+let editando = null;
+
+const hoje = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+const paraData = s => { if (!s || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return null; const [a, m, d] = s.split('-').map(Number); return new Date(a, m - 1, d); };
+const diasAte = s => { const d = paraData(s); return d ? Math.round((d - hoje()) / 864e5) : null; };
+const fmtCurta = s => { const d = paraData(s); return d ? d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' }) : ''; };
+
+function prazo(c) {
+  if (!c.data) return el('span', { class: 'prazo' }, c.quando || 'sem data');
+  const n = diasAte(c.data);
+  const encerrado = c.status === 'publicado' || c.status === 'descartado';
+  let texto = fmtCurta(c.data), cls = 'prazo';
+  if (!encerrado) {
+    if (n === 0) { texto += ' · hoje'; cls += ' perto'; }
+    else if (n > 0 && n <= 14) { texto += ` · em ${n} d`; cls += ' perto'; }
+    else if (n < 0 && c.status !== 'ideia') { texto += ` · há ${-n} d`; cls += ' atrasado'; }
+  }
+  return el('span', { class: cls }, texto);
+}
+const barrasPrioridade = p => el('span', { class: 'prioridade', title: ['', 'baixa', 'média', 'alta'][p || 2] + ' prioridade', 'aria-label': 'prioridade ' + ['', 'baixa', 'média', 'alta'][p || 2] },
+  [1, 2, 3].map(i => el('i', { class: i <= (p || 2) ? 'on' : '' })));
+
+function filtrados() {
+  const q = $('busca').value.trim().toLowerCase();
+  const f = $('filtro-formato').value;
+  return cartoes.filter(c => (!f || c.formato === f) &&
+    (!q || [c.titulo, c.gancho, c.notas, c.quando, c.obras].join(' ').toLowerCase().includes(q)));
+}
+
+function ordenar(lista) {
+  return [...lista].sort((a, b) => {
+    const da = a.data || '9999', dbb = b.data || '9999';
+    if (da !== dbb) return da < dbb ? -1 : 1;
+    return (b.prioridade || 2) - (a.prioridade || 2);
+  });
+}
+
+function cartaoEl(c) {
+  const etapas = [...ETAPAS.map(e => e.id)];
+  const i = etapas.indexOf(c.status);
+  return el('article', { class: 'cartao', tabindex: 0, role: 'button', 'aria-label': 'Abrir ' + c.titulo,
+      onclick: () => abrir(c), onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(c); } } },
+    el('div', { class: 'linha1' }, el('span', { class: 'chip ' + classeFormato(c.formato) }, c.formato || 'sem formato'), barrasPrioridade(c.prioridade)),
+    el('h3', {}, c.titulo),
+    c.gancho ? el('p', {}, c.gancho) : null,
+    el('div', { class: 'rodape' }, prazo(c),
+      podeEscrever && i >= 0 ? el('span', { class: 'mover' },
+        i > 0 ? el('button', { type: 'button', title: 'Voltar para ' + ETAPAS[i - 1].nome, 'aria-label': 'Voltar para ' + ETAPAS[i - 1].nome, onclick: e => { e.stopPropagation(); mover(c, etapas[i - 1]); } }, '←') : null,
+        i < etapas.length - 1 ? el('button', { type: 'button', title: 'Avançar para ' + ETAPAS[i + 1].nome, 'aria-label': 'Avançar para ' + ETAPAS[i + 1].nome, onclick: e => { e.stopPropagation(); mover(c, etapas[i + 1]); } }, '→') : null) : null));
+}
+
+function renderQuadro(lista) {
+  const colunas = $('ver-descartados').checked ? [...ETAPAS, DESCARTADO] : ETAPAS;
+  $('vista-quadro').style.gridTemplateColumns = `repeat(${colunas.length}, minmax(240px, 1fr))`;
+  $('vista-quadro').replaceChildren(...colunas.map(e => {
+    const itens = ordenar(lista.filter(c => (c.status || 'ideia') === e.id));
+    if (e.id === 'publicado') itens.reverse();
+    return el('section', { class: 'coluna', 'aria-label': e.nome },
+      el('header', {}, el('h2', {}, e.nome), el('span', {}, itens.length)),
+      itens.length ? itens.map(cartaoEl) : el('p', { class: 'vazio' }, e.id === 'ideia' ? 'Nenhuma ideia ainda. Use “+ Nova ideia”.' : 'Nada aqui.'));
+  }));
+}
+
+function renderAgenda(lista) {
+  const vivos = lista.filter(c => $('ver-descartados').checked || c.status !== 'descartado');
+  const comData = ordenar(vivos.filter(c => c.data));
+  const semData = vivos.filter(c => !c.data);
+  const meses = new Map();
+  for (const c of comData) {
+    const d = paraData(c.data);
+    const chave = c.data.slice(0, 7);
+    if (!meses.has(chave)) meses.set(chave, { nome: d.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }), itens: [] });
+    meses.get(chave).itens.push(c);
+  }
+  const etapaNome = id => [...ETAPAS, DESCARTADO].find(e => e.id === id)?.nome || id;
+  const linha = c => {
+    const d = paraData(c.data);
+    return el('li', {}, el('button', { type: 'button', class: 'item', onclick: () => abrir(c) },
+      el('span', { class: 'dia' }, d ? String(d.getDate()).padStart(2, '0') : '–', el('small', {}, d ? d.toLocaleDateString('pt-BR', { weekday: 'short' }) : (c.quando || ''))),
+      el('span', { class: 'meio' }, el('strong', {}, c.titulo), c.gancho ? el('span', {}, c.gancho) : null),
+      el('span', { class: 'lado' }, el('span', { class: 'chip ' + classeFormato(c.formato) }, c.formato || '—'), el('span', {}, etapaNome(c.status)), d ? prazo(c) : null)));
+  };
+  const blocos = [...meses.values()].map(m => el('section', { class: 'mes' }, el('h2', {}, m.nome), el('ol', {}, m.itens.map(linha))));
+  if (semData.length) blocos.push(el('section', { class: 'sem-data' }, el('h2', {}, 'Sem data fixa'), el('ol', { class: 'mes' }, semData.map(linha))));
+  $('vista-agenda').replaceChildren(...(blocos.length ? blocos : [el('p', { class: 'aviso' }, 'Nenhuma pauta com esse filtro.')]));
+}
+
+function renderResumo() {
+  const ativos = cartoes.filter(c => !['publicado', 'descartado'].includes(c.status));
+  $('n-proximos').textContent = ativos.filter(c => { const n = diasAte(c.data); return n !== null && n >= 0 && n <= 30; }).length;
+  $('n-producao').textContent = cartoes.filter(c => c.status === 'producao').length;
+  $('n-prontos').textContent = cartoes.filter(c => c.status === 'pronto').length;
+  $('n-publicados').textContent = cartoes.filter(c => c.status === 'publicado').length;
+}
+
+function render() {
+  const lista = filtrados();
+  $('aba-quadro').setAttribute('aria-pressed', vista === 'quadro');
+  $('aba-agenda').setAttribute('aria-pressed', vista === 'agenda');
+  $('vista-quadro').hidden = vista !== 'quadro';
+  $('vista-agenda').hidden = vista !== 'agenda';
+  if (vista === 'quadro') renderQuadro(lista); else renderAgenda(lista);
+  renderResumo();
+  $('novo').disabled = !podeEscrever || !db;
+}
+
+// Editor
+const campos = ['titulo', 'formato', 'status', 'data', 'quando', 'prioridade', 'obras', 'gancho', 'notas', 'pasta', 'materia', 'instagram'];
+function abrir(c) {
+  editando = c || null;
+  const v = c || { status: 'ideia', formato: 'Aniversário', prioridade: 2 };
+  for (const k of campos) $('ed-' + k).value = v[k] ?? '';
+  const m = v.metricas || {};
+  $('m-publicadoEm').value = v.publicadoEm || '';
+  for (const k of METRICAS) $('m-' + k).value = m[k] ?? '';
+  $('ed-titulo-painel').textContent = c ? c.titulo : 'Nova ideia';
+  $('ed-carimbo').textContent = c?.atualizadoEm ? 'Atualizado em ' + new Date(c.atualizadoEm).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '';
+  $('ed-zona-excluir').replaceChildren(el('button', { type: 'button', class: 'botao perigo', id: 'ed-excluir', onclick: pedirExclusao, disabled: !c || !podeEscrever }, 'Excluir'));
+  $('ed-zona-excluir').hidden = !c;
+  $('ed-erro').hidden = true;
+  $('ed-salvar').disabled = !podeEscrever;
+  for (const x of $('editor').querySelectorAll('input, select, textarea')) x.disabled = !podeEscrever;
+  atualizaDesempenho();
+  $('veu').hidden = false;
+  $('ed-titulo').focus();
+}
+function fechar() { $('veu').hidden = true; editando = null; }
+function atualizaDesempenho() { $('ed-desempenho').hidden = !['publicado', 'pronto'].includes($('ed-status').value); }
+
+function pedirExclusao() {
+  $('ed-zona-excluir').replaceChildren(el('span', { class: 'confirmar' }, 'Excluir de vez?',
+    el('button', { type: 'button', class: 'botao perigo', onclick: excluir }, 'Sim, excluir'),
+    el('button', { type: 'button', class: 'botao', onclick: () => abrir(editando) }, 'Não')));
+}
+
+const slug = s => (s || 'pauta').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'pauta';
+
+async function salvar(e) {
+  e.preventDefault();
+  if (!db || !podeEscrever) return;
+  const titulo = $('ed-titulo').value.trim();
+  if (!titulo) { mostrarErro('Dê um título à pauta.'); $('ed-titulo').focus(); return; }
+  const corpo = {};
+  for (const k of campos) corpo[k] = $('ed-' + k).value.trim();
+  corpo.titulo = titulo;
+  corpo.prioridade = Number(corpo.prioridade) || 2;
+  const metricas = {};
+  for (const k of METRICAS) { const n = $('m-' + k).value; if (n !== '') metricas[k] = Number(n); }
+  corpo.metricas = metricas;
+  corpo.publicadoEm = $('m-publicadoEm').value;
+  corpo.atualizadoEm = new Date().toISOString();
+  const anterior = editando;
+  corpo.criadoEm = anterior?.criadoEm || corpo.atualizadoEm;
+  $('ed-salvar').disabled = true;
+  try {
+    const id = anterior?.id || (slug(titulo) + '-' + Math.random().toString(36).slice(2, 6));
+    await db.collection('cartoes').doc(id).set(corpo);
+    fechar();
+  } catch (err) {
+    mostrarErro(mensagem(err));
+  } finally { $('ed-salvar').disabled = !podeEscrever; }
+}
+
+async function excluir() {
+  if (!editando) return;
+  try { await db.collection('cartoes').doc(editando.id).delete(); fechar(); }
+  catch (err) { mostrarErro(mensagem(err)); }
+}
+
+let gravando = new Set();
+async function mover(c, status) {
+  if (gravando.has(c.id)) return;
+  gravando.add(c.id);
+  const extra = status === 'publicado' && !c.publicadoEm ? { publicadoEm: new Date().toISOString().slice(0, 10) } : {};
+  try { await db.collection('cartoes').doc(c.id).update({ status, ...extra, atualizadoEm: new Date().toISOString() }); }
+  catch (err) { estado(mensagem(err), true); }
+  finally { gravando.delete(c.id); }
+}
+
+function mensagem(err) {
+  if (err?.code === 'invalid_argument') { podeEscrever = false; render(); return 'Sem permissão para editar esta pauta. Peça acesso de edição ao dono.'; }
+  if (err?.code === 'quota_exceeded') return 'O quadro chegou ao limite de itens. Exclua cartões antigos e tente de novo.';
+  return 'Não deu para salvar agora. Tente de novo em instantes.';
+}
+function mostrarErro(t) { $('ed-erro').textContent = t; $('ed-erro').hidden = false; }
+function estado(t, erro = false) { $('estado').textContent = t; $('estado').className = 'aviso' + (erro ? ' erro' : ''); $('estado').hidden = !t; }
+
+// Controles
+$('filtro-formato').replaceChildren(el('option', { value: '' }, 'Todos os formatos'), ...FORMATOS.map(f => el('option', { value: f }, f)));
+$('ed-formato').replaceChildren(...FORMATOS.map(f => el('option', { value: f }, f)));
+$('ed-status').replaceChildren(...[...ETAPAS, DESCARTADO].map(e => el('option', { value: e.id }, e.nome)));
+$('ed-status').addEventListener('change', atualizaDesempenho);
+$('aba-quadro').addEventListener('click', () => { vista = 'quadro'; try { localStorage.setItem('pauta-vista', vista); } catch {} render(); });
+$('aba-agenda').addEventListener('click', () => { vista = 'agenda'; try { localStorage.setItem('pauta-vista', vista); } catch {} render(); });
+for (const id of ['busca', 'filtro-formato', 'ver-descartados']) $(id).addEventListener('input', render);
+$('novo').addEventListener('click', () => abrir(null));
+$('ed-fechar').addEventListener('click', fechar);
+$('ed-cancelar').addEventListener('click', fechar);
+$('veu').addEventListener('click', e => { if (e.target === $('veu')) fechar(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('veu').hidden) fechar(); });
+$('editor').addEventListener('submit', salvar);
+render();
+
+// Dados
+(async () => {
+  db = await window.claude?.use?.('db') ?? null;
+  if (!db) { estado('As pautas ficam guardadas no Claude. Abra esta página logado no claude.ai para ver e editar.', true); render(); return; }
+  try {
+    const user = await window.claude.use('user');
+    const pode = user ? await user.can('data.write') : null;
+    if (pode === false) podeEscrever = false;
+  } catch {}
+  const timer = setTimeout(() => estado('As pautas ainda não carregaram. Confira a conexão; a página continua tentando.', true), 10000);
+  db.collection('cartoes').onSnapshot(snap => {
+    cartoes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    if (!snap.metadata.fromCache) { clearTimeout(timer); estado(cartoes.length ? '' : 'Nenhuma pauta ainda. Comece com “+ Nova ideia”.'); }
+    if (!podeEscrever) estado('Você está vendo o quadro sem poder editar.');
+    render();
+  }, err => { clearTimeout(timer); estado(err.code === 'revoked' ? 'O acesso a estas pautas mudou.' : 'Não deu para carregar as pautas.', true); });
+})();
+</script>

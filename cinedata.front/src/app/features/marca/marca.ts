@@ -91,6 +91,7 @@ interface Cor {
           <a routerLink="/marca/halloween-terror-top10" class="secundario">Halloween: top 10 do terror (12 slides) →</a>
           <a routerLink="/marca/semestre-2026-top10" class="secundario">1º semestre de 2026: top 10 (12 slides) →</a>
           <a routerLink="/marca/noticia-patrick-stewart" class="secundario">Notícia: morre Patrick Stewart (7 slides) →</a>
+          <a routerLink="/marca/aniversario-la-la-land" class="secundario">10 anos: La La Land (7 slides) →</a>
         </article>
       </div>
     </section>

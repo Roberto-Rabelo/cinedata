@@ -7,6 +7,12 @@ description: Produz posts e vídeos do Instagram/TikTok do CineData seguindo as 
 
 A fonte da verdade são os arquivos em `docs/conteudo/`. Leia-os a cada execução; esta skill só dá o roteiro.
 
+0. **Painel**: as ideias e pautas do dia a dia ficam no artefato Pauta CineData
+   (`https://claude.ai/artifact/DcvcgGKfbvcCN7Xuxz6nNR`, coleção `cartoes`). Leia com a ferramenta `ArtifactData`
+   (`list`/`query`) quando o pedido for "o que tem para postar", "próximas pautas" ou um assunto que pode já estar lá.
+   Ao começar um post, mova o cartão para `producao`; ao terminar, para `pronto` (com `pasta` e `materia`); quando o
+   usuário disser que publicou, `publicado` com `publicadoEm`; números do Insights vão em `metricas`. Escreva sempre
+   com `if_version` do que leu. Ideia nova que surgir no trabalho vira cartão `ideia`.
 1. **Cartela**: leia `docs/conteudo/README.md` e identifique o formato pelo pedido (tabela "Formatos" e "Como pedir").
    - Nenhum formato serve → proponha ao usuário criar a spec (seção "Como incluir um formato novo") ou registrar em
      "Formatos propostos". Não produza fora de spec sem o ok dele.

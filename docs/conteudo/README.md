@@ -15,6 +15,7 @@ indexa e para onde o post leva o leitor ([princípios](principios.md#matéria-a-
 | **Notícia** | um fato do dia com o contexto que só os dados dão | quando acontece (estreia relevante, Oscar, recorde, festival) | carrossel 5–7 slides | [noticia.md](formatos/noticia.md) | [noticia-feito-pipa](../posts/noticia-feito-pipa/legenda.md) |
 | **Post especial** | uma lista ou recorte temático, atemporal ou de data | datas do calendário e temas fortes | carrossel 8–12 slides | [especial.md](formatos/especial.md) | [halloween-terror-top10](../posts/halloween-terror-top10/legenda.md) |
 | **Reels especial** | a versão em vídeo de um especial (ou da marca) | junto com um especial, ou campanha | vídeo 9:16, 25–45 s | [reels-especial.md](formatos/reels-especial.md) | [halloween reels](../posts/halloween-terror-top10/legenda.md#reels-vídeo) |
+| **Aniversário** | um filme que faz 5, 10 ou 15 anos, contado pelo que fez nos cinemas do Brasil | perto da data do lançamento no Brasil (ou de um relançamento) | carrossel 7 slides | [aniversario.md](formatos/aniversario.md) | [aniversario-la-la-land](../posts/aniversario-la-la-land/legenda.md) |
 
 Regras comuns a todos (voz, dados, checagem, legenda, pipeline, aceite): [principios.md](principios.md).
 Tudo o que já foi produzido: [registro.md](registro.md).
@@ -42,7 +43,12 @@ Se o pedido não couber em nenhum formato, a proposta é criar a spec primeiro (
 
 ## Pautas
 
-Ideias com data. Ao produzir, a pauta sai daqui e vai para o [registro](registro.md).
+O controle do dia a dia (ideias, pautas com data, etapa de cada post e desempenho) fica no painel
+[Pauta CineData](https://claude.ai/artifact/DcvcgGKfbvcCN7Xuxz6nNR), um artefato privado do claude.ai que o Claude lê e
+escreve (coleção `cartoes`; fonte da página em [painel/pauta-cinedata.html](painel/pauta-cinedata.html)). A tabela
+abaixo guarda as pautas com data e compromisso; o levantamento completo de aniversários (5, 10 e 15 anos do lançamento
+no Brasil, de nov/2026 a dez/2027) está no painel, como ideias. Ao produzir, a pauta sai daqui e vai para o
+[registro](registro.md).
 
 | Quando | Formato | Pauta | Gancho |
 | --- | --- | --- | --- |
@@ -50,10 +56,17 @@ Ideias com data. Ao produzir, a pauta sai daqui e vai para o [registro](registro
 | após a semana de 29/10 a 04/11 | Acompanhamento | Feito Pipa · semana 1: pré-estreias | prometido no post de 27/10; régua: O Agente Secreto fez 54,9 mil nas pré-estreias |
 | após 05/11 | Acompanhamento | Feito Pipa · semana de estreia | régua: 381 mil (O Agente Secreto) e 579 mil (Ainda Estou Aqui) |
 | dezembro | Notícia | pré-lista (shortlist) do Oscar de Filme Internacional | Feito Pipa está ou não está |
+| 18/11 | Aniversário | Amanhecer Parte 1 faz 15 anos | 7,21 mi; só consolidado (2011) |
+| 16/12 | Aniversário | Homem-Aranha: Sem Volta para Casa faz 5 anos | 17,4 mi |
+| 22/12 | Aniversário | Minha Mãe é uma Peça 2 faz 10 anos | 9,24 mi; a franquia de Paulo Gustavo |
 | após a semana de 17 a 23/12 | Acompanhamento | Vingadores: Doutor Destino, a despedida de Patrick Stewart | prometido no post de 30/10; régua: Doutor Estranho 2 fez 4,0 mi e Logan 2,47 mi na semana de estreia |
 | fim de dezembro | Post especial | os filmes mais vistos de 2026 | retrospectiva do ano |
+| 05/01/2027 | Aniversário | Moana faz 10 anos | 5,15 mi; Moana 2 (9,11 mi) e o live-action (2,25 mi) |
+| início de janeiro/2027 | Post especial | os filmes que fazem 10 anos em 2027 (top 10 de 2017) | critério a confirmar |
 | 21/01/2027 | Notícia | indicados ao Oscar 2027 | Feito Pipa |
 | 14/03/2027 | Notícia | resultado do Oscar 2027 | Feito Pipa |
+| 16/03/2027 | Aniversário | A Bela e a Fera faz 10 anos | 8,31 mi; musical (comparar com La La Land, 1,4 mi) |
+| 27/04/2027 | Aniversário | Os Vingadores faz 15 anos | 10,9 mi; só consolidado (2012) |
 
 ## Melhorias do processo
 
