@@ -13,6 +13,12 @@ A fonte da verdade são os arquivos em `docs/conteudo/`. Leia-os a cada execuç�
    Ao começar um post, mova o cartão para `producao`; ao terminar, para `pronto` (com `pasta` e `materia`); quando o
    usuário disser que publicou, `publicado` com `publicadoEm`; números do Insights vão em `metricas`. Escreva sempre
    com `if_version` do que leu. Ideia nova que surgir no trabalho vira cartão `ideia`.
+   - **Varredura da internet** ("procura pautas nos sites", "o que está saindo"): buscar estreias, relançamentos,
+     recordes e prêmios nos canais de cinema (Ingresso.com, Omelete, AdoroCinema, CNN Brasil Pop, Terra, Forbes,
+     Deadline, The Hollywood Reporter, Variety). Só vira cartão o que tem ângulo com dado da ANCINE: conferir o número
+     no banco e escrever no `gancho`/`notas`. Cartão com `status: "internet"`, `fonte` (nome do canal) e `link`
+     (URL da notícia); o que estiver em uma fonte só ou divergente fica anotado como "conferir". Não duplicar
+     cartão que já existe (procurar pelo filme antes). O usuário aprova movendo para `ideia` (→).
 1. **Cartela**: leia `docs/conteudo/README.md` e identifique o formato pelo pedido (tabela "Formatos" e "Como pedir").
    - Nenhum formato serve → proponha ao usuário criar a spec (seção "Como incluir um formato novo") ou registrar em
      "Formatos propostos". Não produza fora de spec sem o ok dele.

@@ -81,6 +81,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .cartao h3 { font-family: var(--fonte-texto); font-size: 14px; font-weight: 600; letter-spacing: 0; line-height: 1.3; }
 .cartao p { margin: 0; color: var(--tela-2); font-size: 12.5px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .cartao .rodape { display: flex; justify-content: space-between; gap: 8px; align-items: center; font-size: 12px; color: var(--tela-3); }
+.cartao .origem { font-size: 12px; color: var(--tela-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cartao .origem a, .link-fonte { color: var(--azul); text-decoration: none; }
+.cartao .origem a:hover, .link-fonte:hover { text-decoration: underline; }
+.coluna.internet { border-style: dashed; }
+.coluna .explica { color: var(--tela-3); font-size: 12px; margin: -4px 4px 2px; }
 .mover { display: flex; gap: 4px; }
 .mover button { border: 1px solid var(--linha); background: none; border-radius: 6px; width: 26px; height: 22px; line-height: 1; cursor: pointer; color: var(--tela-2); }
 .mover button:hover { color: var(--tela); border-color: var(--tela-3); }
@@ -195,6 +200,9 @@ legend { font-size: 12px; font-weight: 600; color: var(--projetor); padding: 0 6
       <label class="rotulo">Quando (texto)<input class="campo" id="ed-quando" placeholder="toda semana, fim de dezembro…"></label>
       <label class="rotulo">Prioridade<select class="campo" id="ed-prioridade"><option value="3">alta</option><option value="2">média</option><option value="1">baixa</option></select></label>
       <label class="rotulo">Filme(s) · CPB/ROE<input class="campo" id="ed-obras" placeholder="E1600677400000, …"></label>
+      <label class="rotulo">Fonte (canal)<input class="campo" id="ed-fonte" placeholder="Omelete, Ingresso.com…"></label>
+      <label class="rotulo">Link da notícia<input class="campo" id="ed-link" type="url" placeholder="https://…"></label>
+      <p class="largo aviso" id="ed-abrir-link" hidden></p>
       <label class="rotulo largo">Gancho<textarea class="campo" id="ed-gancho" placeholder="Por que agora, e o número que puxa o post"></textarea></label>
       <label class="rotulo largo">Notas<textarea class="campo" id="ed-notas" placeholder="Dados a buscar, imagens, ideias de slide"></textarea></label>
       <label class="rotulo">Pasta do post<input class="campo" id="ed-pasta" placeholder="docs/posts/…"></label>
@@ -229,6 +237,7 @@ legend { font-size: 12px; font-weight: 600; color: var(--projetor); padding: 0 6
 
 <script>
 const ETAPAS = [
+  { id: 'internet', nome: 'Sugestão de pautas (internet)' },
   { id: 'ideia', nome: 'Ideias' },
   { id: 'pauta', nome: 'Pautado' },
   { id: 'producao', nome: 'Em produção' },
@@ -271,7 +280,7 @@ function prazo(c) {
   if (!encerrado) {
     if (n === 0) { texto += ' · hoje'; cls += ' perto'; }
     else if (n > 0 && n <= 14) { texto += ` · em ${n} d`; cls += ' perto'; }
-    else if (n < 0 && c.status !== 'ideia') { texto += ` · há ${-n} d`; cls += ' atrasado'; }
+    else if (n < 0 && !['ideia', 'internet'].includes(c.status)) { texto += ` · há ${-n} d`; cls += ' atrasado'; }
   }
   return el('span', { class: cls }, texto);
 }
@@ -282,7 +291,7 @@ function filtrados() {
   const q = $('busca').value.trim().toLowerCase();
   const f = $('filtro-formato').value;
   return cartoes.filter(c => (!f || c.formato === f) &&
-    (!q || [c.titulo, c.gancho, c.notas, c.quando, c.obras].join(' ').toLowerCase().includes(q)));
+    (!q || [c.titulo, c.gancho, c.notas, c.quando, c.obras, c.fonte].join(' ').toLowerCase().includes(q)));
 }
 
 function ordenar(lista) {
@@ -301,6 +310,8 @@ function cartaoEl(c) {
     el('div', { class: 'linha1' }, el('span', { class: 'chip ' + classeFormato(c.formato) }, c.formato || 'sem formato'), barrasPrioridade(c.prioridade)),
     el('h3', {}, c.titulo),
     c.gancho ? el('p', {}, c.gancho) : null,
+    c.fonte || linkSeguro(c.link) ? el('span', { class: 'origem' }, 'Fonte: ',
+      linkSeguro(c.link) ? el('a', { href: linkSeguro(c.link), target: '_blank', rel: 'noopener noreferrer', onclick: e => e.stopPropagation() }, (c.fonte || 'abrir notícia') + ' ↗') : c.fonte) : null,
     el('div', { class: 'rodape' }, prazo(c),
       podeEscrever && i >= 0 ? el('span', { class: 'mover' },
         i > 0 ? el('button', { type: 'button', title: 'Voltar para ' + ETAPAS[i - 1].nome, 'aria-label': 'Voltar para ' + ETAPAS[i - 1].nome, onclick: e => { e.stopPropagation(); mover(c, etapas[i - 1]); } }, '←') : null,
@@ -313,8 +324,9 @@ function renderQuadro(lista) {
   $('vista-quadro').replaceChildren(...colunas.map(e => {
     const itens = ordenar(lista.filter(c => (c.status || 'ideia') === e.id));
     if (e.id === 'publicado') itens.reverse();
-    return el('section', { class: 'coluna', 'aria-label': e.nome },
+    return el('section', { class: 'coluna' + (e.id === 'internet' ? ' internet' : ''), 'aria-label': e.nome },
       el('header', {}, el('h2', {}, e.nome), el('span', {}, itens.length)),
+      e.id === 'internet' ? el('p', { class: 'explica' }, 'Vistas por Claude em sites de cinema e notícia. → leva para Ideias.') : null,
       itens.length ? itens.map(cartaoEl) : el('p', { class: 'vazio' }, e.id === 'ideia' ? 'Nenhuma ideia ainda. Use “+ Nova ideia”.' : 'Nada aqui.'));
   }));
 }
@@ -363,7 +375,8 @@ function render() {
 }
 
 // Editor
-const campos = ['titulo', 'formato', 'status', 'data', 'quando', 'prioridade', 'obras', 'gancho', 'notas', 'pasta', 'materia', 'instagram'];
+const campos = ['titulo', 'formato', 'status', 'data', 'quando', 'prioridade', 'obras', 'fonte', 'link', 'gancho', 'notas', 'pasta', 'materia', 'instagram'];
+const linkSeguro = u => { try { const x = new URL(u); return ['http:', 'https:'].includes(x.protocol) ? x.href : null; } catch { return null; } };
 function abrir(c) {
   editando = c || null;
   const v = c || { status: 'ideia', formato: 'Aniversário', prioridade: 2 };
@@ -371,6 +384,9 @@ function abrir(c) {
   const m = v.metricas || {};
   $('m-publicadoEm').value = v.publicadoEm || '';
   for (const k of METRICAS) $('m-' + k).value = m[k] ?? '';
+  const href = linkSeguro(v.link);
+  $('ed-abrir-link').replaceChildren(href ? el('a', { class: 'link-fonte', href, target: '_blank', rel: 'noopener noreferrer' }, 'Abrir a notícia ↗') : '');
+  $('ed-abrir-link').hidden = !href;
   $('ed-titulo-painel').textContent = c ? c.titulo : 'Nova ideia';
   $('ed-carimbo').textContent = c?.atualizadoEm ? 'Atualizado em ' + new Date(c.atualizadoEm).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : '';
   $('ed-zona-excluir').replaceChildren(el('button', { type: 'button', class: 'botao perigo', id: 'ed-excluir', onclick: pedirExclusao, disabled: !c || !podeEscrever }, 'Excluir'));
