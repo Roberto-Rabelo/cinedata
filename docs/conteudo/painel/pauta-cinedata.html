@@ -97,7 +97,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .f-aniversario { color: var(--rosa); }
 .f-acompanhamento { color: var(--verde); }
 .f-reels { color: var(--lilas); }
+.f-cena { color: var(--tela); border-style: dashed; }
 .f-institucional { color: var(--tela-2); }
+.f-story { color: var(--lilas); border-style: dotted; }
 .prazo { font-variant-numeric: tabular-nums; }
 .prazo.perto { color: var(--projetor); font-weight: 600; }
 .prazo.atrasado { color: var(--queda); font-weight: 600; }
@@ -118,6 +120,29 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .item .meio span { color: var(--tela-2); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .item .lado { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-size: 12px; color: var(--tela-3); }
 .sem-data h2 { font-size: 16px; color: var(--tela-2); margin-bottom: 8px; }
+
+/* Semana: o ritmo fixo (Top 5 na terça, Notícia na quinta, atemporal no sábado) com o feed e os stories de cada dia. */
+.semana { display: flex; flex-direction: column; gap: 14px; }
+.semana-nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.semana-nav h2 { font-size: 18px; font-weight: 700; min-width: 0; }
+.semana-nav .aviso { flex: 1 1 260px; }
+.dias { display: grid; grid-template-columns: repeat(7, minmax(150px, 1fr)); gap: 8px; overflow-x: auto; padding-bottom: 6px; }
+.dia-col { background: color-mix(in oklab, var(--poltrona) 60%, transparent); border: 1px solid var(--linha); border-radius: var(--raio); padding: 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.dia-col.hoje { border-color: var(--projetor); }
+.dia-col > header { display: flex; justify-content: space-between; align-items: baseline; padding: 2px 4px; }
+.dia-col > header strong { font-family: var(--fonte-display); font-size: 15px; text-transform: capitalize; }
+.dia-col > header span { font-size: 12px; color: var(--tela-3); font-variant-numeric: tabular-nums; }
+.dia-col.hoje > header span { color: var(--projetor); font-weight: 600; }
+.faixa { font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--tela-3); padding: 4px 4px 0; }
+.dia-col .cartao { padding: 8px 10px; }
+.dia-col .cartao h3 { font-size: 13px; }
+.vaga { border: 1px dashed var(--linha); border-radius: 10px; padding: 8px 10px; background: none; color: var(--tela-3); font-size: 12.5px; text-align: left; cursor: pointer; width: 100%; }
+.vaga:hover { border-color: var(--tela-3); color: var(--tela-2); }
+.vaga strong { display: block; color: var(--tela-2); font-weight: 600; }
+.story-auto { font-size: 12px; color: var(--tela-2); padding: 6px 10px; border-left: 2px solid var(--lilas); background: var(--poltrona); border-radius: 0 6px 6px 0; overflow-wrap: anywhere; }
+.story-auto small { display: block; color: var(--tela-3); }
+.coringas h2 { font-size: 15px; color: var(--tela-2); margin-bottom: 8px; }
+.coringas .lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
 
 /* Editor */
 .veu { position: fixed; inset: 0; background: rgb(5 6 8 / .7); display: flex; justify-content: flex-end; z-index: 20; }
@@ -146,6 +171,7 @@ legend { font-size: 12px; font-weight: 600; color: var(--projetor); padding: 0 6
   .grade, .metricas { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .item { grid-template-columns: 52px minmax(0, 1fr); }
   .item .lado { grid-column: 2; flex-direction: row; align-items: center; }
+  .dias { grid-template-columns: minmax(0, 1fr); overflow-x: visible; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .cartao, .item, .botao { transition: border-color .15s, background-color .15s; }
@@ -170,6 +196,7 @@ legend { font-size: 12px; font-weight: 600; color: var(--projetor); padding: 0 6
   <div class="barra">
     <div class="abas" role="group" aria-label="Visão">
       <button type="button" id="aba-quadro" aria-pressed="true">Quadro</button>
+      <button type="button" id="aba-semana" aria-pressed="false">Semana</button>
       <button type="button" id="aba-agenda" aria-pressed="false">Agenda</button>
     </div>
     <input id="busca" class="campo" type="search" placeholder="Buscar filme, assunto, gancho…" aria-label="Buscar">
@@ -180,6 +207,7 @@ legend { font-size: 12px; font-weight: 600; color: var(--projetor); padding: 0 6
   <p class="aviso" id="estado">Carregando as pautas…</p>
 
   <section id="vista-quadro" class="quadro" aria-label="Quadro de pautas"></section>
+  <section id="vista-semana" class="semana" aria-label="Planejamento da semana" hidden></section>
   <section id="vista-agenda" class="agenda" aria-label="Agenda de pautas" hidden></section>
 </div>
 
@@ -245,7 +273,15 @@ const ETAPAS = [
   { id: 'publicado', nome: 'Publicado' },
 ];
 const DESCARTADO = { id: 'descartado', nome: 'Descartado' };
-const FORMATOS = ['Top 5', 'Notícia', 'Especial', 'Aniversário', 'Acompanhamento', 'Reels', 'Institucional'];
+const FORMATOS = ['Top 5', 'Notícia', 'Especial', 'Aniversário', 'Cena', 'Acompanhamento', 'Reels', 'Institucional', 'Story'];
+/** Ritmo do feed por dia da semana (getDay: 0 = domingo). A ANCINE atualiza na segunda, daí o Top 5 na terça. */
+const RITMO = {
+  2: { formato: 'Top 5', texto: 'Top 5 da semana' },
+  4: { formato: 'Notícia', texto: 'Notícia ou Acompanhamento' },
+  6: { formato: 'Aniversário', texto: 'Especial, Aniversário ou Cena' },
+};
+/** Formatos que têm matéria no site: cada post deles ganha o story de matéria (adesivo de link) no mesmo dia. */
+const COM_MATERIA = ['Top 5', 'Notícia', 'Especial', 'Aniversário', 'Acompanhamento'];
 const METRICAS = ['alcance', 'curtidas', 'comentarios', 'salvamentos', 'compartilhamentos', 'seguidores', 'visitas'];
 const classeFormato = f => 'f-' + (f || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
@@ -355,6 +391,50 @@ function renderAgenda(lista) {
   $('vista-agenda').replaceChildren(...(blocos.length ? blocos : [el('p', { class: 'aviso' }, 'Nenhuma pauta com esse filtro.')]));
 }
 
+const isoDia = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const segunda = d => { const x = new Date(d); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; };
+const maisDias = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+let inicioSemana = segunda(hoje());
+
+function renderSemana(lista) {
+  // O plano mostra o que já tem compromisso: ideias e sugestões da internet com data ficam no Quadro e na Agenda.
+  const vivos = lista.filter(c => ['pauta', 'producao', 'pronto', 'publicado'].includes(c.status));
+  const fim = maisDias(inicioSemana, 6);
+  const curta = d => d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+  const nav = el('div', { class: 'semana-nav' },
+    el('button', { type: 'button', class: 'botao', 'aria-label': 'Semana anterior', onclick: () => { inicioSemana = maisDias(inicioSemana, -7); render(); } }, '‹'),
+    el('h2', {}, `Semana de ${curta(inicioSemana)} a ${curta(fim)}`),
+    el('button', { type: 'button', class: 'botao', 'aria-label': 'Próxima semana', onclick: () => { inicioSemana = maisDias(inicioSemana, 7); render(); } }, '›'),
+    el('button', { type: 'button', class: 'botao', onclick: () => { inicioSemana = segunda(hoje()); render(); } }, 'Hoje'),
+    el('p', { class: 'aviso' }, 'Ritmo: Top 5 na terça (a ANCINE atualiza na segunda), Notícia na quinta, Especial ou Aniversário no sábado. Story todo dia; post com matéria leva o story com link.'));
+
+  const novo = preset => podeEscrever && db ? () => abrir(null, preset) : null;
+  const dias = [0, 1, 2, 3, 4, 5, 6].map(i => {
+    const d = maisDias(inicioSemana, i);
+    const iso = isoDia(d);
+    const doDia = ordenar(vivos.filter(c => c.data === iso));
+    const feed = doDia.filter(c => c.formato !== 'Story');
+    const stories = doDia.filter(c => c.formato === 'Story');
+    const ritmo = RITMO[d.getDay()];
+    const ehHoje = iso === isoDia(hoje());
+    return el('section', { class: 'dia-col' + (ehHoje ? ' hoje' : ''), 'aria-label': d.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }) },
+      el('header', {}, el('strong', {}, d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '')), el('span', {}, ehHoje ? 'hoje' : curta(d))),
+      el('span', { class: 'faixa' }, 'Feed'),
+      feed.length ? feed.map(cartaoEl)
+        : ritmo ? el('button', { type: 'button', class: 'vaga', onclick: novo({ data: iso, formato: ritmo.formato, status: 'pauta' }), disabled: !podeEscrever || !db }, el('strong', {}, ritmo.texto), 'vaga do ritmo')
+        : el('span', { class: 'aviso' }, 'sem post'),
+      el('span', { class: 'faixa' }, 'Stories'),
+      feed.filter(c => COM_MATERIA.includes(c.formato)).map(c => el('div', { class: 'story-auto' }, 'Story da matéria: ' + c.titulo,
+        el('small', {}, c.materia ? c.materia + ' · adesivo de link' : 'link quando a matéria sair'))),
+      stories.map(cartaoEl),
+      podeEscrever && db ? el('button', { type: 'button', class: 'vaga', onclick: novo({ data: iso, formato: 'Story', status: 'pauta' }) }, '+ story') : null);
+  });
+
+  const coringas = ordenar(vivos.filter(c => c.status === 'pronto' && !c.data && c.formato !== 'Story'));
+  $('vista-semana').replaceChildren(nav, el('div', { class: 'dias' }, dias),
+    coringas.length ? el('section', { class: 'coringas' }, el('h2', {}, 'Coringas: prontos sem data, para dia sem pauta'), el('div', { class: 'lista' }, coringas.map(cartaoEl))) : null);
+}
+
 function renderResumo() {
   const ativos = cartoes.filter(c => !['publicado', 'descartado'].includes(c.status));
   $('n-proximos').textContent = ativos.filter(c => { const n = diasAte(c.data); return n !== null && n >= 0 && n <= 30; }).length;
@@ -366,10 +446,12 @@ function renderResumo() {
 function render() {
   const lista = filtrados();
   $('aba-quadro').setAttribute('aria-pressed', vista === 'quadro');
+  $('aba-semana').setAttribute('aria-pressed', vista === 'semana');
   $('aba-agenda').setAttribute('aria-pressed', vista === 'agenda');
   $('vista-quadro').hidden = vista !== 'quadro';
+  $('vista-semana').hidden = vista !== 'semana';
   $('vista-agenda').hidden = vista !== 'agenda';
-  if (vista === 'quadro') renderQuadro(lista); else renderAgenda(lista);
+  if (vista === 'quadro') renderQuadro(lista); else if (vista === 'semana') renderSemana(lista); else renderAgenda(lista);
   renderResumo();
   $('novo').disabled = !podeEscrever || !db;
 }
@@ -377,9 +459,10 @@ function render() {
 // Editor
 const campos = ['titulo', 'formato', 'status', 'data', 'quando', 'prioridade', 'obras', 'fonte', 'link', 'gancho', 'notas', 'pasta', 'materia', 'instagram'];
 const linkSeguro = u => { try { const x = new URL(u); return ['http:', 'https:'].includes(x.protocol) ? x.href : null; } catch { return null; } };
-function abrir(c) {
+/** `preset` preenche um cartão novo (ex.: a vaga de um dia na aba Semana já vem com data e formato). */
+function abrir(c, preset = {}) {
   editando = c || null;
-  const v = c || { status: 'ideia', formato: 'Aniversário', prioridade: 2 };
+  const v = c || { status: 'ideia', formato: 'Aniversário', prioridade: 2, ...preset };
   for (const k of campos) $('ed-' + k).value = v[k] ?? '';
   const m = v.metricas || {};
   $('m-publicadoEm').value = v.publicadoEm || '';
@@ -465,6 +548,7 @@ $('ed-formato').replaceChildren(...FORMATOS.map(f => el('option', { value: f }, 
 $('ed-status').replaceChildren(...[...ETAPAS, DESCARTADO].map(e => el('option', { value: e.id }, e.nome)));
 $('ed-status').addEventListener('change', atualizaDesempenho);
 $('aba-quadro').addEventListener('click', () => { vista = 'quadro'; try { localStorage.setItem('pauta-vista', vista); } catch {} render(); });
+$('aba-semana').addEventListener('click', () => { vista = 'semana'; try { localStorage.setItem('pauta-vista', vista); } catch {} render(); });
 $('aba-agenda').addEventListener('click', () => { vista = 'agenda'; try { localStorage.setItem('pauta-vista', vista); } catch {} render(); });
 for (const id of ['busca', 'filtro-formato', 'ver-descartados']) $(id).addEventListener('input', render);
 $('novo').addEventListener('click', () => abrir(null));
