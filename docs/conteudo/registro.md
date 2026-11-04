@@ -6,6 +6,7 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-04 | Aniversário | Doutor Estranho faz 10 anos | [aniversario-doutor-estranho](../posts/aniversario-doutor-estranho/legenda.md) | carrossel 7 + story | `/materias/doutor-estranho-faz-10-anos-publico-no-brasil` | pronto (publicar em 06/11) |
 | 2026-11-04 | Story de matéria | um story com adesivo de link para cada matéria do site (7) | [stories](../posts/stories/) | 7 stories 9:16 | as 7 matérias | pronto |
 | 2026-11-04 | Notícia | Os Farofeiros 3 estreia: a franquia vem caindo? | [noticia-farofeiros-3](../posts/noticia-farofeiros-3/legenda.md) | carrossel 7 | `/materias/os-farofeiros-3-estreia-franquia-em-numeros` | pronto (publicar em 05/11, até 08/11) |
 | 2026-11-03 | Aniversário | La La Land faz 10 anos | [aniversario-la-la-land](../posts/aniversario-la-la-land/legenda.md) | carrossel 7 | `/materias/la-la-land-faz-10-anos-publico-no-brasil` | pronto |
