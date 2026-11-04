@@ -97,6 +97,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .f-aniversario { color: var(--rosa); }
 .f-acompanhamento { color: var(--verde); }
 .f-reels { color: var(--lilas); }
+.f-cena { color: var(--tela); border-style: dashed; }
 .f-institucional { color: var(--tela-2); }
 .prazo { font-variant-numeric: tabular-nums; }
 .prazo.perto { color: var(--projetor); font-weight: 600; }
@@ -245,7 +246,7 @@ const ETAPAS = [
   { id: 'publicado', nome: 'Publicado' },
 ];
 const DESCARTADO = { id: 'descartado', nome: 'Descartado' };
-const FORMATOS = ['Top 5', 'Notícia', 'Especial', 'Aniversário', 'Acompanhamento', 'Reels', 'Institucional'];
+const FORMATOS = ['Top 5', 'Notícia', 'Especial', 'Aniversário', 'Cena', 'Acompanhamento', 'Reels', 'Institucional'];
 const METRICAS = ['alcance', 'curtidas', 'comentarios', 'salvamentos', 'compartilhamentos', 'seguidores', 'visitas'];
 const classeFormato = f => 'f-' + (f || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]/g, '');
 

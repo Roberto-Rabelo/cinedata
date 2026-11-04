@@ -30,6 +30,7 @@ const marca: Routes = [
   { path: 'marca/noticia-patrick-stewart', title: 'CineData · Notícia: Patrick Stewart', loadComponent: () => import('./features/marca/slides-noticia-patrick-stewart').then(m => m.SlidesNoticiaPatrickStewart) },
   { path: 'marca/noticia-feito-pipa', title: 'CineData · Notícia: Feito Pipa', loadComponent: () => import('./features/marca/slides-noticia-feito-pipa').then(m => m.SlidesNoticiaFeitoPipa) },
   { path: 'marca/semestre-2026-top10', title: 'CineData · top 10 do 1º semestre de 2026', loadComponent: () => import('./features/marca/slides-semestre-2026').then(m => m.SlidesSemestre2026) },
+  { path: 'marca/cena/:slug', title: 'CineData · Cena', loadComponent: () => import('./features/marca/slides-cena').then(m => m.SlidesCena) },
   { path: 'marca/halloween-terror-top10', title: 'CineData · top 10 do terror', loadComponent: () => import('./features/marca/slides-halloween').then(m => m.SlidesHalloween) },
   { path: 'marca', title: 'CineData · identidade visual', loadComponent: () => import('./features/marca/marca').then(m => m.Marca) },
 ];

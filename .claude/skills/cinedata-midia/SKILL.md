@@ -19,6 +19,9 @@ A fonte da verdade são os arquivos em `docs/conteudo/`. Leia-os a cada execuç�
      no banco e escrever no `gancho`/`notas`. Cartão com `status: "internet"`, `fonte` (nome do canal) e `link`
      (URL da notícia); o que estiver em uma fonte só ou divergente fica anotado como "conferir". Não duplicar
      cartão que já existe (procurar pelo filme antes). O usuário aprova movendo para `ideia` (→).
+   - **Dia sem pauta** ("o que posto hoje?", "não tenho nada para hoje"): oferecer um coringa do formato
+     [Cena](../../../docs/conteudo/formatos/cena.md), os cartões `formato: "Cena"` em `pronto`. Ao publicar, mover para
+     `publicado`. Se sobrarem menos de 3 coringas prontos, produzir mais.
 1. **Cartela**: leia `docs/conteudo/README.md` e identifique o formato pelo pedido (tabela "Formatos" e "Como pedir").
    - Nenhum formato serve → proponha ao usuário criar a spec (seção "Como incluir um formato novo") ou registrar em
      "Formatos propostos". Não produza fora de spec sem o ok dele.

@@ -16,6 +16,8 @@ indexa e para onde o post leva o leitor ([princípios](principios.md#matéria-a-
 | **Post especial** | uma lista ou recorte temático, atemporal ou de data | datas do calendário e temas fortes | carrossel 8–12 slides | [especial.md](formatos/especial.md) | [halloween-terror-top10](../posts/halloween-terror-top10/legenda.md) |
 | **Reels especial** | a versão em vídeo de um especial (ou da marca) | junto com um especial, ou campanha | vídeo 9:16, 25–45 s | [reels-especial.md](formatos/reels-especial.md) | [halloween reels](../posts/halloween-terror-top10/legenda.md#reels-vídeo) |
 | **Aniversário** | um filme que faz 5, 10 ou 15 anos, contado pelo que fez nos cinemas do Brasil | perto da data do lançamento no Brasil (ou de um relançamento) | carrossel 7 slides | [aniversario.md](formatos/aniversario.md) | [aniversario-la-la-land](../posts/aniversario-la-la-land/legenda.md) |
+| **Cena** (coringa) | uma fala marcante de filme em duas cenas, com o número do filme nos cinemas | dias sem pauta; estoque renovado a cada 15 dias | carrossel 2 slides + Reels 16 s | [cena.md](formatos/cena.md) | [cena-ainda-estou-aqui](../posts/cena-ainda-estou-aqui/legenda.md) |
+| **Reels com apresentador** (piloto) | o rosto da página: alguém apresenta um assunto e o vídeo corta para as artes | junto com um post (ou institucional); pilotos em novembro/2026 | vídeo 9:16, 30–60 s, com voz | [reels-apresentador.md](formatos/reels-apresentador.md) | — |
 
 Regras comuns a todos (voz, dados, checagem, legenda, pipeline, aceite): [principios.md](principios.md).
 Tudo o que já foi produzido: [registro.md](registro.md).
@@ -38,6 +40,7 @@ Basta dizer o formato e o assunto; o resto sai da spec. Exemplos:
 - "Notícia: os indicados ao Oscar saíram" → pesquisa o fato, cruza com os dados.
 - "Especial de Natal: os filmes de família mais vistos" → define o critério e confirma com você antes de produzir.
 - "Reels do especial de Natal" → reaproveita os dados do carrossel.
+- "Reels comigo do Top 5 da semana" → roteiro para eu gravar, a partir do carrossel; depois monto com as artes.
 
 Se o pedido não couber em nenhum formato, a proposta é criar a spec primeiro (ou registrar em "Formatos propostos").
 
@@ -53,6 +56,7 @@ no Brasil, de nov/2026 a dez/2027) está no painel, como ideias. Ao produzir, a 
 | Quando | Formato | Pauta | Gancho |
 | --- | --- | --- | --- |
 | toda semana | Top 5 | Top 5 da semana seguinte | atualização semanal da ANCINE |
+| novembro/2026 | Reels com apresentador | 3–4 pilotos: institucional, Top 5 falado, Feito Pipa na estreia, (Amanhecer 15 anos) | dar rosto à página; ver [pilotos](formatos/reels-apresentador.md#pilotos-novembro2026) |
 | após a semana de 29/10 a 04/11 | Acompanhamento | Feito Pipa · semana 1: pré-estreias | prometido no post de 27/10; régua: O Agente Secreto fez 54,9 mil nas pré-estreias |
 | após 05/11 | Acompanhamento | Feito Pipa · semana de estreia | régua: 381 mil (O Agente Secreto) e 579 mil (Ainda Estou Aqui) |
 | dezembro | Notícia | pré-lista (shortlist) do Oscar de Filme Internacional | Feito Pipa está ou não está |
