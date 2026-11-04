@@ -16,6 +16,7 @@ indexa e para onde o post leva o leitor ([princípios](principios.md#matéria-a-
 | **Post especial** | uma lista ou recorte temático, atemporal ou de data | datas do calendário e temas fortes | carrossel 8–12 slides | [especial.md](formatos/especial.md) | [halloween-terror-top10](../posts/halloween-terror-top10/legenda.md) |
 | **Reels especial** | a versão em vídeo de um especial (ou da marca) | junto com um especial, ou campanha | vídeo 9:16, 25–45 s | [reels-especial.md](formatos/reels-especial.md) | [halloween reels](../posts/halloween-terror-top10/legenda.md#reels-vídeo) |
 | **Aniversário** | um filme que faz 5, 10 ou 15 anos, contado pelo que fez nos cinemas do Brasil | perto da data do lançamento no Brasil (ou de um relançamento) | carrossel 7 slides | [aniversario.md](formatos/aniversario.md) | [aniversario-la-la-land](../posts/aniversario-la-la-land/legenda.md) |
+| **Story de matéria** | levar quem viu o post para a matéria no site (adesivo de link com UTM) | junto com todo post que tem matéria | story 9:16, gerado da matéria | [story-materia.md](formatos/story-materia.md) | [stories](../posts/stories/) |
 
 Regras comuns a todos (voz, dados, checagem, legenda, pipeline, aceite): [principios.md](principios.md).
 Tudo o que já foi produzido: [registro.md](registro.md).

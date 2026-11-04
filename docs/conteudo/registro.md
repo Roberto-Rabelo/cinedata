@@ -6,6 +6,7 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-04 | Story de matéria | um story com adesivo de link para cada matéria do site (7) | [stories](../posts/stories/) | 7 stories 9:16 | as 7 matérias | pronto |
 | 2026-11-04 | Notícia | Os Farofeiros 3 estreia: a franquia vem caindo? | [noticia-farofeiros-3](../posts/noticia-farofeiros-3/legenda.md) | carrossel 7 | `/materias/os-farofeiros-3-estreia-franquia-em-numeros` | pronto (publicar em 05/11, até 08/11) |
 | 2026-11-03 | Aniversário | La La Land faz 10 anos | [aniversario-la-la-land](../posts/aniversario-la-la-land/legenda.md) | carrossel 7 | `/materias/la-la-land-faz-10-anos-publico-no-brasil` | pronto |
 | 2026-10-30 | Notícia | morre Patrick Stewart, o Professor X | [noticia-patrick-stewart](../posts/noticia-patrick-stewart/legenda.md) | carrossel 7 | `/materias/morre-patrick-stewart-professor-x-filmes-no-brasil` | pronto (publicar até 31/10) |
@@ -28,8 +29,31 @@ filtro `utm_campaign=<slug>`). Alcance = contas únicas que viram o post.
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | — | | | | | | | | |
 
+Insights de 04/11/2026 (últimos 30 dias, lidos no painel profissional). O Instagram mostra visualizações e interações
+por post, não alcance; as colunas acima ficam para quando houver a tela de cada post.
+
+| Post | Publicado | Visualizações | Interações | Contas engajadas | Compart. |
+| --- | --- | --- | --- | --- | --- |
+| Notícia: Feito Pipa | 28/10 | 623 | 30 | 16 | 8 |
+| Top 5 de 15 a 21/10 | 27/10 | 537 | 31 | 17 | 3 |
+| Apresentação | 23/10 | 497 | 40 | 21 | 10 |
+| Notícia: Patrick Stewart | 29/10 | 416 | 17 | 12 | 2 |
+| Halloween (carrossel) | 02/11 | 388 | 12 | 7 | 2 |
+| Halloween (Reels A Freira) | — | 332 | 16 | 8 | 2 |
+| Como medimos | 26/10 | 281 | 34 | 22 | 4 |
+| Top 5 de 08 a 14/10 | 24/10 | 237 | 30 | 22 | 2 |
+| Reels de apresentação v2 | — | 199 | 24 | 16 | 1 |
+| Cena: Interestelar | 04/11 | 38 | 4 | 2 | 0 |
+
+Leitura: Notícia e Top 5 alcançam mais; Como medimos e o Top 5 de 08/10 engajam mais (12% das visualizações viram
+interação, contra 3% do Halloween, publicado dois dias depois da data); carrossel rende mais que Reels por enquanto.
+Conta: 3.742 visualizações, 696 contas alcançadas (44% não seguidores), 291 interações (92% de seguidores), 199
+visitas ao perfil e 13 cliques no link. Site: 137 visitantes (60 do Brasil), 25 vindos do Instagram, 128 entraram pela
+página inicial; daí o [story de matéria](formatos/story-materia.md).
+
 ### Conta (fotografias semanais)
 
 | Data | Seguidores (Instagram) | Visualizações no site (Umami, acumulado) | Observação |
 | --- | --- | --- | --- |
 | 2026-10-27 | 63 | 158 | primeiros dias do site; ainda sem Search Console |
+| 2026-11-04 | 83 | 282 | 137 visitantes, 77% de rejeição; 38% dos visitantes são dos EUA (robôs e testes) |
