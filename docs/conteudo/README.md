@@ -12,7 +12,7 @@ indexa e para onde o post leva o leitor ([princípios](principios.md#matéria-a-
 | Formato | Para quê | Quando | Peça | Spec | Último exemplo |
 | --- | --- | --- | --- | --- | --- |
 | **Top 5** | o ranking da semana, com o que mudou | toda semana, depois da atualização da ANCINE | carrossel 6 slides | [top5.md](formatos/top5.md) | [top5-2026-10-15](../posts/top5-2026-10-15/legenda.md) |
-| **Notícia** | um fato do dia com o contexto que só os dados dão | quando acontece (estreia relevante, Oscar, recorde, festival) | carrossel 5–7 slides | [noticia.md](formatos/noticia.md) | [noticia-feito-pipa](../posts/noticia-feito-pipa/legenda.md) |
+| **Notícia** | um fato do dia com o contexto que só os dados dão | quando acontece (estreia relevante, Oscar, recorde, festival) | carrossel 5–7 slides | [noticia.md](formatos/noticia.md) | [noticia-farofeiros-3](../posts/noticia-farofeiros-3/legenda.md) |
 | **Post especial** | uma lista ou recorte temático, atemporal ou de data | datas do calendário e temas fortes | carrossel 8–12 slides | [especial.md](formatos/especial.md) | [halloween-terror-top10](../posts/halloween-terror-top10/legenda.md) |
 | **Reels especial** | a versão em vídeo de um especial (ou da marca) | junto com um especial, ou campanha | vídeo 9:16, 25–45 s | [reels-especial.md](formatos/reels-especial.md) | [halloween reels](../posts/halloween-terror-top10/legenda.md#reels-vídeo) |
 | **Aniversário** | um filme que faz 5, 10 ou 15 anos, contado pelo que fez nos cinemas do Brasil | perto da data do lançamento no Brasil (ou de um relançamento) | carrossel 7 slides | [aniversario.md](formatos/aniversario.md) | [aniversario-la-la-land](../posts/aniversario-la-la-land/legenda.md) |
@@ -54,6 +54,7 @@ no Brasil, de nov/2026 a dez/2027) está no painel, como ideias. Ao produzir, a 
 | --- | --- | --- | --- |
 | toda semana | Top 5 | Top 5 da semana seguinte | atualização semanal da ANCINE |
 | após a semana de 29/10 a 04/11 | Acompanhamento | Feito Pipa · semana 1: pré-estreias | prometido no post de 27/10; régua: O Agente Secreto fez 54,9 mil nas pré-estreias |
+| após a semana de 05 a 11/11 | Acompanhamento | Os Farofeiros 3 · semana de estreia | prometido no post de 05/11; régua: 639 mil (Os Farofeiros 2) e 785 mil (Os Farofeiros); salas, posição e estados |
 | após 05/11 | Acompanhamento | Feito Pipa · semana de estreia | régua: 381 mil (O Agente Secreto) e 579 mil (Ainda Estou Aqui) |
 | dezembro | Notícia | pré-lista (shortlist) do Oscar de Filme Internacional | Feito Pipa está ou não está |
 | 18/11 | Aniversário | Amanhecer Parte 1 faz 15 anos | 7,21 mi; só consolidado (2011) |

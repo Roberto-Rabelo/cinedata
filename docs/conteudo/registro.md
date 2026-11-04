@@ -6,6 +6,7 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-04 | Notícia | Os Farofeiros 3 estreia: a franquia vem caindo? | [noticia-farofeiros-3](../posts/noticia-farofeiros-3/legenda.md) | carrossel 7 | `/materias/os-farofeiros-3-estreia-franquia-em-numeros` | pronto (publicar em 05/11, até 08/11) |
 | 2026-11-03 | Aniversário | La La Land faz 10 anos | [aniversario-la-la-land](../posts/aniversario-la-la-land/legenda.md) | carrossel 7 | `/materias/la-la-land-faz-10-anos-publico-no-brasil` | pronto |
 | 2026-10-30 | Notícia | morre Patrick Stewart, o Professor X | [noticia-patrick-stewart](../posts/noticia-patrick-stewart/legenda.md) | carrossel 7 | `/materias/morre-patrick-stewart-professor-x-filmes-no-brasil` | pronto (publicar até 31/10) |
 | 2026-10-28 | Post especial | os 10 mais vistos entre os lançados no 1º semestre de 2026 | [semestre-2026-top10](../posts/semestre-2026-top10/legenda.md) | carrossel 12 + reels 42 s + reels v2 44 s (vinheta) | `/materias/filmes-mais-vistos-primeiro-semestre-2026` | pronto |
