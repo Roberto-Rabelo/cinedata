@@ -93,6 +93,7 @@ interface Cor {
           <a routerLink="/marca/noticia-farofeiros-3" class="secundario">Notícia: Os Farofeiros 3 estreia (7 slides) →</a>
           <a routerLink="/marca/noticia-patrick-stewart" class="secundario">Notícia: morre Patrick Stewart (7 slides) →</a>
           <a routerLink="/marca/aniversario-la-la-land" class="secundario">10 anos: La La Land (7 slides) →</a>
+          <a routerLink="/marca/cena/ainda-estou-aqui" class="secundario">Cena, o post coringa (2 slides) →</a>
         </article>
       </div>
     </section>

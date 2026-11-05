@@ -12,7 +12,7 @@ import { Logo } from '../../shared/ui/logo';
   // Posição no carrossel, para o script de exportação nomear o PNG (há slides de vídeo entre eles).
   host: { '[attr.data-numero]': 'numero()' },
   template: `
-    <section class="slide" [class.com-fundo]="fundo()" [class.escuro]="escurecer()">
+    <section class="slide" [class.com-fundo]="fundo()" [class.escuro]="escurecer()" [class.cheio]="cheio()">
       @if (fundo(); as url) {
         <img class="fundo" [src]="url" [style.object-position]="posicaoFundo()" alt="" />
       }
@@ -50,6 +50,9 @@ import { Logo } from '../../shared/ui/logo';
       background: linear-gradient(to bottom, rgb(13 14 18 / .88), rgb(13 14 18 / .6) 25%, rgb(13 14 18 / .7) 50%, rgb(13 14 18 / .94) 70%, var(--cd-sala));
     }
     .slide.com-fundo > :not(.fundo) { position: relative; z-index: 1; }
+    /* Quadro inteiro para o conteúdo (cenas de filme de ponta a ponta): o conteúdo traz a própria marca e fonte. */
+    .slide.cheio { padding: 0; gap: 0; background-image: none; }
+    .slide.cheio .topo, .slide.cheio .rodape { display: none; }
     .topo { display: flex; justify-content: space-between; align-items: center; }
     .topo cd-logo { font-size: 4.6cqw; }
     .contador { font-size: 3cqw; color: var(--cd-tela-2); font-variant-numeric: tabular-nums; display: flex; flex-direction: column; align-items: flex-end; }
@@ -71,4 +74,6 @@ export class Slide {
   readonly semLogo = input(false);
   /** Escurece mais a foto de fundo, para imagens claras sob muito texto. */
   readonly escurecer = input(false);
+  /** Sem margem, topo e rodapé: o conteúdo ocupa o quadro todo e mostra ele mesmo logo, fonte e perfil. */
+  readonly cheio = input(false);
 }

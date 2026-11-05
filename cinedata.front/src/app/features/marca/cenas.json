@@ -1,0 +1,65 @@
+{
+  "fonte": "Público: consolidado de lançamentos da ANCINE (carreira inteira, soma das distribuidoras); relançamentos: soma das semanas em agregado_semana_obra. Falas conferidas em 2 fontes (ver docs/posts/cena-<slug>/legenda.md).",
+  "cenas": [
+    {
+      "slug": "ainda-estou-aqui",
+      "titulo": "Ainda Estou Aqui",
+      "ano": 2024,
+      "idioma": "pt",
+      "quem": "Eunice Paiva (Fernanda Torres)",
+      "falas": [
+        { "texto": "Nós vamos sorrir.", "imagem": "yUOJzi3qIeXCAK1nZ7el7DUBDNV.jpg", "posicao": "50% 30%" },
+        { "texto": "Sorriam!", "imagem": "fhF8OGrJue5U2NdnIBRFQCbTJZ9.jpg", "posicao": "50% 40%" }
+      ],
+      "original": null,
+      "contexto": "Eunice pede aos filhos que sorriam na foto para o jornal, depois que o marido, Rubens Paiva, é levado pela ditadura.",
+      "publico": 5857612,
+      "numero": "5,9 milhões",
+      "numeroTexto": "de pessoas viram o filme nos cinemas do Brasil.",
+      "fato": "É o 9º filme brasileiro mais visto desde 2009, e o primeiro do país a ganhar o Oscar de filme internacional.",
+      "pergunta": "Qual cena de filme brasileiro você nunca esqueceu?",
+      "obra": "B2400324700000",
+      "tmdb": 1000837
+    },
+    {
+      "slug": "auto-da-compadecida-2",
+      "titulo": "O Auto da Compadecida 2",
+      "ano": 2024,
+      "idioma": "pt",
+      "quem": "Chicó (Selton Mello)",
+      "falas": [
+        { "texto": "Não sei…", "imagem": "6JIt4kiymurp4B8RIY53ufATNel.jpg", "posicao": "50% 35%" },
+        { "texto": "só sei que foi assim.", "imagem": "6z3Ja0ZdBrgDB7adMJJFWOZyzrn.jpg", "posicao": "50% 30%" }
+      ],
+      "original": null,
+      "contexto": "O bordão de Chicó, da peça de Ariano Suassuna, voltou com Selton Mello e Matheus Nachtergaele 24 anos depois do primeiro filme.",
+      "publico": 4442196,
+      "numero": "4,4 milhões",
+      "numeroTexto": "de pessoas viram a volta de João Grilo e Chicó nos cinemas.",
+      "fato": "Lançado em dezembro de 2024, é o 13º filme brasileiro mais visto desde 2009.",
+      "pergunta": "Qual é o bordão de filme que você mais usa?",
+      "obra": "B2400470400000",
+      "tmdb": 1099413
+    },
+    {
+      "slug": "interestelar",
+      "titulo": "Interestelar",
+      "ano": 2014,
+      "idioma": "en",
+      "quem": "Cooper (Matthew McConaughey)",
+      "falas": [
+        { "texto": "A gente olhava para o céu e se perguntava qual era o nosso lugar nas estrelas.", "imagem": "5XNQBqnBwPA9yT0jZ0p3s8bbLh0.jpg", "posicao": "50% 70%" },
+        { "texto": "Agora só olhamos para baixo e nos preocupamos com o nosso lugar na poeira.", "imagem": "chyoak0YgN9PpxEPNWcSWxrqpb5.jpg", "posicao": "70% 50%" }
+      ],
+      "original": "We used to look up at the sky and wonder at our place in the stars. Now we just look down and worry about our place in the dirt.",
+      "contexto": "Cooper fala da Terra tomada pela poeira, antes de partir pelo espaço. Tradução nossa na legenda.",
+      "publico": 1798768,
+      "numero": "1,8 milhão",
+      "numeroTexto": "de pessoas viram Interestelar nos cinemas do Brasil em 2014.",
+      "fato": "Em 2025, voltou às salas duas vezes e levou mais 626 mil pessoas.",
+      "pergunta": "Você viu Interestelar no cinema?",
+      "obra": "E1402450800000",
+      "tmdb": 157336
+    }
+  ]
+}
