@@ -1,0 +1,97 @@
+{
+ "slug": "filmes-brasileiros-mais-vistos-desde-2009",
+ "titulo": "Esse é o filme nacional favorito do Brasil? Os 10 brasileiros mais vistos nos cinemas desde 2009",
+ "resumo": "No embalo do trend do Dia do Cinema Brasileiro, o ranking dos filmes nacionais que mais venderam ingressos desde 2009, segundo a ANCINE. Tropa de Elite 2 e Minha Mãe é uma Peça aparecem no topo, mas os dois primeiros lugares têm uma história de ingressos que passaram pela Igreja Universal.",
+ "data": "2026-11-06",
+ "formato": "Especial",
+ "imagem": "https://image.tmdb.org/t/p/w1280/nFLP0AL8bGQncX7UCbvUQMVsS8J.jpg",
+ "creditoImagem": "Imagem: Tropa de Elite 2 (divulgação)",
+ "obras": [
+  {
+   "codigo": "B1800110100000",
+   "titulo": "NADA A PERDER",
+   "poster": "/yRWweQgRvTBZznCp7CI3PwGLY3X.jpg",
+   "origem": "Nacional",
+   "publico": 11418455,
+   "temPagina": true
+  },
+  {
+   "codigo": "B1600036400000",
+   "temPagina": false
+  },
+  {
+   "codigo": "B1001296000000",
+   "temPagina": false
+  },
+  {
+   "codigo": "B1900576900000",
+   "titulo": "MINHA MÃE É UMA PEÇA 3",
+   "poster": "/zw77BFPGJ73Lig8GwRzYj1XHq53.jpg",
+   "origem": "Nacional",
+   "publico": 11376931,
+   "temPagina": true
+  },
+  {
+   "codigo": "B1600716500000",
+   "titulo": "MINHA MÃE É UMA PEÇA 2",
+   "poster": "/eDApDWU6r9zxk9MZLc6rfnBb3vu.jpg",
+   "origem": "Nacional",
+   "publico": 8793951,
+   "temPagina": true
+  },
+  {
+   "codigo": "B1001148600000",
+   "temPagina": false
+  },
+  {
+   "codigo": "B1900354300000",
+   "titulo": "NADA A PERDER 2",
+   "poster": "/2UESbGhUBez8iu4CqVhhmpIueJh.jpg",
+   "origem": "Nacional",
+   "publico": 5257231,
+   "temPagina": true
+  },
+  {
+   "codigo": "B0800958700000",
+   "temPagina": false
+  },
+  {
+   "codigo": "B2400324700000",
+   "titulo": "AINDA ESTOU AQUI",
+   "poster": "/zNAw7jK8bwCK56rIW676pdgkwhd.jpg",
+   "origem": "Nacional",
+   "publico": 5731852,
+   "temPagina": true
+  },
+  {
+   "codigo": "B1800539000000",
+   "titulo": "MINHA VIDA EM MARTE",
+   "poster": "/tJHWvQOdOj7G52wMKwq7heRUrkj.jpg",
+   "origem": "Nacional",
+   "publico": 5283211,
+   "temPagina": true
+  }
+ ],
+ "trailer": null,
+ "instagram": null,
+ "fontes": [
+  {
+   "titulo": "Metrópoles: Nada a Perder, um sucesso de salas vazias (09/04/2018)",
+   "url": "https://www.metropoles.com/entretenimento/cinema/nada-a-perder-filme-sobre-edir-macedo-e-um-sucesso-de-salas-vazias"
+  },
+  {
+   "titulo": "Bahia Notícias: Nada a Perder tem ingressos esgotados e salas vazias (31/03/2018, com O Globo)",
+   "url": "https://www.bahianoticias.com.br/cultura/noticia/31233-filme-nada-a-perder-de-edir-macedo-tem-ingressos-esgotados-e-salas-vazias"
+  },
+  {
+   "titulo": "AdoroCinema: Igreja Universal arrecada dinheiro nos cultos para comprar ingressos de Os Dez Mandamentos (19/01/2016)",
+   "url": "https://www.adorocinema.com/noticias/filmes/noticia-118741/"
+  },
+  {
+   "titulo": "Gazeta do Povo: Os Dez Mandamentos chega a 2 milhões de ingressos com ajuda de fiéis (20/01/2016)",
+   "url": "https://www.gazetadopovo.com.br/caderno-g/cinema/os-dez-mandamentos-chega-a-2-milhoes-de-ingressos-com-ajuda-de-fieis-9zwray6n1fy85qstfoz387tgw"
+  }
+ ],
+ "html": "<p>No Dia do Cinema Brasileiro, o Instagram se encheu de carrosséis com a frase <strong>“esse é o meu filme nacional\nfavorito”</strong>: duas cenas de um filme e o nome dele embaixo. Nós entramos na brincadeira com a pergunta ao contrário:\nqual é o filme nacional favorito <strong>do Brasil</strong>, se a medida for o ingresso vendido?</p>\n<p>A resposta, nos dados da ANCINE, cobre os filmes brasileiros lançados nos cinemas desde 2009, o começo da série aberta.\nSão <strong>2.238 filmes e 293 milhões de ingressos</strong>. Só 70 deles passaram de 1 milhão de espectadores.</p>\n<h2>Os 10 mais vistos</h2>\n<table>\n<thead>\n<tr>\n<th>Posição</th>\n<th>Filme</th>\n<th>Lançamento</th>\n<th>Ingressos</th>\n</tr>\n</thead>\n<tbody><tr>\n<td>1º</td>\n<td><a href=\"/obras/B1800110100000\">Nada a Perder</a></td>\n<td>2018</td>\n<td>12,17 milhões</td>\n</tr>\n<tr>\n<td>2º</td>\n<td>Os Dez Mandamentos: O Filme</td>\n<td>2016</td>\n<td>11,31 milhões</td>\n</tr>\n<tr>\n<td>3º</td>\n<td>Tropa de Elite 2</td>\n<td>2010</td>\n<td>11,15 milhões</td>\n</tr>\n<tr>\n<td>4º</td>\n<td><a href=\"/obras/B1900576900000\">Minha Mãe é uma Peça 3</a></td>\n<td>2019</td>\n<td>10,94 milhões</td>\n</tr>\n<tr>\n<td>5º</td>\n<td><a href=\"/obras/B1600716500000\">Minha Mãe é uma Peça 2</a></td>\n<td>2016</td>\n<td>9,24 milhões</td>\n</tr>\n<tr>\n<td>6º</td>\n<td>Chico Xavier</td>\n<td>2010</td>\n<td>6,54 milhões</td>\n</tr>\n<tr>\n<td>7º</td>\n<td><a href=\"/obras/B1900354300000\">Nada a Perder 2</a></td>\n<td>2019</td>\n<td>6,19 milhões</td>\n</tr>\n<tr>\n<td>8º</td>\n<td>Se Eu Fosse Você 2</td>\n<td>2009</td>\n<td>6,14 milhões</td>\n</tr>\n<tr>\n<td>9º</td>\n<td><a href=\"/obras/B2400324700000\">Ainda Estou Aqui</a></td>\n<td>2024</td>\n<td>5,86 milhões</td>\n</tr>\n<tr>\n<td>10º</td>\n<td><a href=\"/obras/B1800539000000\">Minha Vida em Marte</a></td>\n<td>2018</td>\n<td>5,23 milhões</td>\n</tr>\n</tbody></table>\n<p>Juntos, os dez somam <strong>84,8 milhões de ingressos, 29% de tudo</strong> o que os filmes brasileiros venderam desde 2009.</p>\n<h2>Ingresso vendido não é o mesmo que filme favorito</h2>\n<p>Os dois primeiros lugares têm uma história. Antes da estreia de <em>Os Dez Mandamentos</em>, em janeiro de 2016, a Igreja\nUniversal arrecadou dinheiro nos cultos para comprar ingressos antecipados. Os pastores disseram que os ingressos iriam\npara fiéis que não podiam pagar, e a igreja disse apoiar ações para facilitar o acesso ao filme.</p>\n<p>Com <em>Nada a Perder</em>, a cinebiografia de Edir Macedo, em 2018, reportagens encontraram sessões vendidas como esgotadas\nquase vazias: numa delas, 15 pessoas numa sala de 189 lugares. Muitos espectadores disseram ter recebido os\ningressos nos templos. A Igreja Universal chamou a acusação de “vergonhosa” e negou ter comprado ingressos.</p>\n<p>A ANCINE registra o ingresso vendido, não quem sentou na poltrona. Por isso o número é o que está na tabela, e a\nhistória ao lado dele também.</p>\n<h2>Comédia, ação e um drama</h2>\n<p>Fora os dois primeiros, o topo é de público que foi ao cinema rir e torcer: a trilogia de <strong>Minha Mãe é uma Peça</strong>\ntem dois filmes no top 10 (e o primeiro, de 2013, é o 12º), <strong>Tropa de Elite 2</strong> foi o brasileiro mais visto da série\nde 2010 até 2016 e <strong>Se Eu Fosse Você 2</strong> abre a série, em janeiro de 2009.</p>\n<p><strong>Ainda Estou Aqui</strong> é o único filme do top 10 lançado depois da pandemia, e um drama sobre a ditadura: 5,9 milhões de\npessoas desde a estreia, em setembro de 2024; em 2025, ganhou o Oscar de filme internacional.</p>\n<h2>Quem não entra</h2>\n<p><em>Cidade de Deus</em> (2002), <em>Central do Brasil</em> (1998), o primeiro <em>O Auto da Compadecida</em> (2000) e o primeiro <em>Tropa de\nElite</em> (2007), que apareceram em muitos carrosséis do trend, são anteriores a 2009 e ficam fora da série aberta da\nANCINE que usamos. <em>O Auto da Compadecida 2</em>, de 2024, é o 13º, com 4,4 milhões.</p>\n<p>E o seu filme nacional favorito? Conta pra gente no <a href=\"https://www.instagram.com/cinedata.br/\">Instagram</a>.</p>\n<p><em>Fonte: ANCINE (dados abertos), consolidado de lançamentos: soma do público declarado pelas distribuidoras por obra,\nfilmes com país de origem Brasil (inclui coproduções) lançados desde 2009. Reportagens sobre a venda de ingressos\nconferidas em 06/11/2026.</em></p>\n",
+ "palavras": 625
+}

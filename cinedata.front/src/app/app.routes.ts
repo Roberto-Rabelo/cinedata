@@ -35,6 +35,7 @@ const marca: Routes = [
   { path: 'marca/dia-cinema-brasileiro-2026', title: 'CineData · Dia do Cinema Brasileiro', loadComponent: () => import('./features/marca/slides-dia-cinema-brasileiro').then(m => m.SlidesDiaCinemaBrasileiro) },
   { path: 'marca/cena/:slug', title: 'CineData · Cena', loadComponent: () => import('./features/marca/slides-cena').then(m => m.SlidesCena) },
   { path: 'marca/halloween-terror-top10', title: 'CineData · top 10 do terror', loadComponent: () => import('./features/marca/slides-halloween').then(m => m.SlidesHalloween) },
+  { path: 'marca/trend-filme-nacional-favorito', title: 'CineData · Esse é o meu filme nacional favorito', loadComponent: () => import('./features/marca/slides-trend-filme-nacional-favorito').then(m => m.SlidesTrendFilmeNacionalFavorito) },
   { path: 'marca/story', title: 'CineData · stories de matéria', loadComponent: () => import('./features/marca/story-materia').then(m => m.StoryMateria) },
   { path: 'marca/story/:slug', title: 'CineData · story de matéria', loadComponent: () => import('./features/marca/story-materia').then(m => m.StoryMateria) },
   { path: 'marca', title: 'CineData · identidade visual', loadComponent: () => import('./features/marca/marca').then(m => m.Marca) },

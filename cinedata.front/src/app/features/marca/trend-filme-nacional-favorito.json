@@ -1,0 +1,132 @@
+{
+  "fonte": "Público: ANCINE, consolidado de lançamentos (lancamentos), soma das distribuidoras por obra; filmes com país da obra contendo Brasil lançados desde 2009. Consulta em docs/posts/trend-filme-nacional-favorito/legenda.md.",
+  "brasileiros": {
+    "filmes": 2238,
+    "publico": 293197878,
+    "milionarios": 70
+  },
+  "filmes": [
+    {
+      "posicao": 1,
+      "titulo": "Nada a Perder",
+      "ano": 2018,
+      "publico": 12173228,
+      "obra": "B1800110100000",
+      "tmdb": 502581,
+      "cenas": [
+        "cgtS0zwX5FLxmpYDipoMXfVNiKD.jpg",
+        "x53rt95zFbCjfFidDsH6kukMiWz.jpg"
+      ],
+      "nota": "Na estreia, reportagens mostraram sessões “esgotadas” quase vazias e ingressos distribuídos a fiéis. A Igreja Universal chamou a acusação de “vergonhosa” e negou ter comprado ingressos."
+    },
+    {
+      "posicao": 2,
+      "titulo": "Os Dez Mandamentos: O Filme",
+      "ano": 2016,
+      "publico": 11305479,
+      "obra": "B1600036400000",
+      "tmdb": 372519,
+      "cenas": [
+        "9euRWCxqq9DRsjiAaUBq5jhkm4N.jpg",
+        "v6bGT2CgGGs2oClMHMXUs1mgFY6.jpg"
+      ],
+      "nota": "Antes da estreia, a Igreja Universal arrecadou dinheiro nos cultos para comprar ingressos antecipados; os pastores disseram que eles iriam para fiéis que não podiam pagar."
+    },
+    {
+      "posicao": 3,
+      "titulo": "Tropa de Elite 2",
+      "ano": 2010,
+      "publico": 11147238,
+      "obra": "B1001296000000",
+      "tmdb": 47931,
+      "cenas": [
+        "nFLP0AL8bGQncX7UCbvUQMVsS8J.jpg",
+        "kossSlZHf1REOhDkhRvrz9UgAnf.jpg"
+      ]
+    },
+    {
+      "posicao": 4,
+      "titulo": "Minha Mãe é uma Peça 3",
+      "ano": 2019,
+      "publico": 10938240,
+      "obra": "B1900576900000",
+      "tmdb": 620683,
+      "cenas": [
+        "19vTfircuojU00I6xtRdy3DrF1e.jpg",
+        "n3wplZRjGiKqY1UY1IAJVs5dM3L.jpg"
+      ]
+    },
+    {
+      "posicao": 5,
+      "titulo": "Minha Mãe é uma Peça 2",
+      "ano": 2016,
+      "publico": 9235788,
+      "obra": "B1600716500000",
+      "tmdb": 227932,
+      "cenas": [
+        "qW5LsOjND9IqkySlFlsixO9hlAQ.jpg",
+        "48Lgirs22cs6SJWdMOoqvHbOUHN.jpg"
+      ]
+    },
+    {
+      "posicao": 6,
+      "titulo": "Chico Xavier",
+      "ano": 2010,
+      "publico": 6540455,
+      "obra": "B1001148600000",
+      "tmdb": 41520,
+      "cenas": [
+        "19UztFNxP68NQC4Tacfv0eoPT4X.jpg",
+        "51csyYHV1S4KTHRjvx6zbcKOwVv.jpg"
+      ]
+    },
+    {
+      "posicao": 7,
+      "titulo": "Nada a Perder 2",
+      "ano": 2019,
+      "publico": 6189465,
+      "obra": "B1900354300000",
+      "tmdb": 580077,
+      "cenas": [
+        "q6epM80HdPshyw36DXrV1WZfrp7.jpg",
+        "aWRjBKCwCdsYnztuI3PGacq4u29.jpg"
+      ]
+    },
+    {
+      "posicao": 8,
+      "titulo": "Se Eu Fosse Você 2",
+      "ano": 2009,
+      "publico": 6143081,
+      "obra": "B0800958700000",
+      "tmdb": 21752,
+      "cenas": [
+        "vF94nDYvUSjZb5MAi8WOXifcktI.jpg",
+        "fKSNHruZStxHHl85dE1DccaoqXM.jpg"
+      ]
+    },
+    {
+      "posicao": 9,
+      "titulo": "Ainda Estou Aqui",
+      "ano": 2024,
+      "publico": 5857612,
+      "obra": "B2400324700000",
+      "tmdb": 1000837,
+      "cenas": [
+        "j9uruwRe9qM8RnP758dF7ISB8Bj.jpg",
+        "m6Y0Y1WFhMRZuTqoTsNVBOCUU3N.jpg"
+      ]
+    },
+    {
+      "posicao": 10,
+      "titulo": "Minha Vida em Marte",
+      "ano": 2018,
+      "publico": 5234820,
+      "obra": "B1800539000000",
+      "tmdb": 564427,
+      "cenas": [
+        "5McQn3WUJCBVf58nKi6pf3i4q6o.jpg",
+        "ipZphrqDidFbEdUf18iPOzdGN7i.jpg"
+      ]
+    }
+  ]
+}
