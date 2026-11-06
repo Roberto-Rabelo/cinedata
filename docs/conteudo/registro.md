@@ -6,9 +6,9 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2026-11-06 | Trend | Esse é o meu filme nacional favorito: os 10 brasileiros mais vistos desde 2009 | [trend-filme-nacional-favorito](../posts/trend-filme-nacional-favorito/legenda.md) | carrossel 12 + story | `/materias/filmes-brasileiros-mais-vistos-desde-2009` | pronto (publicar já: o trend é de 05/11) |
+| 2026-11-06 | Trend | Esse é o meu filme nacional favorito: os 10 brasileiros mais vistos desde 2009 | [trend-filme-nacional-favorito](../posts/trend-filme-nacional-favorito/legenda.md) | carrossel 12 + story | `/materias/filmes-brasileiros-mais-vistos-desde-2009` | publicado (2026-11-06) |
 | 2026-11-05 | Post especial | Dia do Cinema Brasileiro: 3 falas, 3 Brasis (Ainda Estou Aqui, O Agente Secreto, O Auto da Compadecida 2) | [dia-cinema-brasileiro-2026](../posts/dia-cinema-brasileiro-2026/legenda.md) | carrossel 6 + story | `/materias/dia-do-cinema-brasileiro-3-falas-3-brasis` | pronto |
-| 2026-11-04 | Aniversário | Doutor Estranho faz 10 anos | [aniversario-doutor-estranho](../posts/aniversario-doutor-estranho/legenda.md) | carrossel 7 + story | `/materias/doutor-estranho-faz-10-anos-publico-no-brasil` | pronto (publicar em 06/11) |
+| 2026-11-04 | Aniversário | Doutor Estranho faz 10 anos | [aniversario-doutor-estranho](../posts/aniversario-doutor-estranho/legenda.md) | carrossel 7 + story | `/materias/doutor-estranho-faz-10-anos-publico-no-brasil` | publicado (2026-11-06) |
 | 2026-11-04 | Story de matéria | um story com adesivo de link para cada matéria do site (7) | [stories](../posts/stories/) | 7 stories 9:16 | as 7 matérias | pronto |
 | 2026-11-04 | Notícia | Os Farofeiros 3 estreia: a franquia vem caindo? | [noticia-farofeiros-3](../posts/noticia-farofeiros-3/legenda.md) | carrossel 7 | `/materias/os-farofeiros-3-estreia-franquia-em-numeros` | pronto (publicar em 05/11, até 08/11) |
 | 2026-11-04 | Cena | "Nós vamos sorrir. Sorriam!" (Ainda Estou Aqui) | [cena-ainda-estou-aqui](../posts/cena-ainda-estou-aqui/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/B2400324700000`) | pronto (coringa) |
