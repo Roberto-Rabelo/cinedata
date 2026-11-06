@@ -94,6 +94,7 @@ interface Cor {
           <a routerLink="/marca/noticia-patrick-stewart" class="secundario">Notícia: morre Patrick Stewart (7 slides) →</a>
           <a routerLink="/marca/aniversario-la-la-land" class="secundario">10 anos: La La Land (7 slides) →</a>
           <a routerLink="/marca/cena/ainda-estou-aqui" class="secundario">Cena, o post coringa (2 slides) →</a>
+          <a routerLink="/marca/dia-cinema-brasileiro-2026" class="secundario">Dia do Cinema Brasileiro 2026 (6 slides) →</a>
         </article>
       </div>
     </section>

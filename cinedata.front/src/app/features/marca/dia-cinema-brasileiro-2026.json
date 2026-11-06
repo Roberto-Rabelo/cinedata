@@ -1,0 +1,57 @@
+{
+  "fonte": "Público: ANCINE, consolidado de lançamentos (lancamentos), soma das distribuidoras por obra; posição entre os filmes brasileiros (país da obra contém Brasil) lançados desde 2009. Falas e fatos com 2 fontes em docs/posts/dia-cinema-brasileiro-2026/legenda.md.",
+  "brasileiros": { "filmes": 2238, "publico": 293197878 },
+  "filmes": [
+    {
+      "slug": "ainda-estou-aqui",
+      "titulo": "Ainda Estou Aqui",
+      "ano": 2024,
+      "lugar": "Rio de Janeiro, 1971",
+      "fala": "Nós vamos sorrir. Sorriam!",
+      "quem": "Eunice Paiva (Fernanda Torres)",
+      "imagem": "fhF8OGrJue5U2NdnIBRFQCbTJZ9.jpg",
+      "posicao": "50% 40%",
+      "noFilme": "Depois que o marido, Rubens Paiva, é levado por militares, Eunice pede aos filhos que sorriam na foto para o jornal.",
+      "naVida": "Em janeiro de 2025, a certidão de óbito de Rubens Paiva foi corrigida: morte violenta, causada pelo Estado brasileiro.",
+      "publico": 5857612,
+      "numero": "5,9 milhões",
+      "numeroTexto": "de espectadores; 9º filme brasileiro mais visto desde 2009",
+      "obra": "B2400324700000",
+      "tmdb": 1000837
+    },
+    {
+      "slug": "o-agente-secreto",
+      "titulo": "O Agente Secreto",
+      "ano": 2025,
+      "lugar": "Recife, 1977",
+      "fala": "Raparigou ou não raparigou?",
+      "quem": "Seu Alexandre (Carlos Francisco)",
+      "imagem": "ogsKt1YGq7g8ObfKBrbhvuBcxWT.jpg",
+      "posicao": "30% 12%",
+      "noFilme": "Seu Alexandre quer uma resposta direta: Marcelo (Wagner Moura), que fugiu de São Paulo para o Recife, traiu ou não a mulher, Fátima?",
+      "naVida": "Seu Alexandre existiu: Alexandre Moura foi projecionista do Cine Art-Palácio, no centro do Recife.",
+      "publico": 2476469,
+      "numero": "2,5 milhões",
+      "numeroTexto": "de espectadores desde a estreia, em setembro de 2025",
+      "obra": "B2500325300000",
+      "tmdb": 1220564
+    },
+    {
+      "slug": "auto-da-compadecida-2",
+      "titulo": "O Auto da Compadecida 2",
+      "ano": 2024,
+      "lugar": "Taperoá, sertão da Paraíba",
+      "fala": "Não sei… só sei que foi assim.",
+      "quem": "Chicó (Selton Mello)",
+      "imagem": "6JIt4kiymurp4B8RIY53ufATNel.jpg",
+      "posicao": "50% 28%",
+      "noFilme": "O bordão com que Chicó fecha cada história impossível voltou 24 anos depois do primeiro filme, com Matheus Nachtergaele de João Grilo.",
+      "naVida": "Taperoá existe: é a cidade do sertão onde Ariano Suassuna, o autor da peça, passou a infância.",
+      "publico": 4442196,
+      "numero": "4,4 milhões",
+      "numeroTexto": "de espectadores; 13º filme brasileiro mais visto desde 2009",
+      "obra": "B2400470400000",
+      "tmdb": 1099413
+    }
+  ]
+}

@@ -74,6 +74,8 @@ no Brasil, de nov/2026 a dez/2027) está no painel, como ideias. Ao produzir, a 
 | 14/03/2027 | Notícia | resultado do Oscar 2027 | Feito Pipa |
 | 16/03/2027 | Aniversário | A Bela e a Fera faz 10 anos | 8,31 mi; musical (comparar com La La Land, 1,4 mi) |
 | 27/04/2027 | Aniversário | Os Vingadores faz 15 anos | 10,9 mi; só consolidado (2012) |
+| 19/06/2027 | Post especial | Dia do Cinema Brasileiro (Afonso Segreto filma a Baía de Guanabara, 1898) | data fixa todo ano; ângulo diferente do 5/11 (ex.: brasileiros do semestre, mapa por estado) |
+| 05/11/2027 (preparar em outubro) | Post especial + Reels | Dia Nacional do Cinema Brasileiro (morte de Humberto Mauro, 1983) | data fixa todo ano; em 2026 saiu no dia ([dia-cinema-brasileiro-2026](../posts/dia-cinema-brasileiro-2026/legenda.md)); para 2027: Reels, falas de Tropa de Elite 2 e Minha Mãe é uma Peça com 2 fontes, brasileiros de 2027 |
 
 ## Melhorias do processo
 
