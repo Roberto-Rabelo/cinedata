@@ -9,7 +9,11 @@
  "obras": [
   {
    "codigo": "B2600253800000",
-   "temPagina": false
+   "titulo": "FEITO PIPA",
+   "poster": null,
+   "origem": "Nacional",
+   "publico": 53281,
+   "temPagina": true
   },
   {
    "codigo": "B2400324700000",
@@ -24,7 +28,7 @@
    "titulo": "O AGENTE SECRETO",
    "poster": "/t1DQ4XXIqTm5LvUjz8jypN43JjZ.jpg",
    "origem": "Nacional",
-   "publico": 2406779,
+   "publico": 2406799,
    "temPagina": true
   }
  ],

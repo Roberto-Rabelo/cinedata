@@ -6,6 +6,7 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-07 | Top 5 | semana de 22 a 28/10/2026 | [top5-2026-10-22](../posts/top5-2026-10-22/legenda.md) | carrossel 6 | `/materias/top-5-semana-2026-10-22` | pronto |
 | 2026-11-06 | Trend | Esse é o meu filme nacional favorito: os 10 brasileiros mais vistos desde 2009 | [trend-filme-nacional-favorito](../posts/trend-filme-nacional-favorito/legenda.md) | carrossel 12 + story | `/materias/filmes-brasileiros-mais-vistos-desde-2009` | publicado (2026-11-06) |
 | 2026-11-05 | Post especial | Dia do Cinema Brasileiro: 3 falas, 3 Brasis (Ainda Estou Aqui, O Agente Secreto, O Auto da Compadecida 2) | [dia-cinema-brasileiro-2026](../posts/dia-cinema-brasileiro-2026/legenda.md) | carrossel 6 + story | `/materias/dia-do-cinema-brasileiro-3-falas-3-brasis` | pronto |
 | 2026-11-04 | Aniversário | Doutor Estranho faz 10 anos | [aniversario-doutor-estranho](../posts/aniversario-doutor-estranho/legenda.md) | carrossel 7 + story | `/materias/doutor-estranho-faz-10-anos-publico-no-brasil` | publicado (2026-11-06) |

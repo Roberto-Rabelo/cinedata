@@ -23,6 +23,7 @@ const paginasDoMapa: Route[] = [
 /** Ferramentas internas de conteúdo (posts, identidade visual): só no desenvolvimento, fora do site publicado. */
 const marca: Routes = [
   { path: 'marca/apresentacao', title: 'CineData · carrossel de apresentação', loadComponent: () => import('./features/marca/slides-apresentacao').then(m => m.SlidesApresentacao) },
+  { path: 'marca/top5-2026-10-22', title: 'CineData · Top 5 de 22 a 28/10', loadComponent: () => import('./features/marca/slides-top5-2026-10-22').then(m => m.SlidesTop5Semana1022) },
   { path: 'marca/top5-2026-10-15', title: 'CineData · Top 5 de 15 a 21/10', loadComponent: () => import('./features/marca/slides-top5-2026-10-15').then(m => m.SlidesTop5Semana1015) },
   { path: 'marca/top5-2026-10-08', title: 'CineData · Top 5 de 08 a 14/10', loadComponent: () => import('./features/marca/slides-top5').then(m => m.SlidesTop5) },
   { path: 'marca/como-medimos', title: 'CineData · como medimos', loadComponent: () => import('./features/marca/slides-como-medimos').then(m => m.SlidesComoMedimos) },

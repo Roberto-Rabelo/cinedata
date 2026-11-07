@@ -86,6 +86,7 @@ interface Cor {
           }
           <a routerLink="/marca/apresentacao" class="secundario">Carrossel de apresentação (7 slides) →</a>
           <a routerLink="/marca/top5-2026-10-08" class="secundario">Top 5 de 08 a 14/10 (6 slides) →</a>
+          <a routerLink="/marca/top5-2026-10-22" class="secundario">Top 5 de 22 a 28/10, com pôsteres (6 slides) →</a>
           <a routerLink="/marca/top5-2026-10-15" class="secundario">Top 5 de 15 a 21/10, com pôsteres (6 slides) →</a>
           <a routerLink="/marca/como-medimos" class="secundario">Como medimos (5 slides) →</a>
           <a routerLink="/marca/halloween-terror-top10" class="secundario">Halloween: top 10 do terror (12 slides) →</a>
