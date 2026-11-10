@@ -23,6 +23,8 @@ const paginasDoMapa: Route[] = [
 /** Ferramentas internas de conteúdo (posts, identidade visual): só no desenvolvimento, fora do site publicado. */
 const marca: Routes = [
   { path: 'marca/apresentacao', title: 'CineData · carrossel de apresentação', loadComponent: () => import('./features/marca/slides-apresentacao').then(m => m.SlidesApresentacao) },
+  { path: 'marca/mes-2026-10', title: 'CineData · Outubro de 2026 em números', loadComponent: () => import('./features/marca/slides-mes-2026-10').then(m => m.SlidesMes202610) },
+  { path: 'marca/top5-2026-10-29', title: 'CineData · Top 5 de 29/10 a 04/11', loadComponent: () => import('./features/marca/slides-top5-2026-10-29').then(m => m.SlidesTop5Semana1029) },
   { path: 'marca/top5-2026-10-22', title: 'CineData · Top 5 de 22 a 28/10', loadComponent: () => import('./features/marca/slides-top5-2026-10-22').then(m => m.SlidesTop5Semana1022) },
   { path: 'marca/top5-2026-10-15', title: 'CineData · Top 5 de 15 a 21/10', loadComponent: () => import('./features/marca/slides-top5-2026-10-15').then(m => m.SlidesTop5Semana1015) },
   { path: 'marca/top5-2026-10-08', title: 'CineData · Top 5 de 08 a 14/10', loadComponent: () => import('./features/marca/slides-top5').then(m => m.SlidesTop5) },

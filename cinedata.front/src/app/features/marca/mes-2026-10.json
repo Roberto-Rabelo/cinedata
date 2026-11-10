@@ -1,0 +1,47 @@
+{
+  "fonte": "Público visto no mês (soma de sessoes de 01 a 31/10), publicação da ANCINE de 09/11/2026 (dados até 07/11). Mesmos números de dados/mes/2026-10.json; consultas em docs/posts/mes-2026-10/legenda.md.",
+  "mes": {
+    "publico": 7913447,
+    "obras": 271,
+    "nacional": 1702114,
+    "nacionalPct": 21.5,
+    "setembro": 13304682
+  },
+  "outubroAnterior": {
+    "publico": 4871629,
+    "nacionalPct": 6.6,
+    "lider": { "titulo": "O Telefone Preto 2", "publico": 750219 }
+  },
+  "outubros": [
+    { "ano": 2016, "publico": 10993518, "nacionalPct": 22.2 },
+    { "ano": 2017, "publico": 10657989, "nacionalPct": 12.1 },
+    { "ano": 2018, "publico": 10495370, "nacionalPct": 10.8 },
+    { "ano": 2019, "publico": 15142100, "nacionalPct": 5.5 },
+    { "ano": 2020, "publico": 596249, "nacionalPct": 0.7 },
+    { "ano": 2021, "publico": 6555494, "nacionalPct": 0.5 },
+    { "ano": 2022, "publico": 6811165, "nacionalPct": 3.0 },
+    { "ano": 2023, "publico": 9658150, "nacionalPct": 6.3 },
+    { "ano": 2024, "publico": 8556067, "nacionalPct": 2.8 },
+    { "ano": 2025, "publico": 4871629, "nacionalPct": 6.6 },
+    { "ano": 2026, "publico": 7913447, "nacionalPct": 21.5 }
+  ],
+  "dias": [
+    { "data": "2026-10-03", "rotulo": "sábado, 03/10", "publico": 615006 },
+    { "data": "2026-10-12", "rotulo": "feriado de 12/10", "publico": 595686 }
+  ],
+  "semanaMaisFraca": { "rotulo": "22 a 28/10", "publico": 1054322 },
+  "festival": { "rotulo": "29/10 a 04/11", "nacionalPct": 25.5 },
+  "top10": [
+    { "posicao": 1, "titulo": "Verity", "obra": "E2600183000000", "origem": "Estrangeira", "publico": 1878388, "poster": "/6Qf3sylInJeyK0fFTfjprnGIXCF.jpg" },
+    { "posicao": 2, "titulo": "Minha Melhor Amiga", "obra": "B2600181900000", "origem": "Nacional", "publico": 1039406, "poster": "/wGfTFVeguXDXYrwPQ8QMFsaSK2M.jpg" },
+    { "posicao": 3, "titulo": "Street Fighter", "obra": "E2600270100000", "origem": "Estrangeira", "publico": 527881, "poster": "/6gWmrC2GyDbUM1ET5EBg9lxBi7S.jpg" },
+    { "posicao": 4, "titulo": "Outra Mamãe", "obra": "E2600226100000", "origem": "Estrangeira", "publico": 500569, "poster": "/j6eXMsykSZnXJT20YTdsdS9PXPj.jpg" },
+    { "posicao": 5, "titulo": "Cara-de-Barro", "obra": "E2600305600000", "origem": "Estrangeira", "publico": 348804, "poster": "/dqvHs2YXks989ScXvsngbqAeBHX.jpg" },
+    { "posicao": 6, "titulo": "Carros (relançamento)", "obra": "E1500588000000", "origem": "Estrangeira", "publico": 309322, "poster": "/A7nssMRIPauZhEVf2dzwsf4EALO.jpg" },
+    { "posicao": 7, "titulo": "Se Eu Fosse Você 3", "obra": "B2600288300000", "origem": "Nacional", "publico": 306018, "poster": "/blMdOSGF1Q9cfHoWYzSkPtY91ts.jpg" },
+    { "posicao": 8, "titulo": "Coração Selvagem", "obra": "E2600270000000", "origem": "Estrangeira", "publico": 288932, "poster": "/n4PJa4xVo4SjIsBvTA0yGMKjTBh.jpg" },
+    { "posicao": 9, "titulo": "Resident Evil", "obra": "E2600182900000", "origem": "Estrangeira", "publico": 257518, "poster": "/gQ76UL64RQe3oHwiwHwODTC23g4.jpg" },
+    { "posicao": 10, "titulo": "As Aventuras de Tadeo e a Lâmpada Mágica", "obra": "E2600271000000", "origem": "Estrangeira", "publico": 212342, "poster": "/sczKkd1Sw7kXU7ZvEUA3C3nFuhE.jpg" }
+  ],
+  "foraDoTop10": "Shows e Musicais (293.930, código genérico G0000000000002 da ANCINE para eventos) ficaria em 8º; não é um filme e fica de fora."
+}
