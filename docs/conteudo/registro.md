@@ -6,6 +6,8 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-11 | Cena | "Quem nasce em Bacurau é o quê? É gente!" (Bacurau) | [cena-bacurau](../posts/cenas/cena-bacurau/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/B1900232600000`) | pronto (coringa) |
+| 2026-11-11 | Cena | A narração de abertura (Pecadores) | [cena-pecadores](../posts/cenas/cena-pecadores/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/E2500012000000`) | pronto (coringa) |
 | 2026-11-10 | Post especial | Outubro de 2026 em números (visto no mês, outubros desde 2016, Top 10, nacionais) | [mes-2026-10](../posts/mes-2026-10/legenda.md) | carrossel 7 | `/materias/cinema-outubro-2026-em-numeros` | pronto (publicar 14/11) |
 | 2026-11-10 | Top 5 | semana de 29/10 a 04/11/2026 | [top5-2026-10-29](../posts/top5-2026-10-29/legenda.md) | carrossel 6 | `/materias/top-5-semana-2026-10-29` | pronto (publicar 10/11) |
 | 2026-11-07 | Top 5 | semana de 22 a 28/10/2026 | [top5-2026-10-22](../posts/top5-2026-10-22/legenda.md) | carrossel 6 | `/materias/top-5-semana-2026-10-22` | pronto |
@@ -14,9 +16,9 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 | 2026-11-04 | Aniversário | Doutor Estranho faz 10 anos | [aniversario-doutor-estranho](../posts/aniversario-doutor-estranho/legenda.md) | carrossel 7 + story | `/materias/doutor-estranho-faz-10-anos-publico-no-brasil` | publicado (2026-11-06) |
 | 2026-11-04 | Story de matéria | um story com adesivo de link para cada matéria do site (7) | [stories](../posts/stories/) | 7 stories 9:16 | as 7 matérias | pronto |
 | 2026-11-04 | Notícia | Os Farofeiros 3 estreia: a franquia vem caindo? | [noticia-farofeiros-3](../posts/noticia-farofeiros-3/legenda.md) | carrossel 7 | `/materias/os-farofeiros-3-estreia-franquia-em-numeros` | pronto (publicar em 05/11, até 08/11) |
-| 2026-11-04 | Cena | "Nós vamos sorrir. Sorriam!" (Ainda Estou Aqui) | [cena-ainda-estou-aqui](../posts/cena-ainda-estou-aqui/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/B2400324700000`) | pronto (coringa) |
-| 2026-11-04 | Cena | "Não sei… só sei que foi assim." (O Auto da Compadecida 2) | [cena-auto-da-compadecida-2](../posts/cena-auto-da-compadecida-2/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/B2400470400000`) | pronto (coringa) |
-| 2026-11-04 | Cena | Cooper e a poeira (Interestelar) | [cena-interestelar](../posts/cena-interestelar/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/E1402450800000`) | pronto (coringa) |
+| 2026-11-04 | Cena | "Nós vamos sorrir. Sorriam!" (Ainda Estou Aqui) | [cena-ainda-estou-aqui](../posts/cenas/cena-ainda-estou-aqui/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/B2400324700000`) | pronto (coringa) |
+| 2026-11-04 | Cena | "Não sei… só sei que foi assim." (O Auto da Compadecida 2) | [cena-auto-da-compadecida-2](../posts/cenas/cena-auto-da-compadecida-2/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/B2400470400000`) | pronto (coringa) |
+| 2026-11-04 | Cena | Cooper e a poeira (Interestelar) | [cena-interestelar](../posts/cenas/cena-interestelar/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/E1402450800000`) | publicado (2026-11-04) |
 | 2026-11-03 | Aniversário | La La Land faz 10 anos | [aniversario-la-la-land](../posts/aniversario-la-la-land/legenda.md) | carrossel 7 | `/materias/la-la-land-faz-10-anos-publico-no-brasil` | pronto |
 | 2026-10-30 | Notícia | morre Patrick Stewart, o Professor X | [noticia-patrick-stewart](../posts/noticia-patrick-stewart/legenda.md) | carrossel 7 | `/materias/morre-patrick-stewart-professor-x-filmes-no-brasil` | pronto (publicar até 31/10) |
 | 2026-10-28 | Post especial | os 10 mais vistos entre os lançados no 1º semestre de 2026 | [semestre-2026-top10](../posts/semestre-2026-top10/legenda.md) | carrossel 12 + reels 42 s + reels v2 44 s (vinheta) | `/materias/filmes-mais-vistos-primeiro-semestre-2026` | pronto |

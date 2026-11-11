@@ -1,6 +1,6 @@
 # Cena · Interestelar
 
-Post coringa: sobe em qualquer dia sem pauta. Fala de Cooper (Matthew McConaughey) em *Interestelar* (2014). A legenda em português do slide 1 é tradução nossa; o slide 2 traz a fala original. Formato: [Cena](../../conteudo/formatos/cena.md). Carrossel de 2 slides 1080×1350 e Reels de 16 s.
+Post coringa: sobe em qualquer dia sem pauta. Fala de Cooper (Matthew McConaughey) em *Interestelar* (2014). A legenda em português do slide 1 é tradução nossa; o slide 2 traz a fala original. Formato: [Cena](../../../conteudo/formatos/cena.md). Carrossel de 2 slides 1080×1350 e Reels de 16 s.
 
 | Peça | Arquivo | Conteúdo |
 | --- | --- | --- |
@@ -12,8 +12,8 @@ Os arquivos vêm de `cinedata.front/src/app/features/marca/cenas.json` (rota `/m
 
 ```bash
 cd cinedata.front
-node scripts/exportar-slides.mjs /marca/cena/interestelar ../docs/posts/cena-interestelar http://localhost:4300
-node scripts/gerar-video-cena.mjs interestelar ../docs/posts/cena-interestelar
+node scripts/exportar-slides.mjs /marca/cena/interestelar ../docs/posts/cenas/cena-interestelar http://localhost:4300
+node scripts/gerar-video-cena.mjs interestelar ../docs/posts/cenas/cena-interestelar
 ```
 
 ## Legenda

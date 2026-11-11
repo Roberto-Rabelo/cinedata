@@ -47,9 +47,9 @@ português); filmes em outra língua entram com a legenda traduzida e a fala ori
    linha por vez, com `hstack`/`vstack`; o filtro `tile` do ffmpeg embaralha a ordem). Escolher duas.
 4. Acrescentar a cena em `cinedata.front/src/app/features/marca/cenas.json` (slug, título, ano, idioma, quem, falas
    com imagem e `posicao`, `original`, contexto, número, fato, pergunta, obra, tmdb).
-5. Carrossel: com `ng serve --port 4300`, `node scripts/exportar-slides.mjs /marca/cena/<slug> ../docs/posts/cena-<slug> http://localhost:4300`.
+5. Carrossel: com `ng serve --port 4300`, `node scripts/exportar-slides.mjs /marca/cena/<slug> ../docs/posts/cenas/cena-<slug> http://localhost:4300`.
    Se estourar, encurtar `contexto` e `fato`, nunca a fala.
-6. Reels: `node scripts/gerar-video-cena.mjs <slug> ../docs/posts/cena-<slug>` (prévia: `VIDEO_PREVIA=3,8,11.5,15`).
+6. Reels: `node scripts/gerar-video-cena.mjs <slug> ../docs/posts/cenas/cena-<slug>` (prévia: `VIDEO_PREVIA=3,8,11.5,15`).
 7. `legenda.md` no padrão dos princípios (sem a seção de matéria), com as fontes da fala. A legenda do Instagram é
    mais curta que a dos outros formatos (500–800 caracteres): a fala, o contexto, o número, a pergunta.
 8. Cartão no painel Pauta CineData: formato `Cena`, etapa `pronto`, `quando: "coringa: qualquer dia sem pauta"`,
@@ -64,6 +64,6 @@ português); filmes em outra língua entram com a legenda traduzida e a fala ori
 
 ## Exemplos
 
-[Ainda Estou Aqui](../../posts/cena-ainda-estou-aqui/legenda.md) ·
-[O Auto da Compadecida 2](../../posts/cena-auto-da-compadecida-2/legenda.md) ·
-[Interestelar](../../posts/cena-interestelar/legenda.md)
+[Ainda Estou Aqui](../../posts/cenas/cena-ainda-estou-aqui/legenda.md) ·
+[O Auto da Compadecida 2](../../posts/cenas/cena-auto-da-compadecida-2/legenda.md) ·
+[Interestelar](../../posts/cenas/cena-interestelar/legenda.md)

@@ -23,7 +23,7 @@ const tmdb = (arquivo: string) => `https://image.tmdb.org/t/p/w1280/${arquivo}`;
         <a routerLink="/marca" class="secundario">← Marca</a>
         <h1>CineData | Cena: {{ cena()?.titulo ?? 'não encontrada' }}</h1>
         <p class="secundario">
-          2 slides 1080×1350. PNGs em docs/posts/cena-{{ slug() }}. Outras cenas:
+          2 slides 1080×1350. PNGs em docs/posts/cenas/cena-{{ slug() }}. Outras cenas:
           @for (c of cenas; track c.slug) { <a [routerLink]="['/marca/cena', c.slug]">{{ c.titulo }}</a>{{ $last ? '' : ' · ' }} }
         </p>
       </header>

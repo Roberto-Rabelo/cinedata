@@ -1,6 +1,6 @@
 # Cena · Ainda Estou Aqui
 
-Post coringa: sobe em qualquer dia sem pauta. Fala de Eunice Paiva (Fernanda Torres) em *Ainda Estou Aqui* (2024). Formato: [Cena](../../conteudo/formatos/cena.md). Carrossel de 2 slides 1080×1350 e Reels de 16 s.
+Post coringa: sobe em qualquer dia sem pauta. Fala de Eunice Paiva (Fernanda Torres) em *Ainda Estou Aqui* (2024). Formato: [Cena](../../../conteudo/formatos/cena.md). Carrossel de 2 slides 1080×1350 e Reels de 16 s.
 
 | Peça | Arquivo | Conteúdo |
 | --- | --- | --- |
@@ -12,8 +12,8 @@ Os arquivos vêm de `cinedata.front/src/app/features/marca/cenas.json` (rota `/m
 
 ```bash
 cd cinedata.front
-node scripts/exportar-slides.mjs /marca/cena/ainda-estou-aqui ../docs/posts/cena-ainda-estou-aqui http://localhost:4300
-node scripts/gerar-video-cena.mjs ainda-estou-aqui ../docs/posts/cena-ainda-estou-aqui
+node scripts/exportar-slides.mjs /marca/cena/ainda-estou-aqui ../docs/posts/cenas/cena-ainda-estou-aqui http://localhost:4300
+node scripts/gerar-video-cena.mjs ainda-estou-aqui ../docs/posts/cenas/cena-ainda-estou-aqui
 ```
 
 ## Legenda

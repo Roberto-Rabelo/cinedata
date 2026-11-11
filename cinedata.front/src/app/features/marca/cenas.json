@@ -1,5 +1,5 @@
 {
-  "fonte": "Público: consolidado de lançamentos da ANCINE (carreira inteira, soma das distribuidoras); relançamentos: soma das semanas em agregado_semana_obra. Falas conferidas em 2 fontes (ver docs/posts/cena-<slug>/legenda.md).",
+  "fonte": "Público: consolidado de lançamentos da ANCINE (carreira inteira, soma das distribuidoras); relançamentos: soma das semanas em agregado_semana_obra. Falas conferidas em 2 fontes (ver docs/posts/cenas/cena-<slug>/legenda.md).",
   "cenas": [
     {
       "slug": "ainda-estou-aqui",
@@ -60,6 +60,46 @@
       "pergunta": "Você viu Interestelar no cinema?",
       "obra": "E1402450800000",
       "tmdb": 157336
+    },
+    {
+      "slug": "bacurau",
+      "titulo": "Bacurau",
+      "ano": 2019,
+      "idioma": "pt",
+      "quem": "Uma forasteira e um menino do povoado",
+      "falas": [
+        { "texto": "Quem nasce em Bacurau é o quê?", "imagem": "i1ctlmMNXZfApda8Vo4YJWZsDyf.jpg", "posicao": "70% 30%" },
+        { "texto": "É gente!", "imagem": "5KxxFy2pgUXPeYmI80llFxJ5Dt8.jpg", "posicao": "50% 25%" }
+      ],
+      "original": null,
+      "contexto": "A visitante do Sudeste pergunta na bodega do povoado, e um menino responde. Filme de Kleber Mendonça Filho e Juliano Dornelles.",
+      "publico": 741938,
+      "numero": "742 mil",
+      "numeroTexto": "pessoas viram Bacurau nos cinemas do Brasil.",
+      "fato": "Foi o 8º filme brasileiro mais visto entre os lançados em 2019.",
+      "pergunta": "Qual fala de filme brasileiro virou parte do seu vocabulário?",
+      "obra": "B1900232600000",
+      "tmdb": 446159
+    },
+    {
+      "slug": "pecadores",
+      "titulo": "Pecadores",
+      "ano": 2025,
+      "idioma": "en",
+      "quem": "Narração de abertura",
+      "falas": [
+        { "texto": "Há lendas de gente que nasce com o dom de fazer música tão verdadeira que atravessa o véu entre a vida e a morte,", "imagem": "mTSL8FmdAO1YiPQzr0fUacCUS0H.jpg", "posicao": "50% 55%" },
+        { "texto": "invocando espíritos do passado e do futuro.", "imagem": "aWM8eYmhqBgH4YC5WLLPTJxlc2t.jpg", "posicao": "70% 30%" }
+      ],
+      "original": "There are legends of people born with the gift of making music so true it can pierce the veil between life and death, conjuring spirits from the past and the future.",
+      "contexto": "A voz que abre o filme de Ryan Coogler, um terror sobre blues e vampiros. Tradução nossa na legenda.",
+      "publico": 870305,
+      "numero": "870 mil",
+      "numeroTexto": "pessoas viram Pecadores nos cinemas do Brasil.",
+      "fato": "Estreou em 881 salas em abril de 2025 e levou quase 300 mil pessoas só na primeira semana.",
+      "pergunta": "Você viu Pecadores no cinema?",
+      "obra": "E2500012000000",
+      "tmdb": 1233413
     }
   ]
 }

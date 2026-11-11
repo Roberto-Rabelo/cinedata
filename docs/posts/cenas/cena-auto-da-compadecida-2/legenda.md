@@ -1,6 +1,6 @@
 # Cena · O Auto da Compadecida 2
 
-Post coringa: sobe em qualquer dia sem pauta. O bordão de Chicó (Selton Mello) em *O Auto da Compadecida 2* (2024). Formato: [Cena](../../conteudo/formatos/cena.md). Carrossel de 2 slides 1080×1350 e Reels de 16 s.
+Post coringa: sobe em qualquer dia sem pauta. O bordão de Chicó (Selton Mello) em *O Auto da Compadecida 2* (2024). Formato: [Cena](../../../conteudo/formatos/cena.md). Carrossel de 2 slides 1080×1350 e Reels de 16 s.
 
 | Peça | Arquivo | Conteúdo |
 | --- | --- | --- |
@@ -12,8 +12,8 @@ Os arquivos vêm de `cinedata.front/src/app/features/marca/cenas.json` (rota `/m
 
 ```bash
 cd cinedata.front
-node scripts/exportar-slides.mjs /marca/cena/auto-da-compadecida-2 ../docs/posts/cena-auto-da-compadecida-2 http://localhost:4300
-node scripts/gerar-video-cena.mjs auto-da-compadecida-2 ../docs/posts/cena-auto-da-compadecida-2
+node scripts/exportar-slides.mjs /marca/cena/auto-da-compadecida-2 ../docs/posts/cenas/cena-auto-da-compadecida-2 http://localhost:4300
+node scripts/gerar-video-cena.mjs auto-da-compadecida-2 ../docs/posts/cenas/cena-auto-da-compadecida-2
 ```
 
 ## Legenda
