@@ -93,6 +93,7 @@ interface Cor {
           <a routerLink="/marca/como-medimos" class="secundario">Como medimos (5 slides) →</a>
           <a routerLink="/marca/halloween-terror-top10" class="secundario">Halloween: top 10 do terror (12 slides) →</a>
           <a routerLink="/marca/semestre-2026-top10" class="secundario">1º semestre de 2026: top 10 (12 slides) →</a>
+          <a routerLink="/marca/noticia-minha-melhor-amiga" class="secundario">Notícia: Minha Melhor Amiga passou Ainda Estou Aqui (7 slides) →</a>
           <a routerLink="/marca/noticia-farofeiros-3" class="secundario">Notícia: Os Farofeiros 3 estreia (7 slides) →</a>
           <a routerLink="/marca/noticia-patrick-stewart" class="secundario">Notícia: morre Patrick Stewart (7 slides) →</a>
           <a routerLink="/marca/aniversario-la-la-land" class="secundario">10 anos: La La Land (7 slides) →</a>

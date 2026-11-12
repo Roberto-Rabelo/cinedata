@@ -31,6 +31,7 @@ const marca: Routes = [
   { path: 'marca/como-medimos', title: 'CineData · como medimos', loadComponent: () => import('./features/marca/slides-como-medimos').then(m => m.SlidesComoMedimos) },
   { path: 'marca/aniversario-la-la-land', title: 'CineData · 10 anos: La La Land', loadComponent: () => import('./features/marca/slides-aniversario-la-la-land').then(m => m.SlidesAniversarioLaLaLand) },
   { path: 'marca/aniversario-doutor-estranho', title: 'CineData · 10 anos: Doutor Estranho', loadComponent: () => import('./features/marca/slides-aniversario-doutor-estranho').then(m => m.SlidesAniversarioDoutorEstranho) },
+  { path: 'marca/noticia-minha-melhor-amiga', title: 'CineData · Notícia: Minha Melhor Amiga', loadComponent: () => import('./features/marca/slides-noticia-minha-melhor-amiga').then(m => m.SlidesNoticiaMinhaMelhorAmiga) },
   { path: 'marca/noticia-farofeiros-3', title: 'CineData · Notícia: Os Farofeiros 3', loadComponent: () => import('./features/marca/slides-noticia-farofeiros-3').then(m => m.SlidesNoticiaFarofeiros3) },
   { path: 'marca/noticia-patrick-stewart', title: 'CineData · Notícia: Patrick Stewart', loadComponent: () => import('./features/marca/slides-noticia-patrick-stewart').then(m => m.SlidesNoticiaPatrickStewart) },
   { path: 'marca/noticia-feito-pipa', title: 'CineData · Notícia: Feito Pipa', loadComponent: () => import('./features/marca/slides-noticia-feito-pipa').then(m => m.SlidesNoticiaFeitoPipa) },

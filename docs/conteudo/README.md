@@ -62,6 +62,7 @@ no Brasil, de nov/2026 a dez/2027) está no painel, como ideias. Ao produzir, a 
 | após a semana de 29/10 a 04/11 | Acompanhamento | Feito Pipa · semana 1: pré-estreias | prometido no post de 27/10; régua: O Agente Secreto fez 54,9 mil nas pré-estreias |
 | após a semana de 05 a 11/11 | Acompanhamento | Os Farofeiros 3 · semana de estreia | prometido no post de 05/11; régua: 639 mil (Os Farofeiros 2) e 785 mil (Os Farofeiros); salas, posição e estados |
 | após 05/11 | Acompanhamento | Feito Pipa · semana de estreia | régua: 381 mil (O Agente Secreto) e 579 mil (Ainda Estou Aqui) |
+| quando sair o consolidado de 2026 | Acompanhamento | Minha Melhor Amiga · número final | prometido no post de 11/11; 6.049.185 nas sessões, Se Eu Fosse Você 2 tem 6.143.081 (8º ou 9º brasileiro desde 2009?) |
 | dezembro | Notícia | pré-lista (shortlist) do Oscar de Filme Internacional | Feito Pipa está ou não está |
 | 18/11 | Aniversário | Amanhecer Parte 1 faz 15 anos | 7,21 mi; só consolidado (2011) |
 | 16/12 | Aniversário | Homem-Aranha: Sem Volta para Casa faz 5 anos | 17,4 mi |
