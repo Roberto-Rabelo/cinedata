@@ -15,7 +15,7 @@ import { parse } from 'yaml';
 const raiz = new URL('../', import.meta.url).pathname;
 const origem = join(raiz, 'conteudo/materias');
 const destino = join(raiz, 'public/conteudo/materias');
-const FORMATOS = ['Notícia', 'Top 5', 'Especial', 'Aniversário'];
+const FORMATOS = ['Notícia', 'Acompanhamento', 'Top 5', 'Especial', 'Aniversário'];
 
 const lerObra = async codigo => {
   try {

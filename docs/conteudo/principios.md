@@ -71,7 +71,7 @@ manda o leitor. O post é o anúncio; a matéria é o conteúdo completo.
   (`feito-pipa-chega-aos-cinemas`, não `noticia-1`); a coluna "Matéria" do [registro](registro.md) liga post e matéria.
   Frontmatter: `titulo` (a manchete com o
   número, até ~90 caracteres), `resumo` (1–2 frases, vira a descrição no Google), `data` (AAAA-MM-DD do dia de
-  publicação, nunca futura), `formato` (`Notícia`, `Top 5`, `Especial`, `Aniversário`; o formato Cena não tem matéria), `imagem` (cena 16:9 do TMDB em `w1280`),
+  publicação, nunca futura), `formato` (`Notícia`, `Acompanhamento`, `Top 5`, `Especial`, `Aniversário`; o formato Cena não tem matéria), `imagem` (cena 16:9 do TMDB em `w1280`),
   `obras` (códigos CPB/ROE citados), `trailer` (`youtube` + `titulo`, de `node scripts/buscar-trailer.mjs <id-tmdb>`),
   `instagram` (URL do post, quando publicado), `fontes` (`titulo` + `url` dos fatos de fora da ANCINE).
 - Corpo em Markdown, 300–900 palavras: o que o carrossel diz, com mais contexto, uma tabela quando houver ranking, e

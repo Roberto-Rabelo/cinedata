@@ -6,6 +6,7 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-11 | Acompanhamento | Feito Pipa · semana 1: pré-estreias (47.284 em 235 salas; régua O Agente Secreto por sessão; estados) | [acompanhamento-feito-pipa-semana-1](../posts/acompanhamento-feito-pipa-semana-1/legenda.md) | carrossel 5 | `/materias/feito-pipa-semana-1-pre-estreias` | pronto (publicar até 14/11) |
 | 2026-11-11 | Notícia | Minha Melhor Amiga passou Ainda Estou Aqui: 6,05 mi, a corrida, a régua, o pico e a saída depois da Netflix | [noticia-minha-melhor-amiga](../posts/noticia-minha-melhor-amiga/legenda.md) | carrossel 7 | `/materias/minha-melhor-amiga-passou-ainda-estou-aqui` | pronto (publicar até 13/11) |
 | 2026-11-11 | Cena | "Quem nasce em Bacurau é o quê? É gente!" (Bacurau) | [cena-bacurau](../posts/cenas/cena-bacurau/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/B1900232600000`) | pronto (coringa) |
 | 2026-11-11 | Cena | A narração de abertura (Pecadores) | [cena-pecadores](../posts/cenas/cena-pecadores/legenda.md) | carrossel 2 + reels 16 s | — (link para `/obras/E2500012000000`) | pronto (coringa) |
