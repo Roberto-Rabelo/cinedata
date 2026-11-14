@@ -6,17 +6,12 @@ import { Slide } from './slide';
 const tmdb = (arquivo: string, tamanho = 'w1280') => `https://image.tmdb.org/t/p/${tamanho}/${arquivo}`;
 
 /**
- * Minha Melhor Amiga (B2600181900000) na bilheteria por sala da ANCINE, publicação com dados até 08/11/2026:
- * soma das sessões, porque o filme de 2026 ainda não está no consolidado de lançamentos. SQL em
+ * Minha Melhor Amiga (B2600181900000) no consolidado de lançamentos da ANCINE (arquivo de 12/11/2026: público e renda
+ * da carreira) e na bilheteria por sala (sessões até 08/11/2026: curvas, pico e saída). SQL em
  * docs/posts/noticia-minha-melhor-amiga/legenda.md.
  */
-const amiga = {
-  publico: 6_049_185,
-  /** Dia em que a soma passou os 5.857.612 de Ainda Estou Aqui (52º dia desde a estreia, 03/09). */
-  passou: '24/10',
-  dia: 52,
-};
-const aindaEstouAqui = { publico: 5_857_612, sessoes: 5_731_852 };
+const amiga = { publico: 6_011_069, renda: 108_680_915, sessoes: 6_049_185 };
+const aindaEstouAqui = { publico: 5_857_612, renda: 118_219_147, sessoes: 5_731_852 };
 
 /** Público acumulado semana a semana (quinta a quarta), a partir da estreia em circuito. */
 const curvaAmiga = [932_529, 3_107_568, 4_249_706, 4_923_094, 5_339_630, 5_639_408, 5_818_937, 5_914_541, 6_046_368];
@@ -26,7 +21,7 @@ const curvaAinda = [
   3_907_588, 4_163_245, 4_878_260, 5_039_357, 5_152_783, 5_438_182, 5_604_065, 5_688_667, 5_717_555, 5_728_833,
 ];
 
-/** Os 10 maiores públicos de filmes brasileiros desde 2009 (consolidado de lançamentos; Minha Melhor Amiga pelas sessões). */
+/** Os 10 maiores públicos de filmes brasileiros desde 2009 (consolidado de lançamentos, arquivo de 12/11/2026). */
 const regua = [
   { titulo: 'Nada a Perder', ano: 2018, publico: 12_173_228 },
   { titulo: 'Os Dez Mandamentos', ano: 2016, publico: 11_305_479 },
@@ -85,7 +80,7 @@ const linha = (curva: number[]) => curva.map((p, i) => `${x(i + 1).toFixed(1)},$
           <p class="manchete grande">Passou Ainda Estou Aqui</p>
           <p class="texto claro">
             {{ milhoes2(amiga.publico) }} milhões de pessoas viram Minha Melhor Amiga nos cinemas, o maior público de um
-            filme brasileiro desde 2019. Agora ele está na Netflix.
+            filme brasileiro desde 2019. O número oficial da ANCINE acaba de sair.
           </p>
         </div>
         <p class="arraste">O que diz a ANCINE →</p>
@@ -112,9 +107,9 @@ const linha = (curva: number[]) => curva.map((p, i) => `${x(i + 1).toFixed(1)},$
         <div class="base">
           <span class="rotulo">O que os dados mostram</span>
           <p class="numero">{{ milhoes2(amiga.publico) }} mi</p>
-          <p class="manchete pequena">de pessoas nas sessões informadas à ANCINE, de 03/09 a 08/11.</p>
+          <p class="manchete pequena">de pessoas, no consolidado da ANCINE. Ainda Estou Aqui fez {{ milhoes2(aindaEstouAqui.publico) }} mi.</p>
           <div class="comparacao">
-            <div><strong>{{ amiga.passou }}</strong><span>o dia em que passou os {{ milhoes2(aindaEstouAqui.publico) }} mi de Ainda Estou Aqui, o {{ amiga.dia }}º em cartaz</span></div>
+            <div><strong>R$ {{ milhoes(amiga.renda) }} mi</strong><span>de bilheteria. Em dinheiro, Ainda Estou Aqui segue na frente: R$ {{ milhoes(aindaEstouAqui.renda) }} mi</span></div>
             <div><strong>5º</strong><span>filme mais visto de 2026 no Brasil e o maior brasileiro do ano</span></div>
           </div>
         </div>
@@ -139,11 +134,11 @@ const linha = (curva: number[]) => curva.map((p, i) => `${x(i + 1).toFixed(1)},$
             <text class="marca-ainda" [attr.x]="x(9)" [attr.y]="y(curvaAinda[8]) - 24" text-anchor="middle">9ª semana</text>
           </svg>
           <figcaption class="rotulos">
-            <span class="r-amiga">Minha Melhor Amiga <b>{{ milhoes2(amiga.publico) }} mi</b></span>
+            <span class="r-amiga">Minha Melhor Amiga <b>{{ milhoes2(amiga.sessoes) }} mi</b></span>
             <span class="r-ainda">Ainda Estou Aqui <b>{{ milhoes2(aindaEstouAqui.sessoes) }} mi</b></span>
           </figcaption>
         </figure>
-        <p class="nota">Público acumulado nas sessões, semana a semana desde a estreia em circuito (Ainda Estou Aqui: 07/11/2024). No consolidado, Ainda Estou Aqui tem 5,86 mi.</p>
+        <p class="nota">Público acumulado nas sessões informadas pelos cinemas, semana a semana desde a estreia em circuito (Ainda Estou Aqui: 07/11/2024). No consolidado: 6,01 e 5,86 mi.</p>
       </cd-slide>
 
       <!-- 5. A régua -->
@@ -161,8 +156,8 @@ const linha = (curva: number[]) => curva.map((p, i) => `${x(i + 1).toFixed(1)},$
           }
         </ol>
         <p class="nota">
-          Público em milhões. Minha Melhor Amiga pela soma das sessões até 08/11 (o consolidado da ANCINE ainda não saiu);
-          os outros, pelo consolidado.
+          Público em milhões, no consolidado de lançamentos da ANCINE (arquivo de 12/11/2026). Se Eu Fosse Você 2 está
+          {{ curto(regua[7].publico - amiga.publico) }} à frente.
         </p>
       </cd-slide>
 
@@ -187,9 +182,9 @@ const linha = (curva: number[]) => curva.map((p, i) => `${x(i + 1).toFixed(1)},$
       <!-- 7. O que vamos acompanhar -->
       <cd-slide [numero]="7" [total]="7">
         <span class="rotulo">O que vamos acompanhar</span>
-        <p class="manchete fecho">Quando a ANCINE fechar a carreira no consolidado, a gente mostra o número final.</p>
+        <p class="manchete fecho">O número oficial saiu: 9º lugar entre os brasileiros desde 2009.</p>
         <ul class="agenda">
-          <li><strong>8º ou 9º?</strong><span>faltam {{ curto(regua[7].publico - amiga.publico) }} para Se Eu Fosse Você 2</span></li>
+          <li><strong>Renda</strong><span>R$ {{ milhoes(amiga.renda) }} mi, 6ª maior de um brasileiro desde 2009</span></li>
           <li><strong>Netflix</strong><span>quanto ainda vende nos cinemas</span></li>
           <li><strong>2026</strong><span>se outro brasileiro passa dele no ano</span></li>
         </ul>

@@ -61,7 +61,6 @@ no Brasil, de nov/2026 a dez/2027) está no painel, como ideias. Ao produzir, a 
 | novembro/2026 | Reels com apresentador | 3–4 pilotos: institucional, Top 5 falado, Feito Pipa na estreia, (Amanhecer 15 anos) | dar rosto à página; ver [pilotos](formatos/reels-apresentador.md#pilotos-novembro2026) |
 | após a semana de 05 a 11/11 | Acompanhamento | Os Farofeiros 3 · semana de estreia | prometido no post de 05/11; régua: 639 mil (Os Farofeiros 2) e 785 mil (Os Farofeiros); salas, posição e estados |
 | após a semana de 05 a 11/11 (ANCINE ~16/11) | Acompanhamento | Feito Pipa · semana de estreia | prometido no post de 11/11; régua: 381 mil (O Agente Secreto) e 579 mil (Ainda Estou Aqui) na semana de estreia |
-| quando sair o consolidado de 2026 | Acompanhamento | Minha Melhor Amiga · número final | prometido no post de 11/11; 6.049.185 nas sessões, Se Eu Fosse Você 2 tem 6.143.081 (8º ou 9º brasileiro desde 2009?) |
 | dezembro | Notícia | pré-lista (shortlist) do Oscar de Filme Internacional | Feito Pipa está ou não está |
 | 18/11 | Aniversário | Amanhecer Parte 1 faz 15 anos | 7,21 mi; só consolidado (2011) |
 | 16/12 | Aniversário | Homem-Aranha: Sem Volta para Casa faz 5 anos | 17,4 mi |

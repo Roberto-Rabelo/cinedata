@@ -1,19 +1,20 @@
 # CineData | Notícia · Minha Melhor Amiga passou Ainda Estou Aqui
 
-Minha Melhor Amiga chegou à Netflix em 02/11/2026. Nos dados da ANCINE (até 08/11), a comédia somou 6,05 milhões de
-pessoas nos cinemas, passou os 5,86 milhões de Ainda Estou Aqui em 24/10 e quase saiu das salas na semana seguinte à
-Netflix. Carrossel de 7 slides 1080×1350; suba na ordem dos números. Publicar até sexta, 13/11: o gancho é a chegada à
-Netflix e a confirmação pelos dados oficiais. Depois disso, vale esperar o consolidado (ver "O que vamos acompanhar").
+Minha Melhor Amiga entrou no consolidado de lançamentos da ANCINE (arquivo de 12/11/2026): 6.011.069 pessoas e
+R$ 108,7 milhões. Passou os 5,86 milhões de Ainda Estou Aqui em público, mas não em renda (R$ 118,2 milhões), e ficou
+em 9º entre os brasileiros desde 2009. Revisado em 14/11 com o consolidado (a 1ª versão, de 11/11, usava a soma das
+sessões, 6,05 mi). Carrossel de 7 slides 1080×1350; suba na ordem dos números. Publicar no fim de semana de 14 e 15/11:
+o gancho agora é o número oficial.
 
 | Slide | Arquivo | Conteúdo |
 | --- | --- | --- |
-| 1 | `slide-01.png` | capa: "Passou Ainda Estou Aqui"; 6,05 milhões, o maior público de um brasileiro desde 2019; agora na Netflix |
+| 1 | `slide-01.png` | capa: "Passou Ainda Estou Aqui"; 6,01 milhões, o maior público de um brasileiro desde 2019; o número oficial acaba de sair |
 | 2 | `slide-02.png` | o filme: sinopse, pôster; direção, elenco, distribuição, nos cinemas desde 03/09, na Netflix desde 02/11 |
-| 3 | `slide-03.png` | o número: 6,05 mi de 03/09 a 08/11; passou Ainda Estou Aqui em 24/10, no 52º dia; 5º filme mais visto de 2026 e maior brasileiro do ano |
-| 4 | `slide-04.png` | a corrida: público acumulado semana a semana; em 2 semanas, o que Ainda Estou Aqui fez em 9 |
-| 5 | `slide-05.png` | a régua: os 10 maiores brasileiros desde 2009; Minha Melhor Amiga em 9º, logo atrás de Se Eu Fosse Você 2 |
+| 3 | `slide-03.png` | o número: 6,01 mi no consolidado (Ainda Estou Aqui: 5,86 mi); R$ 108,7 mi de renda, contra R$ 118,2 mi; 5º filme mais visto de 2026 e maior brasileiro do ano |
+| 4 | `slide-04.png` | a corrida: público acumulado nas sessões, semana a semana; em 2 semanas, o que Ainda Estou Aqui fez em 9 |
+| 5 | `slide-05.png` | a régua: os 10 maiores brasileiros desde 2009 no consolidado; Minha Melhor Amiga em 9º, 132 mil atrás de Se Eu Fosse Você 2 |
 | 6 | `slide-06.png` | o pico e a saída: 2,18 mi na Semana do Cinema (38% do país, maior semana de um brasileiro desde jan/2020); −94% depois da Netflix (552 → 65 salas) |
-| 7 | `slide-07.png` | o que vamos acompanhar: 8º ou 9º no consolidado (faltam 94 mil), vendas pós-Netflix, 2026; "Você viu no cinema ou vai ver na Netflix?" |
+| 7 | `slide-07.png` | o que vamos acompanhar: 9º lugar oficial; renda (6ª maior de um brasileiro desde 2009), vendas pós-Netflix, 2026; "Você viu no cinema ou vai ver na Netflix?" |
 
 Os PNGs vêm da rota `/marca/noticia-minha-melhor-amiga`
 (`cinedata.front/src/app/features/marca/slides-noticia-minha-melhor-amiga.ts`):
@@ -25,18 +26,18 @@ node scripts/exportar-slides.mjs /marca/noticia-minha-melhor-amiga ../docs/posts
 
 ## Legenda
 
-Contagem: 1.084 caracteres (limite do Instagram: 2.200).
+Contagem: 1.117 caracteres (limite do Instagram: 2.200).
 
 ```text
-Minha Melhor Amiga passou Ainda Estou Aqui. Agora os dados oficiais confirmam. 👯‍♀️🇧🇷
+Minha Melhor Amiga passou Ainda Estou Aqui. Agora é oficial. 👯‍♀️🇧🇷
 
-Pela ANCINE, 6,05 milhões de pessoas viram a comédia de Susana Garcia nos cinemas, de 3/9 a 8/11. É o maior público de um filme brasileiro desde Minha Mãe é uma Peça 3, em 2019.
+O número da ANCINE saiu: 6,01 milhões de pessoas viram a comédia de Susana Garcia nos cinemas. É o maior público de um filme brasileiro desde Minha Mãe é uma Peça 3, em 2019, e mais que os 5,86 milhões do vencedor do Oscar.
 
-Ela passou os 5,86 milhões do vencedor do Oscar no dia 24/10, o 52º em cartaz. Em 2 semanas, já tinha o público que Ainda Estou Aqui levou 9 semanas para fazer.
+Em dinheiro, o drama segue na frente: R$ 118,2 milhões, contra R$ 108,7 milhões da comédia.
 
-O pico foi na Semana do Cinema: 2,18 milhões de pessoas em 7 dias, 38% de todo o público do país.
+E ela foi rápida: em 2 semanas, já tinha o público que Ainda Estou Aqui levou 9 semanas para fazer. O pico foi na Semana do Cinema, com 2,18 milhões de pessoas em 7 dias, 38% de todo o público do país.
 
-Desde 2009, só 8 filmes brasileiros levaram mais gente ao cinema. O 8º, Se Eu Fosse Você 2, está a 94 mil pessoas. O número final sai no consolidado da ANCINE, e a gente mostra quando chegar.
+Desde 2009, só 8 filmes brasileiros levaram mais gente ao cinema. O 8º, Se Eu Fosse Você 2, ficou 132 mil pessoas à frente.
 
 Desde 2/11 o filme está na Netflix, e saiu de quase todas as salas: de 552 para 65 em três dias.
 
@@ -44,7 +45,7 @@ Você viu no cinema ou vai ver na Netflix? 👇
 
 A matéria completa, com a tabela da corrida, está no link da bio.
 
-Fonte: ANCINE (dados abertos), sessões até 8/11/2026. Imagens: TMDB/divulgação.
+Fonte: ANCINE (dados abertos), consolidado de lançamentos de 12/11/2026 e sessões até 8/11. Imagens: TMDB/divulgação.
 
 #MinhaMelhorAmiga #CinemaBrasileiro #Bilheteria #AindaEstouAqui #CineData
 ```
@@ -54,16 +55,26 @@ Link da matéria (bio ou story):
 
 ## Números e como conferir
 
-Base: bilheteria por sala da ANCINE (`sessoes`, desde 2014; publicação de 09/11/2026 com dados até 08/11) e
-consolidado de lançamentos (`lancamentos`, desde 2009). Minha Melhor Amiga (B2600181900000) ainda não está no
-consolidado: o público dela é a soma das sessões. Conferido em 11/11/2026.
+Base: consolidado de lançamentos da ANCINE (`lancamentos`, desde 2009; arquivo publicado em 12/11/2026, importado em
+14/11) para público e renda da carreira, e bilheteria por sala (`sessoes`, desde 2014; publicação de 09/11/2026 com
+dados até 08/11) para as curvas, o pico e a saída. Conferido em 14/11/2026.
+
+**Revisão de 14/11.** O consolidado trouxe Minha Melhor Amiga com **6.011.069** pessoas e **R$ 108.680.914,79**, menos
+que a soma das sessões (6.049.185, −0,6%). Para Ainda Estou Aqui, o consolidado tinha vindo acima das sessões (+2,2%).
+Com o número oficial, a posição fica em 9º, 132.012 atrás de Se Eu Fosse Você 2, e a dúvida "8º ou 9º?" da 1ª versão
+caiu. O dia da ultrapassagem (24/10) saiu da peça: ele só existe na soma das sessões, que o consolidado não confirma.
+Na ANCINE, a distribuidora aparece como SM Distribuidora de Filmes, a mesma razão social de Nada a Perder (lançado pela
+Paris Filmes); o post mantém Paris Filmes, como dizem Forbes e AdoroCinema.
 
 | Número | Valor | Consulta |
 | --- | --- | --- |
-| Público de Minha Melhor Amiga | 6.049.185 (03/09 a 08/11/2026) | 1 |
+| Público e renda de Minha Melhor Amiga | consolidado: 6.011.069 e R$ 108.680.914,79 (ingresso médio R$ 18,08); sessões: 6.049.185 (03/09 a 08/11/2026) | 2 e 1 |
+| Renda de Ainda Estou Aqui | R$ 118.219.147,44 (ingresso médio R$ 20,18) | 2 |
+| 2026 no consolidado | 5º lançamento do ano em público (Homem-Aranha: Um Novo Dia 18,8 mi, Toy Story 5, Michael, O Diabo Veste Prada 2) | 2 |
+| Renda entre os brasileiros | 6ª desde 2009, valores da época (Minha Mãe é uma Peça 3, Minha Mãe é uma Peça 2, Nada a Perder, Ainda Estou Aqui, Os Dez Mandamentos) | 2 |
 | Ainda Estou Aqui | 5.857.612 no consolidado (duas linhas: Columbia 5.856.874 + Cine Caxambu 738); 5.731.852 nas sessões (+2,2%) | 1 e 2 |
-| Passou Ainda Estou Aqui | sábado, 24/10/2026: acumulado 5.870.562 (52º dia desde 03/09) | 3 |
-| Os 10 maiores brasileiros desde 2009 | ver o slide 5; Se Eu Fosse Você 2 = 6.143.081 (faltam 93.896) | 2 |
+| Passou Ainda Estou Aqui (só nas sessões, fora da peça) | sábado, 24/10/2026: acumulado 5.870.562 (52º dia desde 03/09) | 3 |
+| Os 10 maiores brasileiros desde 2009 | ver o slide 5; Se Eu Fosse Você 2 = 6.143.081 (132.012 à frente) | 2 |
 | Curvas semanais | Amiga: semanas de 03/09 a 29/10; Ainda Estou Aqui: de 07/11/2024 a 27/03/2025 (o acumulado inclui 3.099 de duas sessões de festival em 19/09 e 17/10/2024) | 4 |
 | 2ª semana | 10 a 16/09: 2.175.039 de 5.675.781 do país (38,3%); a maior semana de um brasileiro desde Minha Mãe é uma Peça 3 (09 a 15/01/2020, 2.273.384) | 4 e 5 |
 | 2026 | 5º no ano (Homem-Aranha: Um Novo Dia, Toy Story 5, Michael, O Diabo Veste Prada 2) e 1º brasileiro | 6 |
@@ -78,7 +89,7 @@ SELECT codigo_obra, sum(publico), min(data_exibicao), max(data_exibicao)
 FROM sessoes WHERE codigo_obra IN ('B2600181900000', 'B2400324700000') GROUP BY 1;
 
 -- 2. Maiores brasileiros no consolidado
-SELECT codigo_obra, titulo, data_lancamento, sum(publico_total) AS publico
+SELECT codigo_obra, titulo, data_lancamento, sum(publico_total) AS publico, sum(renda_total) AS renda
 FROM lancamentos WHERE codigo_obra LIKE 'B%' GROUP BY 1, 2, 3 ORDER BY publico DESC LIMIT 12;
 
 -- 3. Dia da ultrapassagem
