@@ -69,4 +69,5 @@ Selo: `<span class="selo">CineData <i>|</i> Acompanhamento</span>`.
 
 ## Exemplos
 
-[acompanhamento-feito-pipa-semana-1](../../posts/acompanhamento-feito-pipa-semana-1/legenda.md)
+[acompanhamento-feito-pipa-semana-1](../../posts/acompanhamento-feito-pipa-semana-1/legenda.md) (não publicado: juntado ao seguinte) ·
+[acompanhamento-feito-pipa-estreia](../../posts/acompanhamento-feito-pipa-estreia/legenda.md)

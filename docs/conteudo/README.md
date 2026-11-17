@@ -13,7 +13,7 @@ indexa e para onde o post leva o leitor ([princípios](principios.md#matéria-a-
 | --- | --- | --- | --- | --- | --- |
 | **Top 5** | o ranking da semana, com o que mudou | toda semana, depois da atualização da ANCINE | carrossel 6 slides | [top5.md](formatos/top5.md) | [top5-2026-10-15](../posts/top5-2026-10-15/legenda.md) |
 | **Notícia** | um fato do dia com o contexto que só os dados dão | quando acontece (estreia relevante, Oscar, recorde, festival) | carrossel 5–7 slides | [noticia.md](formatos/noticia.md) | [noticia-farofeiros-3](../posts/noticia-farofeiros-3/legenda.md) |
-| **Acompanhamento** | seguir, semana a semana, um filme de uma Notícia, com a mesma régua | depois da atualização da ANCINE que fecha a semana prometida | carrossel 5 slides | [acompanhamento.md](formatos/acompanhamento.md) | [acompanhamento-feito-pipa-semana-1](../posts/acompanhamento-feito-pipa-semana-1/legenda.md) |
+| **Acompanhamento** | seguir, semana a semana, um filme de uma Notícia, com a mesma régua | depois da atualização da ANCINE que fecha a semana prometida | carrossel 5 slides | [acompanhamento.md](formatos/acompanhamento.md) | [acompanhamento-feito-pipa-estreia](../posts/acompanhamento-feito-pipa-estreia/legenda.md) |
 | **Post especial** | uma lista ou recorte temático, atemporal ou de data | datas do calendário e temas fortes | carrossel 8–12 slides | [especial.md](formatos/especial.md) | [halloween-terror-top10](../posts/halloween-terror-top10/legenda.md) |
 | **Reels especial** | a versão em vídeo de um especial (ou da marca) | junto com um especial, ou campanha | vídeo 9:16, 25–45 s | [reels-especial.md](formatos/reels-especial.md) | [halloween reels](../posts/halloween-terror-top10/legenda.md#reels-vídeo) |
 | **Aniversário** | um filme que faz 5, 10 ou 15 anos, contado pelo que fez nos cinemas do Brasil | perto da data do lançamento no Brasil (ou de um relançamento) | carrossel 7 slides | [aniversario.md](formatos/aniversario.md) | [aniversario-la-la-land](../posts/aniversario-la-la-land/legenda.md) |
@@ -60,7 +60,7 @@ no Brasil, de nov/2026 a dez/2027) está no painel, como ideias. Ao produzir, a 
 | toda semana | Top 5 | Top 5 da semana seguinte | atualização semanal da ANCINE |
 | novembro/2026 | Reels com apresentador | 3–4 pilotos: institucional, Top 5 falado, Feito Pipa na estreia, (Amanhecer 15 anos) | dar rosto à página; ver [pilotos](formatos/reels-apresentador.md#pilotos-novembro2026) |
 | após a semana de 05 a 11/11 | Acompanhamento | Os Farofeiros 3 · semana de estreia | prometido no post de 05/11; régua: 639 mil (Os Farofeiros 2) e 785 mil (Os Farofeiros); salas, posição e estados |
-| após a semana de 05 a 11/11 (ANCINE ~16/11) | Acompanhamento | Feito Pipa · semana de estreia | prometido no post de 11/11; régua: 381 mil (O Agente Secreto) e 579 mil (Ainda Estou Aqui) na semana de estreia |
+| após a semana de 12 a 18/11 (ANCINE ~23/11) | Acompanhamento | Feito Pipa · 2ª semana | prometido no post da estreia; régua: O Agente Secreto 230,8 mil e Ainda Estou Aqui 797,8 mil na 2ª semana; ou juntar com a pré-lista do Oscar |
 | dezembro | Notícia | pré-lista (shortlist) do Oscar de Filme Internacional | Feito Pipa está ou não está |
 | 18/11 | Aniversário | Amanhecer Parte 1 faz 15 anos | 7,21 mi; só consolidado (2011) |
 | 16/12 | Aniversário | Homem-Aranha: Sem Volta para Casa faz 5 anos | 17,4 mi |
