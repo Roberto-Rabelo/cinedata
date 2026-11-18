@@ -6,6 +6,7 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-18 | No festival | Se a Maré Te Trouxe, Fica no 34º MixBrasil (sessão de 20/11); Cachoeira e a Bahia nos dados | [festival-se-a-mare-te-trouxe-fica](../posts/festival-se-a-mare-te-trouxe-fica/legenda.md) | carrossel 4 | `/materias/se-a-mare-te-trouxe-fica-mixbrasil` | pronto (publicar 19/11 ou na manhã de 20/11) |
 | 2026-11-16 | Acompanhamento | Feito Pipa · semana de estreia, com as pré-estreias (61.486 em 409 salas; régua O Agente Secreto e Ainda Estou Aqui; estados) | [acompanhamento-feito-pipa-estreia](../posts/acompanhamento-feito-pipa-estreia/legenda.md) | carrossel 5 | `/materias/feito-pipa-semana-de-estreia` | pronto (publicar até 19/11) |
 | 2026-11-11 | Acompanhamento | Feito Pipa · semana 1: pré-estreias (47.284 em 235 salas; régua O Agente Secreto por sessão; estados) | [acompanhamento-feito-pipa-semana-1](../posts/acompanhamento-feito-pipa-semana-1/legenda.md) | carrossel 5 | `/materias/feito-pipa-semana-1-pre-estreias` | descartado no feed (entrou no post da estreia); a matéria fica no site |
 | 2026-11-11 | Notícia | Minha Melhor Amiga passou Ainda Estou Aqui: 6,01 mi no consolidado (revisado em 14/11), renda, a corrida, a régua, o pico e a saída depois da Netflix | [noticia-minha-melhor-amiga](../posts/noticia-minha-melhor-amiga/legenda.md) | carrossel 7 | `/materias/minha-melhor-amiga-passou-ainda-estou-aqui` | publicado (2026-11-14) |

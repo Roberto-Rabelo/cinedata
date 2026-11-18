@@ -31,6 +31,7 @@ const marca: Routes = [
   { path: 'marca/como-medimos', title: 'CineData · como medimos', loadComponent: () => import('./features/marca/slides-como-medimos').then(m => m.SlidesComoMedimos) },
   { path: 'marca/aniversario-la-la-land', title: 'CineData · 10 anos: La La Land', loadComponent: () => import('./features/marca/slides-aniversario-la-la-land').then(m => m.SlidesAniversarioLaLaLand) },
   { path: 'marca/aniversario-doutor-estranho', title: 'CineData · 10 anos: Doutor Estranho', loadComponent: () => import('./features/marca/slides-aniversario-doutor-estranho').then(m => m.SlidesAniversarioDoutorEstranho) },
+  { path: 'marca/festival-se-a-mare', title: 'CineData · No festival: Se a Maré Te Trouxe, Fica', loadComponent: () => import('./features/marca/slides-festival-se-a-mare').then(m => m.SlidesFestivalSeAMare) },
   { path: 'marca/acompanhamento-feito-pipa-2', title: 'CineData · Acompanhamento: Feito Pipa · estreia', loadComponent: () => import('./features/marca/slides-acompanhamento-feito-pipa-2').then(m => m.SlidesAcompanhamentoFeitoPipa2) },
   { path: 'marca/acompanhamento-feito-pipa-1', title: 'CineData · Acompanhamento: Feito Pipa · semana 1', loadComponent: () => import('./features/marca/slides-acompanhamento-feito-pipa-1').then(m => m.SlidesAcompanhamentoFeitoPipa1) },
   { path: 'marca/noticia-minha-melhor-amiga', title: 'CineData · Notícia: Minha Melhor Amiga', loadComponent: () => import('./features/marca/slides-noticia-minha-melhor-amiga').then(m => m.SlidesNoticiaMinhaMelhorAmiga) },

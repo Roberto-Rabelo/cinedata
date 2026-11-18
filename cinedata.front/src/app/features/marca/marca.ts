@@ -93,6 +93,7 @@ interface Cor {
           <a routerLink="/marca/como-medimos" class="secundario">Como medimos (5 slides) →</a>
           <a routerLink="/marca/halloween-terror-top10" class="secundario">Halloween: top 10 do terror (12 slides) →</a>
           <a routerLink="/marca/semestre-2026-top10" class="secundario">1º semestre de 2026: top 10 (12 slides) →</a>
+          <a routerLink="/marca/festival-se-a-mare" class="secundario">No festival: Se a Maré Te Trouxe, Fica (4 slides) →</a>
           <a routerLink="/marca/acompanhamento-feito-pipa-2" class="secundario">Acompanhamento: Feito Pipa · semana de estreia (5 slides) →</a>
           <a routerLink="/marca/acompanhamento-feito-pipa-1" class="secundario">Acompanhamento: Feito Pipa · semana 1, pré-estreias (5 slides) →</a>
           <a routerLink="/marca/noticia-minha-melhor-amiga" class="secundario">Notícia: Minha Melhor Amiga passou Ainda Estou Aqui (7 slides) →</a>
