@@ -14,14 +14,14 @@ const bahia = { salas: 141, municipiosComSala: 24, municipiosComSessao: 21, publ
 
 /** Sessões no 34º Festival MixBrasil (11 a 22/11/2026, São Paulo). */
 const sessoes = [
-  { dia: 'qui', data: '12/11', hora: '15h30', passou: true },
+  { dia: 'qui', data: '12/11', hora: '15h30', passou: false },
   { dia: 'sex', data: '20/11', hora: '15h30', passou: false },
 ];
 
 const umaCasa = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
 /**
- * CineData | No festival: Se a Maré Te Trouxe, Fica no 34º Festival MixBrasil (sessão de 20/11/2026). 4 slides
+ * CineData | No festival: Se a Maré Te Trouxe, Fica no 34º Festival MixBrasil (sessões de 12 e 20/11/2026). 4 slides
  * 1080×1350: capa, o filme, Cachoeira e a Bahia nos dados, onde ver.
  */
 @Component({
@@ -45,8 +45,8 @@ const umaCasa = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maxim
           <span class="selo">CineData <i>|</i> No festival</span>
           <p class="manchete grande">Se a Maré Te Trouxe, Fica</p>
           <p class="texto claro">
-            O curta baiano de Gabriel Fonseca, filmado em Cachoeira, tem sessão no 34º Festival MixBrasil nesta sexta,
-            20/11, às 15h30, em São Paulo.
+            O curta baiano de Gabriel Fonseca, filmado em Cachoeira, passou pelo 34º Festival MixBrasil, em São Paulo,
+            em duas sessões em novembro.
           </p>
         </div>
         <p class="arraste">O filme e a cidade →</p>
@@ -86,16 +86,16 @@ const umaCasa = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maxim
 
       <!-- 4. Onde ver -->
       <cd-slide [numero]="4" [total]="4">
-        <span class="rotulo">Onde ver</span>
+        <span class="rotulo">No festival</span>
         <p class="manchete fecho">34º Festival MixBrasil, mostra Curtas MixBrasil, São Paulo.</p>
         <ul class="agenda">
           @for (s of sessoes; track s.data) {
             <li [class.passou]="s.passou">
               <strong>{{ s.dia }}, {{ s.data }}</strong>
-              <span>{{ s.passou ? 'já passou' : s.hora + ' · Sala Paulo Emílio, Centro Cultural São Paulo' }}</span>
+              <span>{{ s.hora }} · Sala Paulo Emílio, Centro Cultural São Paulo</span>
             </li>
           }
-          <li><strong>Grátis</strong><span>ingressos na bilheteria uma hora antes, sujeitos à lotação</span></li>
+          <li><strong>Seleção</strong><span>seleção oficial do festival, na mostra de curtas brasileiros</span></li>
         </ul>
         <p class="pergunta">Que curta brasileiro você queria ver na sala de cinema da sua cidade?</p>
       </cd-slide>

@@ -1,6 +1,6 @@
 ---
 titulo: "Se a Maré Te Trouxe, Fica: o curta baiano no MixBrasil e o cinema de Cachoeira nos dados"
-resumo: O curta de Gabriel Fonseca, filmado em Cachoeira (BA), passa no 34º Festival MixBrasil em 20 de novembro. Na ANCINE, a cidade tem uma sala de cinema registrada, da prefeitura, sem nenhuma sessão na bilheteria.
+resumo: O curta de Gabriel Fonseca, filmado em Cachoeira (BA), passou pelo 34º Festival MixBrasil em novembro. Na ANCINE, a cidade tem uma sala de cinema registrada, da prefeitura, sem nenhuma sessão na bilheteria.
 data: 2026-11-18
 formato: Festival
 imagem: https://image.tmdb.org/t/p/w1280/j3v6X31G84DPKjeMBbPjddcRUar.jpg
@@ -16,10 +16,9 @@ fontes:
     url: https://www.cinevitor.com.br/festival-mix-brasil-2026-conheca-os-longas-e-curtas-brasileiros-selecionados/
 ---
 
-**Se a Maré Te Trouxe, Fica**, curta de **Gabriel Fonseca**, passa no **34º Festival MixBrasil** na sexta, **20 de
-novembro de 2026, às 15h30**, na Sala Paulo Emílio (Spcine CCSP) do Centro Cultural São Paulo. A entrada é gratuita,
-com ingressos distribuídos na bilheteria uma hora antes, sujeitos à lotação. O filme já tinha passado no festival em
-12 de novembro.
+**Se a Maré Te Trouxe, Fica**, curta de **Gabriel Fonseca**, passou pelo **34º Festival MixBrasil**, em São Paulo,
+com duas sessões gratuitas na Sala Paulo Emílio (Spcine CCSP) do Centro Cultural São Paulo: em **12 e 20 de novembro
+de 2026**, às 15h30.
 
 ## O filme
 

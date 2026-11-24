@@ -1,17 +1,17 @@
 # CineData | No festival · Se a Maré Te Trouxe, Fica
 
 Primeiro post do formato [No festival](../../conteudo/formatos/festival.md). O curta baiano de Gabriel Fonseca, filmado
-em Cachoeira (BA), tem sessão no 34º Festival MixBrasil na sexta, 20/11/2026, às 15h30, em São Paulo. O filme não tem
+em Cachoeira (BA), passou pelo 34º Festival MixBrasil, em São Paulo, com sessões em 12 e 20/11/2026. Revisado em 24/11,
+depois das sessões: o post fala do festival no passado. O filme não tem
 bilheteria na ANCINE (curta em festival); o número do post é o da cidade: Cachoeira tem 1 sala no cadastro, sem
-sessões informadas. Carrossel de 4 slides 1080×1350. Publicar quinta (19/11) ou sexta de manhã (20/11); depois da
-sessão, o post perde o sentido.
+sessões informadas. Carrossel de 4 slides 1080×1350. Publicar quando houver vaga na semana.
 
 | Slide | Arquivo | Conteúdo |
 | --- | --- | --- |
-| 1 | `slide-01.png` | capa: os Caretas no barco; "Se a Maré Te Trouxe, Fica"; sessão no MixBrasil na sexta, 20/11, às 15h30 |
+| 1 | `slide-01.png` | capa: os Caretas no barco; "Se a Maré Te Trouxe, Fica"; passou pelo 34º Festival MixBrasil em duas sessões |
 | 2 | `slide-02.png` | o filme: sinopse, pôster; direção e roteiro, elenco, filmado em Cachoeira (BA), 19 minutos, Lei Paulo Gustavo; o que são os Caretas |
 | 3 | `slide-03.png` | Cachoeira nos dados: 1 sala no cadastro (Cine Theatro Cachoeirano, da prefeitura, 180 lugares, não comercial, sem sessões); Bahia: 141 salas em 24 municípios, Salvador com 56% dos ingressos de 2026 |
-| 4 | `slide-04.png` | onde ver: 12/11 (já passou) e 20/11, 15h30, Sala Paulo Emílio do Centro Cultural São Paulo; grátis; "Que curta brasileiro você queria ver na sala de cinema da sua cidade?" |
+| 4 | `slide-04.png` | no festival: 12/11 e 20/11, 15h30, Sala Paulo Emílio do Centro Cultural São Paulo; seleção oficial; "Que curta brasileiro você queria ver na sala de cinema da sua cidade?" |
 
 Os PNGs vêm da rota `/marca/festival-se-a-mare` (`cinedata.front/src/app/features/marca/slides-festival-se-a-mare.ts`):
 
@@ -22,12 +22,12 @@ node scripts/exportar-slides.mjs /marca/festival-se-a-mare ../docs/posts/festiva
 
 ## Legenda
 
-Contagem: 1.126 caracteres (limite do Instagram: 2.200).
+Contagem: 1.108 caracteres (limite do Instagram: 2.200).
 
 ```text
 Se a Maré Te Trouxe, Fica 🌊🎭
 
-O curta baiano de Gabriel Fonseca passa no 34º Festival MixBrasil nesta sexta, 20/11, às 15h30, em São Paulo. A entrada é gratuita.
+O curta baiano de Gabriel Fonseca passou pelo 34º Festival MixBrasil, em São Paulo, com duas sessões em novembro.
 
 No último Carnaval como Careta antes de deixar a cidade, Samuel (Lucas Leto) se apaixona por Beto (Rafa Martins), um estranho de beleza sobrenatural. A festa termina no rio. Os Caretas são os mascarados do Carnaval de cidades do interior da Bahia.
 
