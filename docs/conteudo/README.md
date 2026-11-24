@@ -60,7 +60,6 @@ no Brasil, de nov/2026 a dez/2027) está no painel, como ideias. Ao produzir, a 
 | --- | --- | --- | --- |
 | toda semana | Top 5 | Top 5 da semana seguinte | atualização semanal da ANCINE |
 | novembro/2026 | Reels com apresentador | 3–4 pilotos: institucional, Top 5 falado, Feito Pipa na estreia, (Amanhecer 15 anos) | dar rosto à página; ver [pilotos](formatos/reels-apresentador.md#pilotos-novembro2026) |
-| após a semana de 05 a 11/11 | Acompanhamento | Os Farofeiros 3 · semana de estreia | prometido no post de 05/11; régua: 639 mil (Os Farofeiros 2) e 785 mil (Os Farofeiros); salas, posição e estados |
 | após a semana de 12 a 18/11 (ANCINE ~23/11) | Acompanhamento | Feito Pipa · 2ª semana | prometido no post da estreia; régua: O Agente Secreto 230,8 mil e Ainda Estou Aqui 797,8 mil na 2ª semana; ou juntar com a pré-lista do Oscar |
 | dezembro | Notícia | pré-lista (shortlist) do Oscar de Filme Internacional | Feito Pipa está ou não está |
 | 18/11 | Aniversário | Amanhecer Parte 1 faz 15 anos | 7,21 mi; só consolidado (2011) |
