@@ -6,6 +6,7 @@ Status: **pronto** (arquivos gerados e conferidos) · **publicado** (no ar, com 
 
 | Criado | Formato | Assunto | Pasta | Peças | Matéria | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-24 | Top 5 | semana de 12 a 18/11/2026 (Os Farofeiros 3 segue em 1º; Jogos Vorazes faz 144 mil num dia de pré-estreia) | [top5-2026-11-12](../posts/top5-2026-11-12/legenda.md) | carrossel 6 | `/materias/top-5-semana-2026-11-12` | pronto |
 | 2026-11-23 | Top 5 | semana de 05 a 11/11/2026 (Os Farofeiros 3 estreia em 1º; a régua da franquia prometida na Notícia de 05/11) | [top5-2026-11-05](../posts/top5-2026-11-05/legenda.md) | carrossel 6 | `/materias/top-5-semana-2026-11-05` | pronto |
 | 2026-11-18 | No festival | Se a Maré Te Trouxe, Fica no 34º MixBrasil (sessão de 20/11); Cachoeira e a Bahia nos dados | [festival-se-a-mare-te-trouxe-fica](../posts/festival-se-a-mare-te-trouxe-fica/legenda.md) | carrossel 4 | `/materias/se-a-mare-te-trouxe-fica-mixbrasil` | pronto (publicar 19/11 ou na manhã de 20/11) |
 | 2026-11-16 | Acompanhamento | Feito Pipa · semana de estreia, com as pré-estreias (61.486 em 409 salas; régua O Agente Secreto e Ainda Estou Aqui; estados) | [acompanhamento-feito-pipa-estreia](../posts/acompanhamento-feito-pipa-estreia/legenda.md) | carrossel 5 | `/materias/feito-pipa-semana-de-estreia` | pronto (publicar até 19/11) |
