@@ -37,6 +37,15 @@ const em2026 = [
   { titulo: 'O Fim da Rua', quem: 'Hathaway', publico: 348_373 },
 ];
 const total2026 = 121_280_537;
+/** A sátira do slide 5: papéis reais de Pattinson entre 2025 e 2026 (e o 007), escritos como vagas de emprego. */
+const vagas = [
+  { cargo: 'Agente secreto britânico', filme: '007, o 26º filme' },
+  { cargo: 'Vigilante noturno em Gotham', filme: 'Batman' },
+  { cargo: 'Vilão em Arrakis', filme: 'Duna: Parte Três' },
+  { cargo: 'Pretendente da rainha de Ítaca', filme: 'A Odisseia' },
+  { cargo: 'Noivo da Zendaya', filme: 'O Drama' },
+  { cargo: 'Funcionário descartável, em série', filme: 'Mickey 17' },
+];
 
 const umaCasa = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 const duasCasas = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -122,18 +131,20 @@ const curto = (n: number) => (n >= 1e6 ? `${duasCasas.format(n / 1e6)} mi` : `${
         </div>
       </cd-slide>
 
-      <!-- 5. Ele está em todo filme -->
+      <!-- 5. Sátira: o currículo -->
       <cd-slide [numero]="5" [total]="6" [fundo]="imagens.clones" posicaoFundo="50% 30%" [escurecer]="true" credito="Imagem: Mickey 17 (divulgação)">
         <div class="base">
-          <span class="rotulo">"Ele pega todos os papéis"</span>
-          <p class="manchete pequena claro">A piada da internet: Pattinson pega todos os papéis. E Anne Hathaway lançou cinco filmes em 2026.</p>
-          <p class="numero um-em-oito">1 em 8</p>
-          <p class="texto claro">ingressos de 2026 no Brasil foram para um filme com um dos dois: {{ milhoes(soma2026) }} mi.</p>
-          <ul class="lista2026">
-            @for (f of em2026; track f.titulo) {
-              <li><span class="nome">{{ f.titulo }}<small>{{ f.quem }}</small></span><span class="valor">{{ curto(f.publico) }}</span></li>
+          <span class="rotulo">Vagas preenchidas</span>
+          <p class="manchete pequena claro">Currículo de Robert Pattinson. Disponibilidade: nenhuma.</p>
+          <ul class="vagas">
+            @for (v of vagas; track v.cargo) {
+              <li><span class="ok" aria-hidden="true">✓</span><span class="cargo">{{ v.cargo }}</span><small>{{ v.filme }}</small></li>
             }
           </ul>
+          <p class="texto claro sobra">
+            O que sobrou, Anne Hathaway pegou: cinco filmes em 2026. Juntos, os dois ficaram com
+            <strong>1 em cada 8 ingressos</strong> do ano no Brasil.
+          </p>
         </div>
       </cd-slide>
 
@@ -146,7 +157,7 @@ const curto = (n: number) => (n >= 1e6 ? `${duasCasas.format(n / 1e6)} mi` : `${
           <li><strong>Fev. 2028</strong><span>The Batman Parte II, adiado em julho</span></li>
           <li><strong>007</strong><span>o 26º Bond, ainda sem data</span></li>
         </ul>
-        <p class="pergunta">Pattinson é um bom 007? Quem você escolheria?</p>
+        <p class="pergunta">Pattinson é um bom 007? E qual vaga ele pega depois dessa?</p>
       </cd-slide>
     </div>
   `,
@@ -195,6 +206,14 @@ const curto = (n: number) => (n >= 1e6 ? `${duasCasas.format(n / 1e6)} mi` : `${
     .lista2026 .nome { font-size: 3.6cqw; }
     .lista2026 .valor { font-size: 3.8cqw; }
 
+    .vagas { list-style: none; margin: 2cqw 0 0; padding: 0; display: flex; flex-direction: column; gap: .8cqw; }
+    .vagas li { display: grid; grid-template-columns: 5cqw 1fr auto; align-items: center; gap: 2cqw; padding: .9cqw 2.6cqw; line-height: 1.15; border-radius: 2.4cqw; background: rgb(22 24 31 / .88); border: .3cqw solid var(--cd-linha); }
+    .vagas .ok { font-family: var(--cd-fonte-display); font-weight: 800; font-size: 4cqw; color: var(--cd-projetor); text-align: center; }
+    .vagas .cargo { font-family: var(--cd-fonte-display); font-weight: 700; font-size: 3.5cqw; color: var(--cd-tela); }
+    .vagas small { font-family: var(--cd-fonte-texto); font-weight: 400; font-size: 2.7cqw; color: var(--cd-tela-2); text-align: right; white-space: nowrap; }
+    .base > .texto.sobra { font-size: 3.6cqw; margin-top: 2.4cqw; text-wrap: pretty; }
+    .sobra strong { color: var(--cd-projetor); }
+
     .manchete.fecho { margin-top: 0; font-size: 6.4cqw; text-wrap: balance; }
     .agenda { list-style: none; margin: 4cqw 0 0; padding: 0; display: flex; flex-direction: column; gap: 1.8cqw; }
     .agenda li { display: grid; grid-template-columns: 26cqw 1fr; gap: 2.4cqw; align-items: baseline; padding: 2.4cqw 3.2cqw; border-radius: 3cqw; background: var(--cd-poltrona); border: .3cqw solid var(--cd-linha); }
@@ -215,6 +234,7 @@ export class SlidesNoticiaPattinson007 {
   protected readonly carreira = carreira;
   protected readonly bonds = bonds;
   protected readonly em2026 = em2026;
+  protected readonly vagas = vagas;
   protected readonly formatar = formatar;
   protected readonly curto = curto;
   protected readonly milhoes = milhoes;

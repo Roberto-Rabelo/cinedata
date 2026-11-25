@@ -21,8 +21,6 @@ fontes:
     url: https://www.omelete.com.br/filmes/007-robert-pattinson-e-confirmado-como-novo-james-bond
   - titulo: "TheWrap: Robert Pattinson Is the New James Bond (16/11/2026)"
     url: https://www.thewrap.com/creative-content/movies/robert-pattinson-james-bond-actor/
-  - titulo: "Know Your Meme: Robert Pattinson Casting Announcement Parodies (18/11/2026)"
-    url: https://knowyourmeme.com/memes/robert-pattinson-casting-announcement-parodies-robert-pattinson-taking-jobs
   - titulo: "Exame: Cinco filmes e um bebê, por que 2026 é o ano de Anne Hathaway (10/08/2026)"
     url: https://exame.com/pop/cinco-filmes-e-um-bebe-por-que-2026-e-o-ano-de-anne-hathaway/
 ---
@@ -59,12 +57,15 @@ Fora da saga Crepúsculo, o maior público dele no Brasil foi como **Batman**: 5
 
 Batman levou **2,3 vezes** o público de Skyfall, o 007 mais visto no Brasil desde 2009.
 
-## "Ele pega todos os papéis"
+## Vagas preenchidas
 
-Depois do anúncio, a internet encheu de anúncios falsos de elenco com Pattinson escalado para qualquer papel ou
-emprego. A piada fica ainda melhor ao lado de **Anne Hathaway**, que lançou cinco filmes em 2026. Os dois estão juntos
-em *A Odisseia*, de Christopher Nolan, e os filmes de um ou de outro levaram **15,4 milhões de pessoas** aos cinemas do
-Brasil em 2026: **1 em cada 8 ingressos** do ano.
+Atualizamos o currículo de Robert Pattinson. Vagas preenchidas desde 2025: agente secreto britânico (007), vigilante
+noturno em Gotham (Batman), vilão em Arrakis (*Duna: Parte Três*), pretendente da rainha de Ítaca (*A Odisseia*), noivo
+da Zendaya (*O Drama*) e funcionário descartável, em série (*Mickey 17*). Disponibilidade: nenhuma.
+
+O que sobrou, **Anne Hathaway** pegou: cinco filmes em 2026. Os dois estão juntos em *A Odisseia*, de Christopher
+Nolan, e os filmes de um ou de outro levaram **15,4 milhões de pessoas** aos cinemas do Brasil em 2026: **1 em cada 8
+ingressos** do ano.
 
 | Filme de 2026 | Com | Público |
 | --- | --- | --- |

@@ -1,8 +1,8 @@
 # CineData | Notícia · Robert Pattinson é o novo 007
 
 A Amazon MGM anunciou em 16/11/2026 que Robert Pattinson vai viver James Bond no 26º filme da série, dirigido por Denis
-Villeneuve. O post mostra como ele chega nos cinemas do Brasil e brinca com a piada da internet de que ele "pega todos
-os papéis", lado a lado com Anne Hathaway, que lançou cinco filmes em 2026. Carrossel de 6 slides 1080×1350. Publicar
+Villeneuve. O post mostra como ele chega nos cinemas do Brasil e faz uma sátira: o "currículo" de Pattinson, com todos os papéis
+que ele pegou, e Anne Hathaway com o que sobrou (cinco filmes em 2026). Carrossel de 6 slides 1080×1350. Publicar
 na quarta, 25/11; o meme ainda está circulando.
 
 | Slide | Arquivo | Conteúdo |
@@ -11,8 +11,8 @@ na quarta, 25/11; o meme ainda está circulando.
 | 2 | `slide-02.png` | o anúncio: 7º ator na série oficial; 26º filme, sem título; Villeneuve, Steven Knight, Amy Pascal e David Heyman; sem data |
 | 3 | `slide-03.png` | os 10 filmes dele com mais público no Brasil desde 2009: a saga Crepúsculo no topo; fora dela, Batman (5,90 mi) |
 | 4 | `slide-04.png` | a régua do 007: Batman 2,3× Skyfall; os três 007 de Daniel Craig desde 2009 (2,55 / 2,10 / 1,09 mi) |
-| 5 | `slide-05.png` | a piada: "ele pega todos os papéis"; com Hathaway, 1 em cada 8 ingressos de 2026 (15,36 mi) |
-| 6 | `slide-06.png` | o que vem: Duna: Parte Três (17/12, como Scytale), The Batman Parte II (fev. 2028), o 26º Bond sem data; "Pattinson é um bom 007?" |
+| 5 | `slide-05.png` | sátira: "Vagas preenchidas", o currículo de Pattinson (007, Batman, vilão em Arrakis, pretendente da rainha de Ítaca, noivo da Zendaya, funcionário descartável em série); o que sobrou, Hathaway pegou; os dois com 1 em cada 8 ingressos de 2026 |
+| 6 | `slide-06.png` | o que vem: Duna: Parte Três (17/12, como Scytale), The Batman Parte II (fev. 2028), o 26º Bond sem data; "Pattinson é um bom 007? E qual vaga ele pega depois dessa?" |
 
 ```bash
 cd cinedata.front
@@ -21,7 +21,7 @@ node scripts/exportar-slides.mjs /marca/noticia-pattinson-007 ../docs/posts/noti
 
 ## Legenda
 
-Contagem: 1.056 caracteres (limite do Instagram: 2.200).
+Contagem: 1.111 caracteres (limite do Instagram: 2.200).
 
 ```text
 Robert Pattinson é o novo James Bond. 🍸🎬
@@ -30,11 +30,11 @@ A Amazon MGM anunciou em 16/11: ele será o 7º ator a viver o 007 na série ofi
 
 E nos cinemas do Brasil, como ele chega? Fora da saga Crepúsculo, o maior público dele aqui foi como Batman: 5,9 milhões de pessoas, em 2022. É mais que o dobro de qualquer 007 de Daniel Craig desde 2009: Skyfall fez 2,6 milhões.
 
-Depois do anúncio, a internet decidiu que Pattinson pega todos os papéis. Dá para juntar Anne Hathaway na piada, com cinco filmes lançados em 2026. Os dois juntos estão em A Odisseia, e os filmes de um ou de outro levaram 15,4 milhões de pessoas aos cinemas do Brasil este ano: 1 em cada 8 ingressos.
+Atualizamos o currículo dele. Vagas preenchidas: agente secreto britânico, vigilante noturno em Gotham, vilão em Arrakis (Duna: Parte Três, 17/12), pretendente da rainha de Ítaca, noivo da Zendaya e funcionário descartável, em série. Disponibilidade: nenhuma.
 
-E ainda vem mais: Duna: Parte Três estreia em 17/12, com Pattinson como o vilão Scytale.
+O que sobrou, Anne Hathaway pegou: cinco filmes em 2026. Os filmes de um ou de outro levaram 15,4 milhões de pessoas aos cinemas do Brasil este ano, 1 em cada 8 ingressos.
 
-Pattinson é um bom 007? Quem você escolheria? 👇
+Pattinson é um bom 007? E qual vaga ele pega depois dessa? 👇
 A matéria completa está no link da bio.
 
 Fonte: ANCINE (dados abertos). Imagens: TMDB/divulgação.
@@ -87,7 +87,7 @@ select sum(publico) from sessoes where data_exibicao between '2026-01-01' and '2
 | --- | --- |
 | Anúncio em 16/11/2026 pela Amazon MGM Studios; direção de Denis Villeneuve; roteiro de Steven Knight; produção de Amy Pascal e David Heyman | [Amazon (16/11/2026)](https://www.aboutamazon.com/news/entertainment/james-bond-robert-pattinson-cast-amazon-mgm-film), [TheWrap (16/11/2026)](https://www.thewrap.com/creative-content/movies/robert-pattinson-james-bond-actor/), [Omelete (16/11/2026)](https://www.omelete.com.br/filmes/007-robert-pattinson-e-confirmado-como-novo-james-bond), [Variety](https://variety.com/2026/film/global/robert-pattinson-new-james-bond-007-1236946655/) |
 | 7º ator na série oficial (Eon); 26º filme, sem título; sem data de estreia | [Wikipedia: Robert Pattinson](https://en.wikipedia.org/wiki/Robert_Pattinson), [Time Out (16/11/2026)](https://www.timeout.com/news/its-official-robert-pattinson-is-the-new-james-bond-111626), [Showmetech (16/11/2026)](https://showmetech.com.br/robert-pattinson-novo-james-bond/) |
-| A piada "Robert Pattinson pega todos os papéis/empregos", depois do anúncio | [Know Your Meme (18/11/2026)](https://knowyourmeme.com/memes/robert-pattinson-casting-announcement-parodies-robert-pattinson-taking-jobs), [Khaleej Times (18/11/2026)](https://www.khaleejtimes.com/entertainment/robert-pattinson-james-bond-casting-viral-memes) |
+| Os papéis da sátira: Mickey Barnes (Mickey 17, o funcionário "descartável" que é recriado), Charlie, noivo de Emma/Zendaya (O Drama), Antínoo, pretendente de Penélope (A Odisseia), Scytale (Duna: Parte Três) | [Wikipedia: filmografia de Robert Pattinson](https://en.wikipedia.org/wiki/Robert_Pattinson_filmography), [Wikipedia: The Drama](https://en.wikipedia.org/wiki/The_Drama_(film)), [Wikipedia: The Odyssey (2026)](https://en.wikipedia.org/wiki/The_Odyssey_(2026_film)), Nerdist e TheWrap (Scytale) |
 | Anne Hathaway com cinco filmes em 2026 (Mother Mary, O Diabo Veste Prada 2, A Odisseia, O Fim da Rua, Verity) | [Rolling Stone Brasil (14/04/2026)](https://rollingstone.com.br/cinema/os-5-filmes-estrelados-por-anne-hathaway-que-estreiam-em-2026/), [Exame (10/08/2026)](https://exame.com/pop/cinco-filmes-e-um-bebe-por-que-2026-e-o-ano-de-anne-hathaway/) |
 | Pattinson e Hathaway juntos só em A Odisseia (Antínoo e Penélope) | [Wikipedia: The Odyssey (2026)](https://en.wikipedia.org/wiki/The_Odyssey_(2026_film)), Exame (acima) |
 | Pattinson em O Drama, com Zendaya | [Wikipedia: The Drama](https://en.wikipedia.org/wiki/The_Drama_(film)), [Ingresso.com](https://www.ingresso.com/noticias/filme-the-drama-ganha-data-de-estreia-no-brasil) |
@@ -95,11 +95,11 @@ select sum(publico) from sessoes where data_exibicao between '2026-01-01' and '2
 | The Batman Parte II adiado para 18/02/2028 | [Variety (07/2026)](https://au.variety.com/2026/film/news/the-batman-2-release-date-2028-first-footage-robert-pattinson-38605/), TheWrap (07/2026) |
 
 Ficaram de fora: "8º ator" (só contando David Niven, de 1967, fora da série oficial); 2028 como ano do Bond (projeção
-da imprensa); a comparação com Hathaway dentro do meme (nenhuma fonte liga as duas coisas: o post junta os dois por
-conta própria e diz isso como "dá para juntar Anne Hathaway na piada").
+da imprensa); o meme da internet ("Pattinson pega todos os empregos"): a pedido do usuário, o post faz a própria
+sátira em vez de citar a piada. A sátira só usa papéis reais, conferidos.
 
 ## Imagens (TMDB)
 
 - Capa: O Drama (1325734), backdrop `vc7TeZyKhBeVA4YI3z1KAeIXqGV.jpg` (Pattinson de smoking).
 - Slide 4: Batman (414906), backdrop `IYUD7rAIXzBM91TT3Z5fILUS7n.jpg`.
-- Slide 5: Mickey 17 (696506), backdrop `9PRKAdrDvAdCfg3EcApLTfzGsEt.jpg` (os clones de Mickey).
+- Slide 5: Mickey 17 (696506), backdrop `9PRKAdrDvAdCfg3EcApLTfzGsEt.jpg` (Mickey e o elenco).
